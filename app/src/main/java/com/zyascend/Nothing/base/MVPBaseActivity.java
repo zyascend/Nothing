@@ -8,7 +8,8 @@ import android.support.annotation.Nullable;
  * Created by zyascend on 2017/4/22.
  */
 
-public abstract class MVPBaseActivity<V extends BaseView,T extends BasePresenter<V>> extends BaseActivity {
+public abstract class MVPBaseActivity<V extends BaseView,T extends BasePresenter<V>>
+        extends BaseActivity {
 
 
     protected T mPresenter;
