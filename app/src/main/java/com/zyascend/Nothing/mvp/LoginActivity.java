@@ -10,7 +10,7 @@ import com.zyascend.Nothing.base.MVPBaseActivity;
  * 邮箱：zyascend@qq.com
  */
 
-public class LogingActivity extends MVPBaseActivity<LoginContract.View,LoginPresenter>
+public class LoginActivity extends MVPBaseActivity<LoginContract.View,LoginPresenter>
         implements LoginContract.View{
 
 

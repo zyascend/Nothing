@@ -36,6 +36,7 @@ public abstract class BaseFragment extends Fragment {
     private boolean isFirstLoad = true;
 
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         lifeCycleSubject.onNext(LifeCycleEvent.CREATE);
@@ -143,10 +144,7 @@ public abstract class BaseFragment extends Fragment {
 
 
 
-    /**
-     * 当视图已经对用户不可见并且加载过数据，如果需要在切换到其他页面时停止加载数据，可以覆写此方法
-     */
-    protected void stopLoad() {}
+
 
 
     @Override
