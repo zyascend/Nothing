@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_alignParentBottom="true"
+    android:orientation="horizontal"
+    android:padding="@dimen/dp_5"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/home"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/home_stroke"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:id="@+id/iv_search"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/search_stroke"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/iv_upload"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/main_tab_upload"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_40" />
+
+    <ImageView
+        android:id="@+id/iv_rank"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/rank_stroke"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:id="@+id/iv_profile"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/profile_stroke"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

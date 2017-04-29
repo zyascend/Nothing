@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tools:background="@color/white"
+    android:layout_marginEnd="@dimen/dp_10"
+    android:layout_width="@dimen/dp_70"
+    android:layout_height="wrap_content">
+
+    <include
+        android:id="@+id/view_user_img"
+        layout="@layout/view_user_img"/>
+    <TextView
+        android:id="@+id/tv_name"
+        android:gravity="center"
+        android:lines="1"
+        android:textSize="@dimen/sp_13"
+        tools:text="三个字"
+        android:textColor="@color/black"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

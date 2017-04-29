@@ -9,4 +9,17 @@
     <string name="get_identify">获取验证码</string>
     <string name="password">密码</string>
     <string name="forgetPassWord">忘记密码？</string>
+    <string name="renqibang">人气榜</string>
+    <string name="getMore"><![CDATA[查看更多 >]]></string>
+    <string name="search_hint">搜索全面升级，超级好用</string>
+    <string name="hot_tag">热门标签</string>
+    <string name="more"><![CDATA[更多 >]]></string>
+    <string name="find_user">找博主</string>
+    <string name="filter">筛选</string>
+    <string name="filter_info">根据您的身高，性别和感兴趣的风格进行推荐</string>
+    <string name="follow">关注</string>
+    <string name="hour_rank_24">24小时榜</string>
+    <string name="sex_filter">性别筛选</string>
+    <string name="dapei">搭配</string>
+    <string name="bloger">博主</string>
 </resources>

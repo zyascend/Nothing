@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@color/white"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40">
+        <ImageView
+            android:id="@+id/iv_help"
+            android:layout_marginStart="@dimen/dp_15"
+            android:layout_gravity="center_vertical|start"
+            android:src="@drawable/ic_help"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textColor="@color/black"
+            android:gravity="end|center_vertical"
+            android:layout_gravity="center_vertical"
+            android:textSize="@dimen/sp_15"
+            android:text="@string/hour_rank_24"
+            android:drawableEnd="@drawable/ic_arrow_down"
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:gravity="end"
+            android:text="@string/sex_filter"
+            android:layout_marginEnd="@dimen/dp_15"
+            android:layout_gravity="center_vertical|end"
+            android:textColor="@android:color/darker_gray"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <android.support.design.widget.TabLayout
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabTextColor="@color/gray"
+        app:tabSelectedTextColor="@android:color/holo_orange_dark">
+
+        <android.support.design.widget.TabItem
+            android:text="@string/dapei"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <android.support.design.widget.TabItem
+            android:text="@string/bloger"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:background="@color/white"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:textSize="@dimen/sp_15"
+        android:id="@+id/text_renqi"
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_20"
+        android:textColor="@color/black"
+        android:text="@string/renqibang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+
+        android:layout_marginEnd="@dimen/dp_15"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/text_renqi"
+        android:textSize="@dimen/sp_15"
+        android:id="@+id/tv_getMore"
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_20"
+        android:textColor="@android:color/holo_orange_dark"
+        android:text="@string/getMore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/re_findRankUser"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_alignStart="@+id/text_renqi"
+        android:layout_below="@+id/text_renqi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

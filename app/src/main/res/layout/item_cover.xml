@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    tools:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_80"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <TextView
+        android:layout_above="@+id/space_middle"
+        android:id="@+id/tv_name"
+        android:textSize="@dimen/sp_15"
+        android:textColor="@color/black"
+        tools:text="主编推荐"
+        android:maxWidth="@dimen/dp_80"
+        android:layout_marginBottom="@dimen/dp_5"
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Space
+        android:id="@+id/space_middle"
+        android:layout_centerVertical="true"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+    <TextView
+        android:id="@+id/tv_subName"
+        android:textSize="@dimen/sp_13"
+        android:textColor="@color/black"
+        tools:text="全网时髦单品"
+        android:maxWidth="@dimen/dp_80"
+        android:layout_below="@+id/space_middle"
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:id="@+id/iv_normal_img"
+        android:scaleType="centerInside"
+        android:layout_alignParentEnd="true"
+        tools:src="@drawable/welcome1"
+        android:layout_width="@dimen/dp_70"
+        android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_centerVertical="true"
+        android:id="@+id/re_user_img"
+        android:layout_width="@dimen/dp_70"
+        android:layout_height="@dimen/dp_30">
+        <ImageView
+            tools:background="@color/colorPrimaryDark"
+            android:id="@+id/iv_user_03"
+            android:layout_alignParentEnd="true"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="match_parent" />
+        <ImageView
+            tools:background="@color/colorAccent"
+            android:id="@+id/iv_user_02"
+            android:layout_centerHorizontal="true"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="match_parent" />
+        <ImageView
+            tools:background="@color/colorPrimary"
+            android:id="@+id/iv_user_01"
+            android:layout_alignParentStart="true"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+</RelativeLayout>

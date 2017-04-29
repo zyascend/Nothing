@@ -26,4 +26,19 @@
 
     </style>
 
+    <!--
+    android:layout_alignStart="@id/tv_name"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+    -->
+    <style name="item_sifts">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/dp_10</item>
+        <item name="android:layout_marginEnd">@dimen/dp_20</item>
+        <item name="android:layout_alignStart">@+id/tv_name</item>
+    </style>
+
 </resources>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:background="@color/white"
+    android:layout_width="@dimen/dp_70"
+    android:layout_height="@dimen/dp_70">
+
+    <ImageView
+        tools:src="@drawable/nothing_n"
+        android:id="@+id/iv_user_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <ImageView
+        android:src="@drawable/nothing_n"
+        android:layout_gravity="bottom|end"
+        android:id="@+id/iv_vip_img"
+        android:layout_width="@dimen/dp_20"
+        android:layout_height="@dimen/dp_20" />
+
+</FrameLayout>
