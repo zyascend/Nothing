@@ -128,7 +128,7 @@
                 android:id="@+id/btn_login_register"
                 android:layout_marginTop="@dimen/dp_20"
                 android:textSize="@dimen/sp_15"
-                android:background="@drawable/btn_round_bg"
+                android:background="@drawable/btn_round_black_bg"
                 android:text="@string/register"
                 android:textColor="@color/white"
                 android:layout_marginEnd="@dimen/dp_10"

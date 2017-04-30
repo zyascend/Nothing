@@ -22,4 +22,9 @@
     <string name="sex_filter">性别筛选</string>
     <string name="dapei">搭配</string>
     <string name="bloger">博主</string>
+    <string name="all">全部</string>
+    <string name="search_product">搜索单品</string>
+    <string name="hot_product">人气单品</string>
+    <string name="hot_product_box">推荐品牌</string>
+    <string name="grass_product">推荐单品</string>
 </resources>
