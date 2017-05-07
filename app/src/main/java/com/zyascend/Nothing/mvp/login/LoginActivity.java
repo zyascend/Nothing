@@ -1,4 +1,4 @@
-package com.zyascend.Nothing.mvp;
+package com.zyascend.Nothing.mvp.login;
 
 import android.view.View;
 
@@ -34,8 +34,5 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View,LoginPrese
         return null;
     }
 
-    @Override
-    public void onClick(View view) {
 
-    }
 }

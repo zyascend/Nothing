@@ -1,4 +1,4 @@
-package com.zyascend.Nothing.mvp;
+package com.zyascend.Nothing.mvp.login;
 
 import com.zyascend.Nothing.base.BasePresenter;
 import com.zyascend.Nothing.base.BaseView;

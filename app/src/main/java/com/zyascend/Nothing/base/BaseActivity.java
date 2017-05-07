@@ -22,16 +22,17 @@ import rx.subjects.PublishSubject;
  * Created by zyascend on 2017/4/22.
  */
 
-public abstract class BaseActivity extends AppCompatActivity
-        implements View.OnClickListener {
+public abstract class BaseActivity extends AppCompatActivity {
 
     protected final String TAG = this.getClass().getSimpleName();
     public final PublishSubject<LifeCycleEvent> lifeCycleSubject = PublishSubject.create();
     protected StatusView statusView;
+    protected Bundle savedState;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        savedState = savedInstanceState;
         setContentView(getLayoutID());
         ButterKnife.bind(this);
         statusView = new StatusView.Builder(this)

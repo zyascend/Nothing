@@ -1,6 +1,8 @@
 package com.zyascend.Nothing.base;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 /**
  * 使用MVP的Fragment基类
@@ -9,6 +11,13 @@ import android.content.Context;
 
 public abstract class MVPBaseFragment<V extends BaseView,T extends BasePresenter<V>> extends BaseFragment {
     protected T mPresenter;
+    protected Bundle savedState;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        savedState = savedInstanceState;
+    }
 
     @Override
     public void onAttach(Context context) {

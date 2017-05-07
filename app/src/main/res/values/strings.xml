@@ -27,4 +27,9 @@
     <string name="hot_product">人气单品</string>
     <string name="hot_product_box">推荐品牌</string>
     <string name="grass_product">推荐单品</string>
+    <string name="user_wearing">博主都在穿</string>
+    <string name="grass_shop">博主店铺推荐</string>
+    <string name="more_shop">更多博主店铺</string>
+    <string name="newest">最新</string>
+    <string name="hottest">最热</string>
 </resources>

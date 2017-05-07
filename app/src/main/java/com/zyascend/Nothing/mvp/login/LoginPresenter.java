@@ -1,6 +1,7 @@
-package com.zyascend.Nothing.mvp;
+package com.zyascend.Nothing.mvp.login;
 
 import com.zyascend.Nothing.base.BasePresenter;
+import com.zyascend.Nothing.mvp.login.LoginContract;
 
 /**
  * 登陆界面的Presenter
