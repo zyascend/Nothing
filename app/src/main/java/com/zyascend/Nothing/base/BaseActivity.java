@@ -25,7 +25,6 @@ import rx.subjects.PublishSubject;
 public abstract class BaseActivity extends AppCompatActivity {
 
     protected final String TAG = this.getClass().getSimpleName();
-    public final PublishSubject<LifeCycleEvent> lifeCycleSubject = PublishSubject.create();
     protected StatusView statusView;
     protected Bundle savedState;
 
@@ -59,25 +58,25 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        lifeCycleSubject.onNext(LifeCycleEvent.STOP);
+        //lifeCycleSubject.onNext(LifeCycleEvent.STOP);
         super.onStop();
     }
 
     @Override
     protected void onPause() {
-        lifeCycleSubject.onNext(LifeCycleEvent.PAUSE);
+        //lifeCycleSubject.onNext(LifeCycleEvent.PAUSE);
         super.onPause();
     }
 
     @Override
     protected void onResume() {
-        lifeCycleSubject.onNext(LifeCycleEvent.RESUME);
+        //lifeCycleSubject.onNext(LifeCycleEvent.RESUME);
         super.onResume();
     }
 
     @Override
     protected void onDestroy() {
-        lifeCycleSubject.onNext(LifeCycleEvent.DESTROY);
+        //lifeCycleSubject.onNext(LifeCycleEvent.DESTROY);
         //RefWatcher refWatcher = BaseApplication.getRefWatcher(this);
         //refWatcher.watch(this);
         super.onDestroy();

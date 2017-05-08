@@ -35,8 +35,6 @@ public abstract class BaseFragment extends Fragment {
     protected Activity mActivity;
     private boolean isFirstLoad = true;
 
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         lifeCycleSubject.onNext(LifeCycleEvent.CREATE);

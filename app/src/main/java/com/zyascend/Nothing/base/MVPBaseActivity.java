@@ -28,5 +28,23 @@ public abstract class MVPBaseActivity<V extends BaseView,T extends BasePresenter
         mPresenter = null;
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mPresenter.onStop();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mPresenter.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.onResume();
+    }
+
     protected abstract T initPresenter();
 }

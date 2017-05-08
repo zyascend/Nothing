@@ -52,7 +52,7 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
 
     @Override
     protected void loadData() {
-
+        mPresenter.getNotice();
     }
 
     @Override
