@@ -1,7 +1,11 @@
 package com.zyascend.Nothing.base;
 
+import com.zyascend.Nothing.common.LifeCycleEvent;
+
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
+
+import rx.subjects.PublishSubject;
 
 /**
  * Presenter基类
@@ -12,6 +16,7 @@ import java.lang.ref.WeakReference;
 public abstract class BasePresenter<T extends BaseView> {
 
     protected Reference<T> mViewRef;
+    public final PublishSubject<LifeCycleEvent> lifeCycleSubject = PublishSubject.create();
 
     public void attachView(T view){
         mViewRef = new WeakReference<T>(view);
@@ -22,6 +27,7 @@ public abstract class BasePresenter<T extends BaseView> {
             mViewRef.clear();
             mViewRef = null;
         }
+
     }
 
     public boolean isViewAttached(){

@@ -1,12 +1,19 @@
 package com.zyascend.Nothing.mvp.mainpage;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.ImageView;
 
 import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.base.BaseActivity;
+
+import java.lang.ref.WeakReference;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -20,6 +27,9 @@ import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG_HOME = "tag_home";
+    /**
+     *
+     */
     @Bind(R.id.iv_home)
     ImageView ivHome;
     @Bind(R.id.iv_search)
@@ -30,6 +40,8 @@ public class MainActivity extends BaseActivity {
     ImageView ivRank;
     @Bind(R.id.iv_profile)
     ImageView ivProfile;
+//    @Bind(R.id.content_viewstub)
+    ViewStub viewStub;
 
     /**
      * 当前tab的选择
@@ -37,10 +49,58 @@ public class MainActivity extends BaseActivity {
     private int selected = 0;
 
     private HomeFragment homeFragment;
-
+    private SplashFragment splashFragment;
     @Override
     protected void initView() {
 
+        viewStub = (ViewStub) findViewById(R.id.content_viewstub);
+
+        //首先加载并显示SplashFragment
+        FragmentManager manager = getSupportFragmentManager();
+        splashFragment = new SplashFragment();
+        manager.beginTransaction()
+                .replace(R.id.splash_frame,splashFragment)
+                .commit();
+
+        //当窗体加载完成，加载主布局
+        //getWindow().getDecorView().post(new LoadMainTask());
+        loadMainPageFragment();
+
+        //开启延时显示SplashFragment的内容，同时ManiPage加载数据
+        getWindow().getDecorView().postDelayed(new DelayRunnable(MainActivity.this,splashFragment),2000);
+
+    }
+
+    private static class DelayRunnable implements Runnable{
+
+        private WeakReference<Context> contextRef;
+        private WeakReference<SplashFragment> fragmentRef;
+
+        DelayRunnable(Context context, SplashFragment f) {
+            contextRef = new WeakReference<Context>(context);
+            fragmentRef = new WeakReference<SplashFragment>(f);
+        }
+
+        @Override
+        public void run() {
+            // 移除splash页面
+            if(contextRef!=null){
+                SplashFragment splashFragment = fragmentRef.get();
+                if(splashFragment==null){
+                    return;
+                }
+                AppCompatActivity activity = (AppCompatActivity)contextRef.get() ;
+                FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+                transaction.remove(splashFragment);
+                transaction.commit();
+            }
+        }
+    }
+
+    private void loadMainPageFragment() {
+
+        viewStub.inflate();
+        ButterKnife.bind(MainActivity.this);
 
         //初次启动默认选择home界面
         ivHome.setImageResource(R.drawable.home_fill);
@@ -58,15 +118,21 @@ public class MainActivity extends BaseActivity {
             FragmentManager manager = getSupportFragmentManager();
             homeFragment = (HomeFragment) manager.findFragmentByTag(TAG_HOME);
         }
-
     }
 
     @Override
     protected int getLayoutID() {
-        return R.layout.activity_main;
+        return R.layout.activity_main_frame;
     }
 
-
+    /**
+     * 需要延迟绑定
+     * @return
+     */
+    @Override
+    public boolean canBind() {
+        return false;
+    }
 
     @OnClick({R.id.home, R.id.iv_search, R.id.iv_upload, R.id.iv_rank, R.id.iv_profile})
     public void onClick(View view) {
@@ -75,16 +141,12 @@ public class MainActivity extends BaseActivity {
                 if (selected!=0){
                     selected = 0;
                     toggleImageResource();
-
-
                 }
                 break;
             case R.id.iv_search:
                 if (selected!=1){
                     selected = 1;
                     toggleImageResource();
-
-
                 }
                 break;
             case R.id.iv_upload:
@@ -94,8 +156,6 @@ public class MainActivity extends BaseActivity {
                 if (selected!=3){
                     selected = 3;
                     toggleImageResource();
-
-
                 }
                 break;
             case R.id.iv_profile:

@@ -15,6 +15,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--初始化服务-->
+        <service
+            android:name=".service.InitializeService"
+            android:exported="false"/>
     </application>
 
 </manifest>
