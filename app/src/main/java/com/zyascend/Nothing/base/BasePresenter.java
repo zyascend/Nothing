@@ -16,18 +16,18 @@ import rx.subjects.PublishSubject;
 public abstract class BasePresenter<T extends BaseView> {
 
     protected Reference<T> mViewRef;
-    public final PublishSubject<LifeCycleEvent> lifeCycleSubject = PublishSubject.create();
+    protected PublishSubject<LifeCycleEvent> lifeCycleSubject = PublishSubject.create();
 
     public void attachView(T view){
         mViewRef = new WeakReference<T>(view);
     }
 
     public void detachView(){
+        lifeCycleSubject.onNext(LifeCycleEvent.DESTROY);
         if(mViewRef != null){
             mViewRef.clear();
             mViewRef = null;
         }
-
     }
 
     public boolean isViewAttached(){
@@ -36,5 +36,17 @@ public abstract class BasePresenter<T extends BaseView> {
 
     public T getView(){
         return mViewRef == null ? null : mViewRef.get();
+    }
+
+    public void onStop() {
+        lifeCycleSubject.onNext(LifeCycleEvent.STOP);
+    }
+
+    public void onPause() {
+        lifeCycleSubject.onNext(LifeCycleEvent.PAUSE);
+    }
+
+    public void onResume() {
+        lifeCycleSubject.onNext(LifeCycleEvent.RESUME);
     }
 }
