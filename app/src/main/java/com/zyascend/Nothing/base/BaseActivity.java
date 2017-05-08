@@ -34,7 +34,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         savedState = savedInstanceState;
         setContentView(getLayoutID());
-        ButterKnife.bind(this);
+        //有时候不能先绑定,比如首页采用的是ViewStub延迟加载视图
+        if(canBind()){
+            ButterKnife.bind(this);
+        }
         statusView = new StatusView.Builder(this)
                 .setErrorView(R.layout.view_error)
                 .setLoadingView(R.layout.view_loading)
@@ -43,7 +46,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         loadData();
     }
 
-
+    public boolean canBind() {
+        return true;
+    }
 
     public void loadData() {}
 
