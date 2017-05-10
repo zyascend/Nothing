@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import android.widget.ImageView;
 
 import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.base.MVPBaseFragment;
+import com.zyascend.Nothing.bean.HomeTag;
+import com.zyascend.Nothing.bean.Notice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +31,8 @@ import butterknife.OnClick;
  * 邮箱：zyascend@qq.com
  */
 
-public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePresenter> {
+public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePresenter>
+        implements MainContract.HomeView{
 
 
     @Bind(R.id.btn_notifications)
@@ -69,7 +73,7 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
     }
 
     @Override
-    protected void showError() {
+    public void showError() {
 
     }
 
@@ -90,6 +94,24 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
             case R.id.iv_tag:
 
                 break;
+        }
+    }
+
+    @Override
+    public void onGetNotice(Notice notice) {
+
+        if (notice==null)showError();
+        else {
+            Log.d(TAG, "onGetNotice: sysCount = "+notice.getUnReadSysCount());
+        }
+        mPresenter.getMyTagList();
+    }
+
+    @Override
+    public void onGetMyTagList(List<HomeTag> tagList) {
+        if (tagList == null)showError();
+        else {
+            Log.d(TAG, "onGetMyTagList: size = "+tagList.size());
         }
     }
 

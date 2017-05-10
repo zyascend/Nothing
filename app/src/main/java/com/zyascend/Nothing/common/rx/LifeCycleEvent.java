@@ -1,4 +1,4 @@
-package com.zyascend.Nothing.common;
+package com.zyascend.Nothing.common.rx;
 
 /**
  * Created by Administrator on 2017/4/23.

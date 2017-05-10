@@ -8,12 +8,11 @@ import java.util.List;
  * 邮箱：zyascend@qq.com
  */
 
-public class SimpleListResponse<T> {
+public class SimpleListResponse<T> extends BaseResponse{
 
 
     private DATABean DATA;
-    private String MESSAGE;
-    private String STATUS;
+
 
     public DATABean getDATA() {
         return DATA;
@@ -23,21 +22,7 @@ public class SimpleListResponse<T> {
         this.DATA = DATA;
     }
 
-    public String getMESSAGE() {
-        return MESSAGE;
-    }
 
-    public void setMESSAGE(String MESSAGE) {
-        this.MESSAGE = MESSAGE;
-    }
-
-    public String getSTATUS() {
-        return STATUS;
-    }
-
-    public void setSTATUS(String STATUS) {
-        this.STATUS = STATUS;
-    }
 
     public class DATABean {
 

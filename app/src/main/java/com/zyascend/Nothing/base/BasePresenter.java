@@ -1,6 +1,6 @@
 package com.zyascend.Nothing.base;
 
-import com.zyascend.Nothing.common.LifeCycleEvent;
+import com.zyascend.Nothing.common.rx.LifeCycleEvent;
 
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;

@@ -3,19 +3,14 @@ package com.zyascend.Nothing.base;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.text.LoginFilter;
-import android.text.StaticLayout;
 import android.util.Log;
-import android.view.View;
 
 import com.zyascend.Nothing.R;
-import com.zyascend.Nothing.common.LifeCycleEvent;
 import com.zyascend.Nothing.common.utils.StatusView;
 
 import butterknife.ButterKnife;
 import rx.plugins.RxJavaErrorHandler;
 import rx.plugins.RxJavaPlugins;
-import rx.subjects.PublishSubject;
 
 /**
  * 基类Activity

@@ -1,9 +1,10 @@
 package com.zyascend.Nothing.mvp.mainpage;
 
 import com.zyascend.Nothing.base.BaseView;
-import com.zyascend.Nothing.common.LifeCycleEvent;
+import com.zyascend.Nothing.bean.HomeTag;
+import com.zyascend.Nothing.bean.Notice;
 
-import rx.subjects.PublishSubject;
+import java.util.List;
 
 /**
  * 功能：Home界面的契约类
@@ -16,10 +17,12 @@ public interface MainContract {
      * 负责tab信息的获取和更新
      */
     interface HomeView extends BaseView {
-        void onGetNotice();
+        void onGetNotice(Notice notice);
+        void onGetMyTagList(List<HomeTag> tagList);
     }
     interface HomePresenter {
         void getNotice();
+        void getMyTagList();
     }
 
     /**

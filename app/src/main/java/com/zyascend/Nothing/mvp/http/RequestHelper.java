@@ -3,10 +3,14 @@ package com.zyascend.Nothing.mvp.http;
 import android.content.Context;
 import android.telephony.TelephonyManager;
 
+import com.alibaba.fastjson.JSON;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.zyascend.Nothing.base.BaseApplication;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -19,6 +23,7 @@ import okhttp3.RequestBody;
 
 public class RequestHelper {
     private static final String JSON = "application/json";
+    private static final String simpleBdy = "{\"appVersion\":\"1.9.9.2\",\"deviceType\":\"android\",\"sysVersion\":\"23\"}";
 
     public static String getAccessToken(){
         return "18a480ba87d04e1daac69cc540922703";
@@ -41,20 +46,37 @@ public class RequestHelper {
         TelephonyManager manager = (TelephonyManager) BaseApplication.getApplication()
                 .getSystemService(Context.TELEPHONY_SERVICE);
         String deviceId = manager.getDeviceId();
-        String md5 = getMd5(deviceId);
-        return md5;
+        return getMd5(deviceId);
     }
 
-    private static String getMd5(String deviceId) {
-        MessageDigest md = null;//SHA 或者 MD5
+
+    public static String getMd5(String data){
+        MessageDigest md = null;
+        String res = null;
         try {
             md = MessageDigest.getInstance("MD5");
+            md.update(data.getBytes());
+            StringBuilder buf = new StringBuilder();
+            byte[] bits = md.digest();
+            for(int i=0;i<bits.length;i++){
+                int a = bits[i];
+                if(a<0) a+=256;
+                if(a<16) buf.append("0");
+                buf.append(Integer.toHexString(a));
+            }
+            res = buf.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        // TODO: 2017/5/8
-        BASE64Encoder base = new BASE64Encoder ();
-        String pwdAfter = base.encode(md.digest(pwd.getBytes()));
-        return pwdAfter;
+        return res;
+    }
+
+    public static RequestBody getNoticeBody() {
+        String def = "{\"appVersion\":\"1.9.9.2\",\"deviceType\":\"android\",\"lastLetterNumId\":-1,\"lastOtherNumId\":-1,\"lastSysNumId\":-1,\"sysVersion\":\"23\"}";
+        return RequestBody.create(MediaType.parse(JSON),def);
+    }
+
+    public static RequestBody getSimpleBody() {
+        return RequestBody.create(MediaType.parse(JSON),simpleBdy);
     }
 }
