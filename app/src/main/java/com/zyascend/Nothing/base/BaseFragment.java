@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.zyascend.Nothing.common.LifeCycleEvent;
+import com.zyascend.Nothing.common.rx.LifeCycleEvent;
 
 import butterknife.ButterKnife;
 import rx.subjects.PublishSubject;
@@ -23,7 +23,7 @@ import rx.subjects.PublishSubject;
 
 public abstract class BaseFragment extends Fragment {
 
-    private final String TAG = this.getClass().getSimpleName();
+    protected final String TAG = this.getClass().getSimpleName();
     private static final String STATE_SAVE_IS_HIDDEN = "hidden";
 
     public final PublishSubject<LifeCycleEvent> lifeCycleSubject = PublishSubject.create();

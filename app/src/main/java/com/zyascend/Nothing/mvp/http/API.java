@@ -1,6 +1,7 @@
  package com.zyascend.Nothing.mvp.http;
 
 import com.zyascend.Nothing.bean.BannerBean;
+import com.zyascend.Nothing.bean.BaseResponse;
 import com.zyascend.Nothing.bean.HomeTag;
 import com.zyascend.Nothing.bean.MenuBean;
 import com.zyascend.Nothing.bean.NormalData;
@@ -43,7 +44,7 @@ public interface API {
      * body:{"appVersion":"","deviceType":"android","pushToken":"13065ffa4e386063e87","sysVersion":"23"}
      */
     @POST("registerPushToken.do")
-    Observable<SimpleResponse> registerPushToken(@Query(ACCESS_TOKEN)String accessToken,@Body RequestBody body);
+    Observable<BaseResponse> registerPushToken(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
 
     /**
      * 获取用户首页tab数据

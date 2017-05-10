@@ -2,16 +2,14 @@ package com.zyascend.Nothing.bean;
 
 /**
  * 功能：
- * 作者：zyascend on 2017/5/2 13:01
+ * 作者：zyascend on 2017/5/10 09:35
  * 邮箱：zyascend@qq.com
  */
 
-public class SimpleResponse extends BaseResponse {
+public class BaseResponse {
 
-    /**
-     * MESSAGE : 成功
-     * STATUS : 1
-     */
+    public String MESSAGE;
+    public String STATUS;
 
     public String getMESSAGE() {
         return MESSAGE;

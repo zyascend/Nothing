@@ -1,6 +1,7 @@
 package com.zyascend.Nothing.mvp.mainpage;
 
 import com.zyascend.Nothing.base.BasePresenter;
+import com.zyascend.Nothing.bean.Notice;
 import com.zyascend.Nothing.common.BaseDataCallback;
 import com.zyascend.Nothing.mvp.http.HttpService;
 import com.zyascend.Nothing.mvp.login.LoginContract;
@@ -19,16 +20,21 @@ public class HomePresenter extends BasePresenter<MainContract.HomeView> implemen
 
     @Override
     public void getNotice() {
-        httpService.getNotice(lifeCycleSubject, new BaseDataCallback<String>() {
+        httpService.getNotice(lifeCycleSubject, new BaseDataCallback<Notice>() {
             @Override
-            public void onSuccess(String data) {
-
+            public void onSuccess(Notice data) {
+                if (isViewAttached())mViewRef.get().onGetNotice(data);
             }
 
             @Override
             public void onFail(String errorMsg) {
-
+                if (isViewAttached())mViewRef.get().onGetNotice(null);
             }
         });
+    }
+
+    @Override
+    public void getMyTagList() {
+
     }
 }
