@@ -3,11 +3,16 @@ package com.zyascend.Nothing.mvp.http;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
 
+import com.zyascend.Nothing.bean.BannerBean;
 import com.zyascend.Nothing.bean.BaseResponse;
 import com.zyascend.Nothing.bean.HomeTag;
+import com.zyascend.Nothing.bean.MenuBean;
 import com.zyascend.Nothing.bean.Notice;
+import com.zyascend.Nothing.bean.RankingUser;
 import com.zyascend.Nothing.bean.SimpleListResponse;
+import com.zyascend.Nothing.bean.SimpleResponse;
 import com.zyascend.Nothing.common.BaseDataCallback;
 import com.zyascend.Nothing.common.rx.LifeCycleEvent;
 import com.zyascend.Nothing.common.rx.RxTransformer;
@@ -51,30 +56,19 @@ public class HttpService implements DataConstantValue{
         RetrofitService.getDefault()
                 .registerPushToken(RequestHelper.getAccessToken(),RequestHelper.getRegisterBody())
                 //处理嵌套请求 先注册pushToken 再请求数据
-                .flatMap(new Func1<BaseResponse, Observable<SimpleListResponse<Notice>>>() {
+                .flatMap(new Func1<BaseResponse, Observable<Notice>>() {
                     @Override
-                    public Observable<SimpleListResponse<Notice>> call(BaseResponse response) {
+                    public Observable<Notice> call(BaseResponse response) {
                         if (!TextUtils.equals(response.getSTATUS(),STATUS_OK))
                             return Observable.error(new APIException(response.getMESSAGE()));
-                        Log.d(TAG, "call: &&&&&&&&&&&");
+
                         return RetrofitService.getDefault()
                                 .getNotice(RequestHelper.getAccessToken(),RequestHelper.getNoticeBody());
                     }
                 })
                 //生命周期控制，线程切换
-                .compose(RxTransformer.INSTANCE.<SimpleListResponse<Notice>>transform(subject,null))
+                .compose(RxTransformer.INSTANCE.<Notice>transform(subject,null))
                 //数据预处理
-                .map(new Func1<SimpleListResponse<Notice>, Notice>() {
-                    @Override
-                    public Notice call(SimpleListResponse<Notice> response) {
-                        Notice msgNum = null;
-                        if (response!=null && response.getDATA()!=null
-                                && response.getDATA().getList()!=null){
-                            msgNum = response.getDATA().getList().get(2);
-                        }
-                        return msgNum;
-                    }
-                })
                 .subscribe(new Subscriber<Notice>() {
                     @Override
                     public void onCompleted() {
@@ -132,9 +126,11 @@ public class HttpService implements DataConstantValue{
 
     public void getAllTagList(PublishSubject<LifeCycleEvent> subject, final BaseDataCallback<List<HomeTag>> callback){
 
-        Observable<SimpleListResponse<HomeTag>> fromCache = CacheManager.getInstance()
-                .cacheObservable(CACHE_TYPE_ALL_HOME_TAG,true);
-        Observable<SimpleListResponse<HomeTag>> fromNetWork = RetrofitService.getDefault()
+        Observable<SimpleListResponse<HomeTag>> fromCache
+                = CacheManager.getInstance()
+                .cacheObservable(CACHE_TYPE_ALL_HOME_TAG,false);
+        Observable<SimpleListResponse<HomeTag>> fromNetWork
+                = RetrofitService.getDefault()
                 .getAllTagList(RequestHelper.getAccessToken(),RequestHelper.getSimpleBody())
                 .compose(RxTransformer.INSTANCE.<SimpleListResponse<HomeTag>>transform(subject,CACHE_TYPE_ALL_HOME_TAG));
 
@@ -162,14 +158,108 @@ public class HttpService implements DataConstantValue{
                         callback.onSuccess(tagList);
                     }
                 });
-
-
     }
 
 
+    public void getBanner(PublishSubject<LifeCycleEvent> subject
+            , final BaseDataCallback<List<BannerBean>> callback) {
 
+        Observable<SimpleListResponse<BannerBean>> fromCache
+                = CacheManager.getInstance().cacheObservable(CACHE_TYPE_BANNER,true);
+        Observable<SimpleListResponse<BannerBean>> fromNetWork
+                = RetrofitService.getDefault()
+                .getBannerList(RequestHelper.getAccessToken(),RequestHelper.getSimpleBody())
+                .compose(RxTransformer.INSTANCE.<SimpleListResponse<BannerBean>>transform(subject,CACHE_TYPE_ALL_HOME_TAG));
+        Observable.concat(fromCache,fromNetWork)
+                .first()
+                .map(new Func1<SimpleListResponse<BannerBean>, List<BannerBean>>() {
+                    @Override
+                    public List<BannerBean> call(SimpleListResponse<BannerBean> response) {
+                        return response.getDATA().getList();
+                    }
+                })
+                .subscribe(new Subscriber<List<BannerBean>>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
 
+                    @Override
+                    public void onNext(List<BannerBean> bannerBeen) {
+                        callback.onSuccess(bannerBeen);
+                    }
+                });
 
+    }
+
+    public void getMenu(PublishSubject<LifeCycleEvent> subject, final BaseDataCallback<List<MenuBean>> callback){
+        Observable<SimpleListResponse<MenuBean>> fromCache = CacheManager.getInstance()
+                .cacheObservable(CACHE_TYPE_MENU,true);
+        Observable<SimpleListResponse<MenuBean>> fromNet = RetrofitService.getDefault()
+                .getMenu(RequestHelper.getAccessToken(),RequestHelper.getMenuBody())
+                .compose(RxTransformer.INSTANCE.<SimpleListResponse<MenuBean>>transform(subject,CACHE_TYPE_MENU));
+        Observable.concat(fromCache,fromNet)
+                .first()
+                .map(new Func1<SimpleListResponse<MenuBean>, List<MenuBean>>() {
+                    @Override
+                    public List<MenuBean> call(SimpleListResponse<MenuBean> response) {
+                        return response.getDATA().getList();
+                    }
+                })
+                .subscribe(new Subscriber<List<MenuBean>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<MenuBean> menuBeen) {
+                        callback.onSuccess(menuBeen);
+                    }
+                });
+
+    }
+
+    public void getRankingUser(PublishSubject<LifeCycleEvent> subject
+            , final BaseDataCallback<List<RankingUser>> callback){
+        Observable<SimpleListResponse<RankingUser>> fromCache = CacheManager.getInstance()
+                .cacheObservable(CACHE_TYPE_RANKUSER,true);
+        Observable<SimpleListResponse<RankingUser>> fromNet = RetrofitService.getDefault()
+                .getRankingUserList(RequestHelper.getAccessToken(),RequestHelper.getSimpleBody())
+                .compose(RxTransformer.INSTANCE.<SimpleListResponse<RankingUser>>transform(subject,CACHE_TYPE_RANKUSER));
+        Observable.concat(fromCache,fromNet)
+                .first()
+                .map(new Func1<SimpleListResponse<RankingUser>, List<RankingUser>>() {
+                    @Override
+                    public List<RankingUser> call(SimpleListResponse<RankingUser> response) {
+                        return response.getDATA().getList();
+                    }
+                })
+                .subscribe(new Subscriber<List<RankingUser>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<RankingUser> list) {
+                        callback.onSuccess(list);
+                    }
+                });
+    }
 }

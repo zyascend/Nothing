@@ -36,7 +36,7 @@ public interface API {
      * body:{"appVersion":"1.9.9.2","deviceType":"android","lastLetterNumId":-1,"lastOtherNumId":-1,"lastSysNumId":-1,"sysVersion":"23"}
      */
     @POST("v2/user/getNotice.do")
-    Observable<SimpleListResponse<Notice>> getNotice(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+    Observable<Notice> getNotice(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
 
     /**
      * 注册pushToken

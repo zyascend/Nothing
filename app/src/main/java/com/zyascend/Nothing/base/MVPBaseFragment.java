@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
  */
 
 public abstract class MVPBaseFragment<V extends BaseView,T extends BasePresenter<V>> extends BaseFragment {
+
     protected T mPresenter;
     protected Bundle savedState;
 
@@ -32,6 +33,24 @@ public abstract class MVPBaseFragment<V extends BaseView,T extends BasePresenter
         super.onDestroyView();
         mPresenter.detachView();
         mPresenter = null;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mPresenter.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mPresenter.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.onResume();
     }
 
     protected abstract T initPresenter();

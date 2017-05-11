@@ -1,6 +1,7 @@
 package com.zyascend.Nothing.common.rx;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.zyascend.Nothing.bean.BaseResponse;
 import com.zyascend.Nothing.common.rx.LifeCycleEvent;
@@ -24,6 +25,7 @@ public enum RxTransformer {
         INSTANCE;
 
     private static final CharSequence STATUS_OK = "1";
+    private static final String TAG = "TAG_Compose";
 
     public <T extends BaseResponse> Observable.Transformer<T,T> transform(final PublishSubject<LifeCycleEvent> lifecycleSubject,final String cacheType){
 
@@ -58,8 +60,11 @@ public enum RxTransformer {
                             @Override
                             public T call(T t) {
                                 //当cacheType为空（null）时，说明不用缓存
-                                if (!TextUtils.isEmpty(cacheType))
-                                CacheManager.getInstance().saveCache(cacheType,t);
+                                if (!TextUtils.isEmpty(cacheType)){
+                                    CacheManager.getInstance().saveCache(cacheType,t);
+                                    Log.d(TAG, "从网络获取到数据，尝试存入缓存,当前线程---》"
+                                            +Thread.currentThread().getName());
+                                }
                                 return t;
                             }
                         })

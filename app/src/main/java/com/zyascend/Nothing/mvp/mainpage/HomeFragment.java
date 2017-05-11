@@ -1,6 +1,7 @@
 package com.zyascend.Nothing.mvp.mainpage;
 
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -63,10 +64,10 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
     @Override
     protected void initViews() {
         Log.d(TAG, "initViews: ");
-//        viewPager.setOffscreenPageLimit(2);
-//        adapter = new TagPagerAdapter(getChildFragmentManager());
-//        viewPager.setAdapter(adapter);
-//        tlTag.setupWithViewPager(viewPager);
+        viewPager.setOffscreenPageLimit(2);
+        adapter = new TagPagerAdapter(getChildFragmentManager());
+        viewPager.setAdapter(adapter);
+        tlTag.setupWithViewPager(viewPager);
     }
 
 
@@ -82,7 +83,7 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
 
     @Override
     public void showError() {
-
+        Log.d(TAG, "showError: --------->");
     }
 
     @Override
@@ -107,10 +108,11 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
 
     @Override
     public void onGetNotice(Notice notice) {
-
+        Log.d(TAG, "onGetNotice: ");
         if (notice==null)showError();
         else {
-            Log.d(TAG, "onGetNotice: sysCount = "+notice.getUnReadSysCount());
+            Log.d(TAG, "onGetNotice: sysCount = "+notice.getDATA().getList());
+            Log.d(TAG, "onGetNotice: "+(Looper.getMainLooper() == Looper.myLooper()));
         }
         mPresenter.getMyTagList();
     }
@@ -137,6 +139,8 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
             titleList = new ArrayList<>();
             titleList.add(TITLE_GRASS);
             titleList.add(TITLE_FOLLOW);
+            fragmentList.add(new GrassFragment());
+            fragmentList.add(new FollowFragment());
         }
 
         public void setList(List<Fragment> fragments,List<String> titles){

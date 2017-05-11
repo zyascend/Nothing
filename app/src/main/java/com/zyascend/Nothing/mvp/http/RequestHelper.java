@@ -84,4 +84,9 @@ public class RequestHelper {
     public static RequestBody getSimpleBody() {
         return RequestBody.create(MediaType.parse(JSON),simpleBdy);
     }
+
+    public static RequestBody getMenuBody() {
+        String json = "{\"appVersion\":\"1.9.9.2\",\"deviceType\":\"android\",\"isPage\":false,\"limit\":0,\"menuType\":6,\"sourceType\":0,\"startRow\":0,\"sysVersion\":\"23\"}";
+        return RequestBody.create(MediaType.parse(JSON),json);
+    }
 }
