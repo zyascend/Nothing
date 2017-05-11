@@ -1,8 +1,11 @@
 package com.zyascend.Nothing.mvp.mainpage;
 
 import com.zyascend.Nothing.base.BaseView;
+import com.zyascend.Nothing.bean.BannerBean;
 import com.zyascend.Nothing.bean.HomeTag;
+import com.zyascend.Nothing.bean.MenuBean;
 import com.zyascend.Nothing.bean.Notice;
+import com.zyascend.Nothing.bean.RankingUser;
 
 import java.util.List;
 
@@ -28,9 +31,28 @@ public interface MainContract {
     /**
      * 负责推荐页面的逻辑
      */
-    interface GrassView extends BaseView {}
-    interface GrassPresenter {}
+    interface GrassView extends BaseView {
 
+        void onGetBanner(List<BannerBean> bannerList);
+        void onGetMenu(List<MenuBean> menuList);
+        void onGetRankUser(List<RankingUser> userList);
+
+    }
+
+    interface GrassPresenter {
+
+        void getBanner();
+        void getMenu();
+        void getRankUser();
+        void getSifts();
+    }
+
+    /**
+     * 负责关注页面的逻辑
+     *
+     */
+    interface FollowView extends BaseView{}
+    interface FollowPresenter{}
 
 
 }

@@ -5,19 +5,18 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.zyascend.Nothing.base.BaseApplication;
 import com.zyascend.Nothing.bean.BaseResponse;
+import com.zyascend.Nothing.bean.HomeTag;
+import com.zyascend.Nothing.bean.SimpleListResponse;
+import com.zyascend.Nothing.common.utils.NetWorkUtils;
 import com.zyascend.Nothing.dao.CacheBean;
 import com.zyascend.Nothing.dao.CacheBeanDao;
 import com.zyascend.Nothing.dao.DaoMaster;
 import com.zyascend.Nothing.dao.DaoSession;
 
-import junit.framework.Test;
-
-import java.lang.reflect.ParameterizedType;
-
 import rx.Observable;
-import rx.Scheduler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -28,7 +27,7 @@ import rx.schedulers.Schedulers;
  * 邮箱：zyascend@qq.com
  */
 
-public class CacheManager {
+public class CacheManager implements DataConstantValue{
 
     private static final String TAG = "TAG_CacheManager";
     private static CacheManager manager;
@@ -52,14 +51,17 @@ public class CacheManager {
         return manager;
     }
 
-    public <T extends BaseResponse>Observable<T> cacheObservable(final String cacheType,final boolean checkTime){
+    public <T extends BaseResponse>Observable<T> cacheObservable(final String cacheType
+            , final boolean checkTime){
         return Observable.create(new Observable.OnSubscribe<T>() {
             @Override
             public void call(Subscriber<? super T> subscriber) {
                 T cache = getCache(cacheType,checkTime);
                 if (cache == null){
+                    Log.d(TAG, "call: 未获取到"+cacheType+"缓存");
                     subscriber.onCompleted();
                 }else {
+                    Log.d(TAG, "call: 获取到缓存，发送数据......");
                     subscriber.onNext(cache);
                 }
             }
@@ -67,37 +69,62 @@ public class CacheManager {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    private <T extends BaseResponse> T getCache(String type, boolean checkTime) {
+    private <T> T getCache(String type, boolean checkTime) {
         CacheBeanDao dao = daoSession.getCacheBeanDao();
         CacheBean cacheBean = dao.queryBuilder()
                 .where(CacheBeanDao.Properties.Cache_type.eq(type))
                 .build().unique();
         if (cacheBean == null)return null;
-        if (checkTime && cacheBean.isExpire())return null;
+
+        //网络可用条件下，过期的缓存不展示
+        //无网络状态下，有则展示
+        if (checkTime && cacheBean.isExpire() && NetWorkUtils.available())
+            return null;
+
         T data = null;
         try {
-            Class <T> tClass = (Class <T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-            data = JSON.parseObject(cacheBean.getJson_content(),tClass);
+
+            //这种方法式并不优雅，可扩展性差，但也没办法了
+            //1.JSON.parseObject(json,new TypeReference<T>()) 扑街
+            //2.尝试获取泛型T的 T.class 扑街
+            //只能根据cachetype给出一个明确的Class，再强转类型
+            data = parseData(cacheBean.getJson_content(),type);
         } catch (Exception e) {
             e.printStackTrace();
+            Log.d(TAG, "getCache: e = "+e.toString());
+        }
+        Log.d(TAG, "getCache: OK");
+        return data;
+    }
+
+    private <T> T parseData(String json, String type) {
+        // TODO: 2017/5/11 待补充
+        T data = null;
+        switch (type){
+            case CACHE_TYPE_MY_HOME_TAG :
+            case CACHE_TYPE_ALL_HOME_TAG:
+                data = (T) JSON.parseObject(json,new TypeReference<SimpleListResponse<HomeTag>>(){});
+                        break;
+
         }
         return data;
     }
 
-    public <T extends BaseResponse> void saveCache(String type,T t){
+    public <T> void saveCache(String type,T t){
 
         if (type == null)return;
         CacheBeanDao dao = daoSession.getCacheBeanDao();
 
         try {
             String json = JSON.toJSONString(t);
+            Log.d(TAG, "saveCache: json = "+json);
             if (!TextUtils.isEmpty(json)){
                 CacheBean bean = new CacheBean(type,json);
                 dao.insertOrReplace(bean);
-                Log.d(TAG, "saveCache: ------->done");
             }
         } catch (Exception e) {
             e.printStackTrace();
+            Log.d(TAG, "saveCache: e = "+e.toString());
         }
     }
 
