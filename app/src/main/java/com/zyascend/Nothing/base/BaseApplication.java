@@ -2,6 +2,7 @@ package com.zyascend.Nothing.base;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import com.zyascend.Nothing.service.InitializeService;
 
@@ -12,16 +13,13 @@ import com.zyascend.Nothing.service.InitializeService;
 
 public class BaseApplication extends Application {
 
-    private static BaseApplication application;
-
+    public static Context application;
+    private static final String TAG = "BaseApplication";
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.d(TAG, "onCreate: ");
         application = this;
         InitializeService.start(this);
-    }
-
-    public static Context getApplication() {
-        return application;
     }
 }

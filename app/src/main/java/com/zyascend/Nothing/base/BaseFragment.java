@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.common.rx.LifeCycleEvent;
 
 import butterknife.ButterKnife;
@@ -64,7 +65,9 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         if (rootView == null) {
-            rootView = inflater.inflate(getLayoutId(), container, false);
+            int layoutId = getLayoutId();
+            Log.d(TAG, "onCreateView: ");
+            rootView = inflater.inflate(layoutId, container, false);
             ButterKnife.bind(this, rootView);
             initViews();
         }
@@ -76,9 +79,18 @@ public abstract class BaseFragment extends Fragment {
     }
 
     private void lazyLoad() {
-        if(!isFirstLoad || !isVisible || !isInitView)return;
-        loadData();
-        isFirstLoad = false;
+
+        if (isLazyLoad()){
+            if(!isFirstLoad || !isVisible || !isInitView)return;
+            loadData();
+            isFirstLoad = false;
+        }else {
+            loadData();
+        }
+    }
+
+    public boolean isLazyLoad() {
+        return true;
     }
 
     protected abstract void loadData();
@@ -135,7 +147,7 @@ public abstract class BaseFragment extends Fragment {
         isInitView = false;
         isLoad = false;
         ButterKnife.unbind(this);
-
+        Log.d(TAG, "onDestroyView: ");
 //        RefWatcher refWatcher = BaseApplication.getRefWatcher(getActivity());
 //        refWatcher.watch(this);
     }

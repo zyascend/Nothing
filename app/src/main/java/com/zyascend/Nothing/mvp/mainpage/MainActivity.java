@@ -3,6 +3,7 @@ package com.zyascend.Nothing.mvp.mainpage;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -50,11 +51,13 @@ public class MainActivity extends BaseActivity {
 
     private HomeFragment homeFragment;
     private SplashFragment splashFragment;
+    private Handler mHandler;
+
     @Override
     protected void initView() {
 
         viewStub = (ViewStub) findViewById(R.id.content_viewstub);
-
+        mHandler = new Handler();
         //首先加载并显示SplashFragment
         FragmentManager manager = getSupportFragmentManager();
         splashFragment = new SplashFragment();
@@ -67,7 +70,12 @@ public class MainActivity extends BaseActivity {
         loadMainPageFragment();
 
         //开启延时显示SplashFragment的内容，同时ManiPage加载数据
-        getWindow().getDecorView().postDelayed(new DelayRunnable(MainActivity.this,splashFragment),2000);
+        getWindow().getDecorView().post(new Runnable() {
+            @Override
+            public void run() {
+                mHandler.postDelayed(new DelayRunnable(MainActivity.this,splashFragment),2000);
+            }
+        });
 
     }
 
@@ -134,10 +142,10 @@ public class MainActivity extends BaseActivity {
         return false;
     }
 
-    @OnClick({R.id.home, R.id.iv_search, R.id.iv_upload, R.id.iv_rank, R.id.iv_profile})
+    @OnClick({R.id.iv_home, R.id.iv_search, R.id.iv_upload, R.id.iv_rank, R.id.iv_profile})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.home:
+            case R.id.iv_home:
                 if (selected!=0){
                     selected = 0;
                     toggleImageResource();

@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.zyascend.Nothing.bean.BaseResponse;
 import com.zyascend.Nothing.common.rx.LifeCycleEvent;
+import com.zyascend.Nothing.mvp.data.CacheManager;
 import com.zyascend.Nothing.mvp.http.APIException;
 
 import rx.Observable;
@@ -24,7 +25,7 @@ public enum RxTransformer {
 
     private static final CharSequence STATUS_OK = "1";
 
-    public <T extends BaseResponse> Observable.Transformer<T,T> transform(final PublishSubject<LifeCycleEvent> lifecycleSubject){
+    public <T extends BaseResponse> Observable.Transformer<T,T> transform(final PublishSubject<LifeCycleEvent> lifecycleSubject,final String cacheType){
 
         return new Observable.Transformer<T, T>(){
             @Override
@@ -50,6 +51,16 @@ public enum RxTransformer {
                                 if (!TextUtils.equals(t.getSTATUS(),STATUS_OK))
                                     return Observable.error(new APIException(t.getMESSAGE()));
                                 return createData(t);
+                            }
+                        })
+                        //从网络返回的数据，存入缓存
+                        .map(new Func1<T, T>() {
+                            @Override
+                            public T call(T t) {
+                                //当cacheType为空（null）时，说明不用缓存
+                                if (!TextUtils.isEmpty(cacheType))
+                                CacheManager.getInstance().saveCache(cacheType,t);
+                                return t;
                             }
                         })
                         //一旦lifecycleObservable对外发射了数据，

@@ -1,5 +1,6 @@
 package com.zyascend.Nothing.mvp.mainpage;
 
+import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.base.BaseFragment;
 
 /**
@@ -22,7 +23,7 @@ public class SplashFragment extends BaseFragment {
 
     @Override
     protected int getLayoutId() {
-        return 0;
+        return R.layout.fragment_splash;
     }
 
     @Override

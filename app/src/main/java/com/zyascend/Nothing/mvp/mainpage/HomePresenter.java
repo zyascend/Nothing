@@ -1,10 +1,13 @@
 package com.zyascend.Nothing.mvp.mainpage;
 
 import com.zyascend.Nothing.base.BasePresenter;
+import com.zyascend.Nothing.bean.HomeTag;
 import com.zyascend.Nothing.bean.Notice;
 import com.zyascend.Nothing.common.BaseDataCallback;
 import com.zyascend.Nothing.mvp.http.HttpService;
 import com.zyascend.Nothing.mvp.login.LoginContract;
+
+import java.util.List;
 
 /**
  * 功能：
@@ -35,6 +38,16 @@ public class HomePresenter extends BasePresenter<MainContract.HomeView> implemen
 
     @Override
     public void getMyTagList() {
+        httpService.getMyTagList(lifeCycleSubject, new BaseDataCallback<List<HomeTag>>() {
+            @Override
+            public void onSuccess(List<HomeTag> data) {
+                if (isViewAttached())mViewRef.get().onGetMyTagList(data);
+            }
 
+            @Override
+            public void onFail(String errorMsg) {
+                if (isViewAttached())mViewRef.get().onGetMyTagList(null);
+            }
+        });
     }
 }

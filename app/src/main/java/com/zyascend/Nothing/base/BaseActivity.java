@@ -32,10 +32,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         if(canBind()){
             ButterKnife.bind(this);
         }
-        statusView = new StatusView.Builder(this)
-                .setErrorView(R.layout.view_error)
-                .setLoadingView(R.layout.view_loading)
-                .build();
+        //statusView = new StatusView.Builder(this)
+                //.setErrorView(R.layout.view_error)
+                //.setLoadingView(R.layout.view_loading)
+                //.build();
         initView();
         loadData();
     }

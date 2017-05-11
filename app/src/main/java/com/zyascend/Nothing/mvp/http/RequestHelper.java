@@ -2,6 +2,7 @@ package com.zyascend.Nothing.mvp.http;
 
 import android.content.Context;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
@@ -23,6 +24,7 @@ import okhttp3.RequestBody;
 
 public class RequestHelper {
     private static final String JSON = "application/json";
+    private static final String TAG = "TAG_RequestHelper";
     private static final String simpleBdy = "{\"appVersion\":\"1.9.9.2\",\"deviceType\":\"android\",\"sysVersion\":\"23\"}";
 
     public static String getAccessToken(){
@@ -34,7 +36,7 @@ public class RequestHelper {
         StringBuilder sb = new StringBuilder();
         sb.append("{\"appVersion\":\"\",\"deviceType\":\"android\",\"pushToken\":\"");
         sb.append(getPushToken());
-        sb.append("\",\"sysVersion\":\"23\"");
+        sb.append("\",\"sysVersion\":\"23\"}");
         return RequestBody.create(MediaType.parse(JSON), sb.toString());
     }
 
@@ -43,14 +45,16 @@ public class RequestHelper {
      * @return
      */
     private static String getPushToken() {
-        TelephonyManager manager = (TelephonyManager) BaseApplication.getApplication()
+        TelephonyManager manager = (TelephonyManager) BaseApplication.application
                 .getSystemService(Context.TELEPHONY_SERVICE);
-        String deviceId = manager.getDeviceId();
-        return getMd5(deviceId);
+        // TODO: 2017/5/10 要开启动态权限
+        //String deviceId = manager.getDeviceId();
+        return getMd5("864587029619922");
     }
 
 
     public static String getMd5(String data){
+        Log.d(TAG, "getMd5: origin = ------>"+data);
         MessageDigest md = null;
         String res = null;
         try {
@@ -68,6 +72,7 @@ public class RequestHelper {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
+        Log.d(TAG, "getMd5: after =------->"+res);
         return res;
     }
 

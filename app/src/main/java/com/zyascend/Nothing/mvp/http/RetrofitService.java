@@ -47,7 +47,7 @@ public class RetrofitService {
         InputStream inputStream=null;
 
         try {
-            inputStream= BaseApplication.getApplication().getAssets().open("nothing_ssl.cer");
+            inputStream= BaseApplication.application.getAssets().open("nothing_ssl.cer");
         } catch (IOException e) {
             Log.e("OKHTTP", "打开证书失败 ");
             e.printStackTrace();

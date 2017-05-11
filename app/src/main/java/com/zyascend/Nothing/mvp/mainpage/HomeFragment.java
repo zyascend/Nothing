@@ -56,15 +56,23 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
 
     @Override
     protected void loadData() {
+        Log.d(TAG, "loadData: ");
         mPresenter.getNotice();
     }
 
     @Override
     protected void initViews() {
-        viewPager.setOffscreenPageLimit(2);
-        adapter = new TagPagerAdapter(getChildFragmentManager());
-        viewPager.setAdapter(adapter);
-        tlTag.setupWithViewPager(viewPager);
+        Log.d(TAG, "initViews: ");
+//        viewPager.setOffscreenPageLimit(2);
+//        adapter = new TagPagerAdapter(getChildFragmentManager());
+//        viewPager.setAdapter(adapter);
+//        tlTag.setupWithViewPager(viewPager);
+    }
+
+
+    @Override
+    public boolean isLazyLoad() {
+        return false;
     }
 
     @Override
@@ -112,11 +120,14 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
         if (tagList == null)showError();
         else {
             Log.d(TAG, "onGetMyTagList: size = "+tagList.size());
+            Log.d(TAG, "onGetMyTagList: "+tagList.get(1).getName());
         }
     }
 
     private static class TagPagerAdapter extends FragmentStatePagerAdapter {
 
+        private static final String TITLE_FOLLOW = "关注";
+        private static final String TITLE_GRASS = "推荐";
         private List<Fragment> fragmentList;
         private List<String> titleList;
 
@@ -124,6 +135,8 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
             super(fm);
             fragmentList = new ArrayList<>();
             titleList = new ArrayList<>();
+            titleList.add(TITLE_GRASS);
+            titleList.add(TITLE_FOLLOW);
         }
 
         public void setList(List<Fragment> fragments,List<String> titles){
