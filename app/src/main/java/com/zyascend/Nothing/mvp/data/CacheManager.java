@@ -7,8 +7,13 @@ import android.util.Log;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.zyascend.Nothing.base.BaseApplication;
+import com.zyascend.Nothing.bean.BannerBean;
 import com.zyascend.Nothing.bean.BaseResponse;
 import com.zyascend.Nothing.bean.HomeTag;
+import com.zyascend.Nothing.bean.MenuBean;
+import com.zyascend.Nothing.bean.NormalData;
+import com.zyascend.Nothing.bean.RankingUser;
+import com.zyascend.Nothing.bean.SiftsDataBean;
 import com.zyascend.Nothing.bean.SimpleListResponse;
 import com.zyascend.Nothing.common.utils.NetWorkUtils;
 import com.zyascend.Nothing.dao.CacheBean;
@@ -98,13 +103,27 @@ public class CacheManager implements DataConstantValue{
     }
 
     private <T> T parseData(String json, String type) {
-        // TODO: 2017/5/11 待补充
+        /**
+         * 这个方法，不忍直视，shitttttt！！！
+         */
         T data = null;
         switch (type){
             case CACHE_TYPE_MY_HOME_TAG :
             case CACHE_TYPE_ALL_HOME_TAG:
                 data = (T) JSON.parseObject(json,new TypeReference<SimpleListResponse<HomeTag>>(){});
-                        break;
+                break;
+            case CACHE_TYPE_BANNER:
+                data = (T) JSON.parseObject(json,new TypeReference<SimpleListResponse<BannerBean>>(){});
+                break;
+            case CACHE_TYPE_MENU:
+                data = (T) JSON.parseObject(json,new TypeReference<SimpleListResponse<MenuBean>>(){});
+                break;
+            case CACHE_TYPE_RANKUSER:
+                data = (T) JSON.parseObject(json,new TypeReference<SimpleListResponse<RankingUser>>(){});
+                break;
+            case CACHE_TYPE_SIFTS:
+                data = (T) JSON.parseObject(json,new TypeReference<NormalData<SiftsDataBean>>(){});
+                break;
 
         }
         return data;

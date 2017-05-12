@@ -6,6 +6,7 @@ import com.zyascend.Nothing.bean.HomeTag;
 import com.zyascend.Nothing.bean.MenuBean;
 import com.zyascend.Nothing.bean.Notice;
 import com.zyascend.Nothing.bean.RankingUser;
+import com.zyascend.Nothing.bean.SiftsDataBean;
 
 import java.util.List;
 
@@ -36,6 +37,7 @@ public interface MainContract {
         void onGetBanner(List<BannerBean> bannerList);
         void onGetMenu(List<MenuBean> menuList);
         void onGetRankUser(List<RankingUser> userList);
+        void onGetSifts(SiftsDataBean data);
 
     }
 
@@ -44,7 +46,7 @@ public interface MainContract {
         void getBanner();
         void getMenu();
         void getRankUser();
-        void getSifts();
+        void getSifts(String firstTime);
     }
 
     /**

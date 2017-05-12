@@ -86,7 +86,15 @@ public class RequestHelper {
     }
 
     public static RequestBody getMenuBody() {
-        String json = "{\"appVersion\":\"1.9.9.2\",\"deviceType\":\"android\",\"isPage\":false,\"limit\":0,\"menuType\":6,\"sourceType\":0,\"startRow\":0,\"sysVersion\":\"23\"}";
+        String json = "{\"appVersion\":\"1.9.9.2\",\"deviceType\":\"android\",\"isPage\":false,\"limit\"" +
+                ":0,\"menuType\":6,\"sourceType\":0,\"startRow\":0,\"sysVersion\":\"23\"}";
         return RequestBody.create(MediaType.parse(JSON),json);
+    }
+
+    public static RequestBody getPageLoadBody(String firstTime) {
+        if (firstTime == null){
+
+        }
+        return null;
     }
 }

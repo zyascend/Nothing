@@ -38,6 +38,7 @@ public class HomePresenter extends BasePresenter<MainContract.HomeView> implemen
 
     @Override
     public void getMyTagList() {
+
         httpService.getMyTagList(lifeCycleSubject, new BaseDataCallback<List<HomeTag>>() {
             @Override
             public void onSuccess(List<HomeTag> data) {

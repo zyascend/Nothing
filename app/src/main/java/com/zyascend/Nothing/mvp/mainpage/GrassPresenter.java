@@ -69,7 +69,7 @@ public class GrassPresenter extends BasePresenter<MainContract.GrassView>
     }
 
     @Override
-    public void getSifts() {
+    public void getSifts(String firstTime) {
 
     }
 }
