@@ -9,8 +9,10 @@ import com.zyascend.Nothing.bean.BannerBean;
 import com.zyascend.Nothing.bean.BaseResponse;
 import com.zyascend.Nothing.bean.HomeTag;
 import com.zyascend.Nothing.bean.MenuBean;
+import com.zyascend.Nothing.bean.NormalData;
 import com.zyascend.Nothing.bean.Notice;
 import com.zyascend.Nothing.bean.RankingUser;
+import com.zyascend.Nothing.bean.SiftsDataBean;
 import com.zyascend.Nothing.bean.SimpleListResponse;
 import com.zyascend.Nothing.bean.SimpleResponse;
 import com.zyascend.Nothing.common.BaseDataCallback;
@@ -261,5 +263,40 @@ public class HttpService implements DataConstantValue{
                         callback.onSuccess(list);
                     }
                 });
+    }
+
+    public void getSifts(String firstTime
+            , PublishSubject<LifeCycleEvent> subject
+            , final BaseDataCallback<SiftsDataBean> callback){
+        Observable<NormalData<SiftsDataBean>> fromCache = CacheManager.getInstance()
+                .cacheObservable(CACHE_TYPE_SIFTS,true);
+        Observable<NormalData<SiftsDataBean>> fromNet = RetrofitService.getDefault()
+                .getSiftsList(RequestHelper.getAccessToken(),RequestHelper.getPageLoadBody(firstTime))
+                .compose(RxTransformer.INSTANCE.<NormalData<SiftsDataBean>>transform(subject,CACHE_TYPE_SIFTS));
+        Observable.concat(fromCache,fromNet)
+                .first()
+                .map(new Func1<NormalData<SiftsDataBean>, SiftsDataBean>() {
+                    @Override
+                    public SiftsDataBean call(NormalData<SiftsDataBean> data) {
+                        return data.getDATA();
+                    }
+                })
+                .subscribe(new Subscriber<SiftsDataBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(SiftsDataBean siftsDataBean) {
+                        callback.onSuccess(siftsDataBean);
+                    }
+                });
+
     }
 }

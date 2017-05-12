@@ -14,6 +14,7 @@ import com.zyascend.Nothing.base.MVPBaseFragment;
 import com.zyascend.Nothing.bean.BannerBean;
 import com.zyascend.Nothing.bean.MenuBean;
 import com.zyascend.Nothing.bean.RankingUser;
+import com.zyascend.Nothing.bean.SiftsDataBean;
 
 import java.util.List;
 
@@ -42,6 +43,11 @@ public class GrassFragment extends MVPBaseFragment<MainContract.GrassView, Grass
     RecyclerView reFindRankUser;
     @Bind(R.id.re_sifts)
     RecyclerView reSifts;
+    /**
+     * 用于分页请求的时间戳
+     *
+     */
+    private String curFirstTime;
 
     @Override
     protected void loadData() {
@@ -101,6 +107,19 @@ public class GrassFragment extends MVPBaseFragment<MainContract.GrassView, Grass
         }else{
             showError();
         }
-        mPresenter.getSifts();
+        //请求第一页没有firstTime
+        mPresenter.getSifts(null);
+    }
+
+    @Override
+    public void onGetSifts(SiftsDataBean data) {
+        if (data == null){
+            showError();
+            return;
+        }
+
+        curFirstTime = data.getFirstTime();
+
+
     }
 }
