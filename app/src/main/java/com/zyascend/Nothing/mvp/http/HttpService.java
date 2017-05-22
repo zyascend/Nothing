@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 
+import com.orhanobut.logger.Logger;
 import com.zyascend.Nothing.bean.BannerBean;
 import com.zyascend.Nothing.bean.BaseResponse;
 import com.zyascend.Nothing.bean.HomeTag;
@@ -93,7 +94,7 @@ public class HttpService implements DataConstantValue{
     public void getMyTagList(PublishSubject<LifeCycleEvent> subject, final BaseDataCallback<List<HomeTag>> callback){
 
         Observable<SimpleListResponse<HomeTag>> fromCache = CacheManager.getInstance()
-                .cacheObservable(CACHE_TYPE_MY_HOME_TAG,true);
+                .cacheObservable(CACHE_TYPE_MY_HOME_TAG,true,false);
         Observable<SimpleListResponse<HomeTag>> fromNetWork = RetrofitService.getDefault()
                 .getMyTagList(RequestHelper.getAccessToken(),RequestHelper.getSimpleBody())
                 .compose(RxTransformer.INSTANCE.<SimpleListResponse<HomeTag>>transform(subject,CACHE_TYPE_MY_HOME_TAG));
@@ -130,7 +131,7 @@ public class HttpService implements DataConstantValue{
 
         Observable<SimpleListResponse<HomeTag>> fromCache
                 = CacheManager.getInstance()
-                .cacheObservable(CACHE_TYPE_ALL_HOME_TAG,false);
+                .cacheObservable(CACHE_TYPE_ALL_HOME_TAG,false,false);
         Observable<SimpleListResponse<HomeTag>> fromNetWork
                 = RetrofitService.getDefault()
                 .getAllTagList(RequestHelper.getAccessToken(),RequestHelper.getSimpleBody())
@@ -167,11 +168,11 @@ public class HttpService implements DataConstantValue{
             , final BaseDataCallback<List<BannerBean>> callback) {
 
         Observable<SimpleListResponse<BannerBean>> fromCache
-                = CacheManager.getInstance().cacheObservable(CACHE_TYPE_BANNER,true);
+                = CacheManager.getInstance().cacheObservable(CACHE_TYPE_BANNER,true,false);
         Observable<SimpleListResponse<BannerBean>> fromNetWork
                 = RetrofitService.getDefault()
                 .getBannerList(RequestHelper.getAccessToken(),RequestHelper.getSimpleBody())
-                .compose(RxTransformer.INSTANCE.<SimpleListResponse<BannerBean>>transform(subject,CACHE_TYPE_ALL_HOME_TAG));
+                .compose(RxTransformer.INSTANCE.<SimpleListResponse<BannerBean>>transform(subject,CACHE_TYPE_BANNER));
         Observable.concat(fromCache,fromNetWork)
                 .first()
                 .map(new Func1<SimpleListResponse<BannerBean>, List<BannerBean>>() {
@@ -201,7 +202,7 @@ public class HttpService implements DataConstantValue{
 
     public void getMenu(PublishSubject<LifeCycleEvent> subject, final BaseDataCallback<List<MenuBean>> callback){
         Observable<SimpleListResponse<MenuBean>> fromCache = CacheManager.getInstance()
-                .cacheObservable(CACHE_TYPE_MENU,true);
+                .cacheObservable(CACHE_TYPE_MENU,true,false);
         Observable<SimpleListResponse<MenuBean>> fromNet = RetrofitService.getDefault()
                 .getMenu(RequestHelper.getAccessToken(),RequestHelper.getMenuBody())
                 .compose(RxTransformer.INSTANCE.<SimpleListResponse<MenuBean>>transform(subject,CACHE_TYPE_MENU));
@@ -235,7 +236,7 @@ public class HttpService implements DataConstantValue{
     public void getRankingUser(PublishSubject<LifeCycleEvent> subject
             , final BaseDataCallback<List<RankingUser>> callback){
         Observable<SimpleListResponse<RankingUser>> fromCache = CacheManager.getInstance()
-                .cacheObservable(CACHE_TYPE_RANKUSER,true);
+                .cacheObservable(CACHE_TYPE_RANKUSER,true,false);
         Observable<SimpleListResponse<RankingUser>> fromNet = RetrofitService.getDefault()
                 .getRankingUserList(RequestHelper.getAccessToken(),RequestHelper.getSimpleBody())
                 .compose(RxTransformer.INSTANCE.<SimpleListResponse<RankingUser>>transform(subject,CACHE_TYPE_RANKUSER));
@@ -268,11 +269,15 @@ public class HttpService implements DataConstantValue{
     public void getSifts(String firstTime
             , PublishSubject<LifeCycleEvent> subject
             , final BaseDataCallback<SiftsDataBean> callback){
+
+        boolean jumpCache = firstTime == null;
+
         Observable<NormalData<SiftsDataBean>> fromCache = CacheManager.getInstance()
-                .cacheObservable(CACHE_TYPE_SIFTS,true);
+                .cacheObservable(CACHE_TYPE_SIFTS,true,jumpCache);
         Observable<NormalData<SiftsDataBean>> fromNet = RetrofitService.getDefault()
                 .getSiftsList(RequestHelper.getAccessToken(),RequestHelper.getPageLoadBody(firstTime))
                 .compose(RxTransformer.INSTANCE.<NormalData<SiftsDataBean>>transform(subject,CACHE_TYPE_SIFTS));
+
         Observable.concat(fromCache,fromNet)
                 .first()
                 .map(new Func1<NormalData<SiftsDataBean>, SiftsDataBean>() {
@@ -294,6 +299,7 @@ public class HttpService implements DataConstantValue{
 
                     @Override
                     public void onNext(SiftsDataBean siftsDataBean) {
+
                         callback.onSuccess(siftsDataBean);
                     }
                 });

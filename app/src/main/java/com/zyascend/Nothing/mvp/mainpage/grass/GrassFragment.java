@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.loonggg.rvbanner.lib.RecyclerViewBanner;
+import com.orhanobut.logger.Logger;
 import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.base.MVPBaseFragment;
 import com.zyascend.Nothing.bean.BannerBean;
@@ -123,7 +124,7 @@ public class GrassFragment extends MVPBaseFragment<MainContract.GrassView, Grass
 
     @Override
     public void showError() {
-
+        Logger.e("ERROR");
     }
 
     @Override
@@ -170,6 +171,7 @@ public class GrassFragment extends MVPBaseFragment<MainContract.GrassView, Grass
 
     @Override
     public void onGetSifts(SiftsDataBean data) {
+
         if (data == null) {
             showError();
             if (!isRefresh){
@@ -177,6 +179,7 @@ public class GrassFragment extends MVPBaseFragment<MainContract.GrassView, Grass
             }
             return;
         }
+        Logger.d(data.getList().size());
         if (isRefresh) {
             siftsAdapter.addDatas(data.getList(),true);
             isRefresh = false;

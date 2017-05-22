@@ -13,8 +13,11 @@ import com.bumptech.glide.Glide;
 import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.bean.SiftsBean;
 import com.zyascend.Nothing.common.utils.GlideUtils;
+import com.zyascend.Nothing.common.view.SpanTextView;
 import com.zyascend.amazingadapter.AmazingAdapter;
 import com.zyascend.amazingadapter.MultiAdapter;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -57,7 +60,7 @@ public class SiftsAdapter extends MultiAdapter<SiftsBean> {
         @Bind(R.id.tv_time)
         TextView tvTime;
         @Bind(R.id.tv_description)
-        TextView tvDescription;
+        SpanTextView tvDescription;
         @Bind(R.id.iv_picture)
         ImageView ivPicture;
         @Bind(R.id.tv_picNum)
@@ -85,23 +88,34 @@ public class SiftsAdapter extends MultiAdapter<SiftsBean> {
         }
 
         public void bind(Context context, SiftsBean siftsBean) {
-            if (siftsBean == null) return;
-            SiftsBean.DynamicBean.MatchBean data = siftsBean.getDynamic().getMatch();
-            if (data == null) return;
 
+            if (siftsBean == null || siftsBean.getDynamic() == null
+                    ||siftsBean.getDynamic().getMatch() == null) return;
+
+            final SiftsBean.DynamicBean.MatchBean data = siftsBean.getDynamic().getMatch();
             String headUrl = data.getUser().getHead().getUrl();
             GlideUtils.loadCirclePic(context,ivUserImg,headUrl);
 
             tvName.setText(data.getUser().getName());
             tvTime.setText(data.getShowTime());
 
-            String userInfo = data.getUser().getArea().getName()+"/"
-                    +data.getUser().getHeight()+"/"+data.getUser().getHair().getName();
-            tvUserInfo.setText(userInfo);
+            tvUserInfo.setText(appendUserInfo(data));
 
-            // TODO: 2017/5/22 处理remind
-            // url : http://blog.csdn.net/auronjim/article/details/47314881
-            tvDescription.setText(data.getDescription());
+            String des = data.getDescription();
+            if (data.getRemindUsers()!=null && !data.getRemindUsers().isEmpty()){
+                final List<SiftsBean.DynamicBean.MatchBean.RemindUsersBean> list = data.getRemindUsers();
+                for (SiftsBean.DynamicBean.MatchBean.RemindUsersBean reminder : list){
+                    String user = "@"+reminder.getName();
+                    des+=user;
+                }
+                tvDescription.setText(des, new SpanTextView.ReminderClickListener() {
+                    @Override
+                    public void onReminderClick(String reminder) {
+                        jumpToUser(reminder,list);
+                    }
+                });
+            }
+
 
             String picUrl = data.getPicture().getUrl();
             GlideUtils.loadRoundPic(context,ivPicture,picUrl);
@@ -116,6 +130,18 @@ public class SiftsAdapter extends MultiAdapter<SiftsBean> {
             // TODO: 2017/5/22 处理评论列表
 
 
+        }
+
+        private void jumpToUser(String reminder, List<SiftsBean.DynamicBean.MatchBean.RemindUsersBean> list) {
+
+
+        }
+
+        private String appendUserInfo(SiftsBean.DynamicBean.MatchBean data) {
+            if (data.getUser().getHair()!=null && data.getUser().getArea()!=null)
+                return data.getUser().getArea().getName()+"/"+data.getUser().getHair().getName()
+                +"/"+data.getUser().getHeight();
+            else return data.getUser().getHeight();
         }
     }
 }

@@ -3,6 +3,7 @@ package com.zyascend.Nothing.common.rx;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.orhanobut.logger.Logger;
 import com.zyascend.Nothing.bean.BaseResponse;
 import com.zyascend.Nothing.common.rx.LifeCycleEvent;
 import com.zyascend.Nothing.mvp.data.CacheManager;
@@ -49,7 +50,6 @@ public enum RxTransformer {
                         .flatMap(new Func1<T, Observable<T>>() {
                             @Override
                             public Observable<T> call(T t) {
-                                // TODO: 2017/5/10 还需处理token过期/token错误的异常
                                 if (!TextUtils.equals(t.getSTATUS(),STATUS_OK))
                                     return Observable.error(new APIException(t.getMESSAGE()));
                                 return createData(t);
@@ -62,8 +62,7 @@ public enum RxTransformer {
                                 //当cacheType为空（null）时，说明不用缓存
                                 if (!TextUtils.isEmpty(cacheType)){
                                     CacheManager.getInstance().saveCache(cacheType,t);
-                                    Log.d(TAG, "从网络获取到数据，尝试存入缓存,当前线程---》"
-                                            +Thread.currentThread().getName());
+                                    Logger.d("从网络获取到"+cacheType+"数据，尝试存入缓存,当前线程---》");
                                 }
                                 return t;
                             }

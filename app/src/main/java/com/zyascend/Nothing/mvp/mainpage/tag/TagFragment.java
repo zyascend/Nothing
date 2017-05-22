@@ -19,7 +19,8 @@ import com.zyascend.Nothing.mvp.mainpage.MainContract;
  * 邮箱：zyascend@qq.com
  */
 
-public class TagFragment extends MVPBaseFragment<MainContract.TagView,TagPresenter> {
+public class TagFragment extends MVPBaseFragment<MainContract.TagView,TagPresenter>
+    implements MainContract.TagView{
 
     private static final String TAG_ID = "TAG_Id";
     private String currentId;
@@ -55,7 +56,7 @@ public class TagFragment extends MVPBaseFragment<MainContract.TagView,TagPresent
     }
 
     @Override
-    protected void showError() {
+    public void showError() {
 
     }
 

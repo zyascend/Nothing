@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
 import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.base.MVPBaseFragment;
 import com.zyascend.Nothing.bean.HomeTag;
@@ -48,7 +49,6 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
     @Bind(R.id.viewPager)
     ViewPager viewPager;
 
-
     private TagPagerAdapter adapter;
 
     @Override
@@ -58,13 +58,11 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
 
     @Override
     protected void loadData() {
-        Log.d(TAG, "loadData: ");
         mPresenter.getNotice();
     }
 
     @Override
     protected void initViews() {
-        Log.d(TAG, "initViews: ");
         viewPager.setOffscreenPageLimit(2);
         adapter = new TagPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(adapter);
@@ -84,7 +82,7 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
 
     @Override
     public void showError() {
-        Log.d(TAG, "showError: --------->");
+
     }
 
     @Override
@@ -109,9 +107,9 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
 
     @Override
     public void onGetNotice(Notice notice) {
-        Log.d(TAG, "onGetNotice: ");
         if (notice==null)showError();
         else {
+            Logger.d("notice num :"+notice.getDATA().getList().size() );
             tvNotifiNum.setText(notice.getDATA().getList().size());
         }
         mPresenter.getMyTagList();

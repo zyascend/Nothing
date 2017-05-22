@@ -4,6 +4,7 @@ import com.zyascend.Nothing.base.BasePresenter;
 import com.zyascend.Nothing.bean.BannerBean;
 import com.zyascend.Nothing.bean.MenuBean;
 import com.zyascend.Nothing.bean.RankingUser;
+import com.zyascend.Nothing.bean.SiftsDataBean;
 import com.zyascend.Nothing.common.BaseDataCallback;
 import com.zyascend.Nothing.mvp.http.HttpService;
 import com.zyascend.Nothing.mvp.mainpage.MainContract;
@@ -71,6 +72,16 @@ public class GrassPresenter extends BasePresenter<MainContract.GrassView>
 
     @Override
     public void getSifts(String firstTime) {
+        httpService.getSifts(firstTime, lifeCycleSubject, new BaseDataCallback<SiftsDataBean>() {
+            @Override
+            public void onSuccess(SiftsDataBean data) {
+                if (isViewAttached())mViewRef.get().onGetSifts(data);
+            }
+            @Override
+            public void onFail(String errorMsg) {
+                if (isViewAttached())mViewRef.get().onGetSifts(null);
 
+            }
+        });
     }
 }
