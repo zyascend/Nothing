@@ -92,9 +92,16 @@ public class RequestHelper {
     }
 
     public static RequestBody getPageLoadBody(String firstTime) {
-        if (firstTime == null){
 
+        if (firstTime == null){
+            //这是第一次加载数据
+            String json = "{\"appVersion\":\"1.9.9.2\",\"deviceType\":\"android\",\"isFirstRegister\"" +
+                    ":false,\"startRow\":\"0\",\"sysVersion\":\"23\"}";
+            return RequestBody.create(MediaType.parse(JSON),json);
+        }else{
+            String json = "{\"appVersion\":\"1.9.9.2\",\"deviceType\":\"android\",\"isFirstRegister\":false,\"startRow\":\"15\",\"startTime\"" +
+                    ":\""+firstTime+"\",\"sysVersion\":\"23\"}";
+            return RequestBody.create(MediaType.parse(JSON),json);
         }
-        return null;
     }
 }

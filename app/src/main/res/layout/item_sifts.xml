@@ -61,7 +61,7 @@
             android:layout_marginEnd="@dimen/dp_20"
             android:layout_alignTop="@+id/tv_height" />
 
-        <TextView
+        <com.zyascend.Nothing.common.view.SpanTextView
             android:id="@+id/tv_description"
             android:textColor="@color/black"
             android:textSize="@dimen/sp_13"

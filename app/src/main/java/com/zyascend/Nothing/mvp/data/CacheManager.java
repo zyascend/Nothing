@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.orhanobut.logger.Logger;
 import com.zyascend.Nothing.base.BaseApplication;
 import com.zyascend.Nothing.bean.BannerBean;
 import com.zyascend.Nothing.bean.BaseResponse;
@@ -57,16 +58,23 @@ public class CacheManager implements DataConstantValue{
     }
 
     public <T extends BaseResponse>Observable<T> cacheObservable(final String cacheType
-            , final boolean checkTime){
+            , final boolean checkTime,final boolean jumpCache){
         return Observable.create(new Observable.OnSubscribe<T>() {
             @Override
             public void call(Subscriber<? super T> subscriber) {
+                if (jumpCache){
+                    //跳过缓存,适用于加载列表中加载更多的情况
+                    Logger.d("跳过了"+cacheType+"缓存");
+                    subscriber.onCompleted();
+                    return;
+                }
+
                 T cache = getCache(cacheType,checkTime);
                 if (cache == null){
-                    Log.d(TAG, "call: 未获取到"+cacheType+"缓存");
+                    Logger.d("未获取到"+cacheType+"缓存");
                     subscriber.onCompleted();
                 }else {
-                    Log.d(TAG, "call: 获取到缓存，发送数据......");
+                    Logger.d("获取到"+cacheType+"缓存，发送数据......");
                     subscriber.onNext(cache);
                 }
             }
@@ -88,7 +96,6 @@ public class CacheManager implements DataConstantValue{
 
         T data = null;
         try {
-
             //这种方法式并不优雅，可扩展性差，但也没办法了
             //1.JSON.parseObject(json,new TypeReference<T>()) 扑街
             //2.尝试获取泛型T的 T.class 扑街
@@ -96,9 +103,8 @@ public class CacheManager implements DataConstantValue{
             data = parseData(cacheBean.getJson_content(),type);
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d(TAG, "getCache: e = "+e.toString());
+            Logger.e(e.getMessage());
         }
-        Log.d(TAG, "getCache: OK");
         return data;
     }
 
