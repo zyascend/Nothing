@@ -170,8 +170,6 @@ public class MainActivity extends BaseActivity {
                 if (selected!=4){
                     selected = 4;
                     toggleImageResource();
-
-
                 }
                 break;
         }

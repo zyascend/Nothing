@@ -7,6 +7,7 @@ import com.zyascend.Nothing.bean.MenuBean;
 import com.zyascend.Nothing.bean.Notice;
 import com.zyascend.Nothing.bean.RankingUser;
 import com.zyascend.Nothing.bean.SiftsDataBean;
+import com.zyascend.Nothing.common.BaseDataCallback;
 
 import java.util.List;
 
@@ -55,6 +56,13 @@ public interface MainContract {
      */
     interface FollowView extends BaseView{}
     interface FollowPresenter{}
+
+    /**
+     * tag页面的逻辑
+     */
+
+    interface TagView extends BaseView{}
+    interface TagPresenter{}
 
 
 }

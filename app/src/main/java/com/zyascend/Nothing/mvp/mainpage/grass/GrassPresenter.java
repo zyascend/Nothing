@@ -1,4 +1,4 @@
-package com.zyascend.Nothing.mvp.mainpage;
+package com.zyascend.Nothing.mvp.mainpage.grass;
 
 import com.zyascend.Nothing.base.BasePresenter;
 import com.zyascend.Nothing.bean.BannerBean;
@@ -6,6 +6,7 @@ import com.zyascend.Nothing.bean.MenuBean;
 import com.zyascend.Nothing.bean.RankingUser;
 import com.zyascend.Nothing.common.BaseDataCallback;
 import com.zyascend.Nothing.mvp.http.HttpService;
+import com.zyascend.Nothing.mvp.mainpage.MainContract;
 
 import java.util.List;
 
