@@ -1,5 +1,7 @@
 package com.zyascend.Nothing.bean;
 
+import java.util.List;
+
 /**
  * 功能：
  * 作者：zyascend on 2017/5/2 16:14
@@ -7,21 +9,6 @@ package com.zyascend.Nothing.bean;
  */
 
 public class MenuBean {
-
-    /**
-     * categoryId :
-     * clientData : {"type":20}
-     * createTime : 2016-08-24 16:05:31
-     * description :
-     * id : 8a03336dc59811e6b0638cdcd4b1d4f8
-     * menuType : 6
-     * name : 主编推荐
-     * picType : 1
-     * picture : {"height":300,"key":"419ae7c1ec3c46648fedab8435125eb9","url":"http://img.nothing.la/419ae7c1ec3c46648fedab8435125eb9","webUrl":"//img.nothing.la/419ae7c1ec3c46648fedab8435125eb9","width":300}
-     * sourceType : 0
-     * subName : 时髦单品合集
-     * updateTime : 2017-05-02 09:57:41
-     */
 
     private String categoryId;
     private String clientData;
@@ -35,6 +22,7 @@ public class MenuBean {
     private int sourceType;
     private String subName;
     private String updateTime;
+    private List<PictureListBean> pictureList;
 
     public String getCategoryId() {
         return categoryId;
@@ -132,20 +120,79 @@ public class MenuBean {
         this.updateTime = updateTime;
     }
 
+    public List<PictureListBean> getPictureList() {
+        return pictureList;
+    }
+
+    public void setPictureList(List<PictureListBean> pictureList) {
+        this.pictureList = pictureList;
+    }
+
     public static class PictureBean {
-        /**
-         * height : 300
-         * key : 419ae7c1ec3c46648fedab8435125eb9
-         * url : http://img.nothing.la/419ae7c1ec3c46648fedab8435125eb9
-         * webUrl : //img.nothing.la/419ae7c1ec3c46648fedab8435125eb9
-         * width : 300
-         */
 
         private int height;
         private String key;
         private String url;
         private String webUrl;
         private int width;
+
+        public int getHeight() {
+            return height;
+        }
+
+        public void setHeight(int height) {
+            this.height = height;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public String getWebUrl() {
+            return webUrl;
+        }
+
+        public void setWebUrl(String webUrl) {
+            this.webUrl = webUrl;
+        }
+
+        public int getWidth() {
+            return width;
+        }
+
+        public void setWidth(int width) {
+            this.width = width;
+        }
+    }
+
+    public static class PictureListBean {
+
+        private String format;
+        private int height;
+        private String key;
+        private String url;
+        private String webUrl;
+        private int width;
+
+        public String getFormat() {
+            return format;
+        }
+
+        public void setFormat(String format) {
+            this.format = format;
+        }
 
         public int getHeight() {
             return height;

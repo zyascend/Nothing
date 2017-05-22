@@ -1,6 +1,7 @@
-package com.zyascend.Nothing.mvp.mainpage;
+package com.zyascend.Nothing.mvp.mainpage.follow;
 
 import com.zyascend.Nothing.base.BasePresenter;
+import com.zyascend.Nothing.mvp.mainpage.MainContract;
 
 /**
  * 功能：

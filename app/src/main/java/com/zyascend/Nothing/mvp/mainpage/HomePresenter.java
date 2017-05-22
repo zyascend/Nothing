@@ -5,7 +5,6 @@ import com.zyascend.Nothing.bean.HomeTag;
 import com.zyascend.Nothing.bean.Notice;
 import com.zyascend.Nothing.common.BaseDataCallback;
 import com.zyascend.Nothing.mvp.http.HttpService;
-import com.zyascend.Nothing.mvp.login.LoginContract;
 
 import java.util.List;
 

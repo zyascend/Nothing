@@ -71,12 +71,13 @@ public abstract class BaseFragment extends Fragment {
             ButterKnife.bind(this, rootView);
             initViews();
         }
-
         ButterKnife.bind(this,rootView);
         isInitView = true;
         lazyLoad();
         return rootView;
     }
+
+
 
     private void lazyLoad() {
 

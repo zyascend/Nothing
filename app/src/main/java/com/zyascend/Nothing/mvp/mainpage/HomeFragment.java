@@ -1,29 +1,28 @@
 package com.zyascend.Nothing.mvp.mainpage;
 
-import android.os.Bundle;
 import android.os.Looper;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.base.MVPBaseFragment;
 import com.zyascend.Nothing.bean.HomeTag;
 import com.zyascend.Nothing.bean.Notice;
+import com.zyascend.Nothing.mvp.mainpage.follow.FollowFragment;
+import com.zyascend.Nothing.mvp.mainpage.grass.GrassFragment;
+import com.zyascend.Nothing.mvp.mainpage.tag.TagFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -40,6 +39,8 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
     ImageView btnNotifications;
     @Bind(R.id.btn_guide)
     ImageView btnGuide;
+    @Bind(R.id.tv_notifi_num)
+    TextView tvNotifiNum;
     @Bind(R.id.tl_tag)
     TabLayout tlTag;
     @Bind(R.id.iv_tag)
@@ -111,8 +112,7 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
         Log.d(TAG, "onGetNotice: ");
         if (notice==null)showError();
         else {
-            Log.d(TAG, "onGetNotice: sysCount = "+notice.getDATA().getList());
-            Log.d(TAG, "onGetNotice: "+(Looper.getMainLooper() == Looper.myLooper()));
+            tvNotifiNum.setText(notice.getDATA().getList().size());
         }
         mPresenter.getMyTagList();
     }
@@ -121,8 +121,7 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
     public void onGetMyTagList(List<HomeTag> tagList) {
         if (tagList == null)showError();
         else {
-            Log.d(TAG, "onGetMyTagList: size = "+tagList.size());
-            Log.d(TAG, "onGetMyTagList: "+tagList.get(1).getName());
+            adapter.setList(tagList);
         }
     }
 
@@ -143,12 +142,6 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
             fragmentList.add(new FollowFragment());
         }
 
-        public void setList(List<Fragment> fragments,List<String> titles){
-            this.fragmentList = fragments;
-            this.titleList = titles;
-            notifyDataSetChanged();
-        }
-
         @Override
         public int getCount() {
             return titleList != null ? titleList.size() : 0;
@@ -162,6 +155,15 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
         @Override
         public CharSequence getPageTitle(int position) {
             return titleList.get(position);
+        }
+
+        public void setList(List<HomeTag> tagList) {
+            for (HomeTag tag : tagList){
+                titleList.add(tag.getName());
+                TagFragment fragment = TagFragment.getInstance(tag.getId());
+                fragmentList.add(fragment);
+            }
+            notifyDataSetChanged();
         }
     }
 }
