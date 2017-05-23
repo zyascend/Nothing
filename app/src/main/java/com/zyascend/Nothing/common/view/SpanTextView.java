@@ -1,6 +1,7 @@
 package com.zyascend.Nothing.common.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -8,6 +9,8 @@ import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.zyascend.Nothing.R;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -111,7 +114,7 @@ public class SpanTextView extends AppCompatTextView {
         @Override
         public void updateDrawState(TextPaint ds) {
             /** 给文字染色 **/
-            ds.setARGB(255, 96, 134, 174);
+            ds.setColor(Color.parseColor("#fe644a"));
             /** 去掉下划线 ， 默认自带下划线 **/
             ds.setUnderlineText(false);
         }
