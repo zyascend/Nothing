@@ -54,8 +54,12 @@ public interface MainContract {
      * 负责关注页面的逻辑
      *
      */
-    interface FollowView extends BaseView{}
-    interface FollowPresenter{}
+    interface FollowView extends BaseView{
+
+    }
+    interface FollowPresenter{
+        void fetchData();
+    }
 
     /**
      * tag页面的逻辑

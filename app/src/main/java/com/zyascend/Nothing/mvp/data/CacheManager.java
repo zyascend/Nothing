@@ -11,9 +11,13 @@ import com.zyascend.Nothing.base.BaseApplication;
 import com.zyascend.Nothing.bean.BannerBean;
 import com.zyascend.Nothing.bean.BaseResponse;
 import com.zyascend.Nothing.bean.HomeTag;
+import com.zyascend.Nothing.bean.HotTag;
+import com.zyascend.Nothing.bean.ListData;
+import com.zyascend.Nothing.bean.Master;
 import com.zyascend.Nothing.bean.MenuBean;
 import com.zyascend.Nothing.bean.NormalData;
 import com.zyascend.Nothing.bean.RankingUser;
+import com.zyascend.Nothing.bean.SearchTag;
 import com.zyascend.Nothing.bean.SiftsDataBean;
 import com.zyascend.Nothing.bean.SimpleListResponse;
 import com.zyascend.Nothing.common.utils.NetWorkUtils;
@@ -21,6 +25,8 @@ import com.zyascend.Nothing.dao.CacheBean;
 import com.zyascend.Nothing.dao.CacheBeanDao;
 import com.zyascend.Nothing.dao.DaoMaster;
 import com.zyascend.Nothing.dao.DaoSession;
+
+import java.util.List;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -130,7 +136,15 @@ public class CacheManager implements DataConstantValue{
             case CACHE_TYPE_SIFTS:
                 data = (T) JSON.parseObject(json,new TypeReference<NormalData<SiftsDataBean>>(){});
                 break;
-
+            case CACHE_TYPE_SEARCH_MASTER:
+                data = (T)JSON.parseObject(json,new TypeReference<NormalData<ListData<Master>>>(){});
+                break;
+            case CACHE_TYPE_SEARCH_TAG:
+                data = (T) JSON.parseObject(json,new TypeReference<SimpleListResponse<HotTag>>(){});
+                break;
+            case CACHE_TYPE_FILTER_TAG:
+                data = (T) JSON.parseObject(json,new TypeReference<SimpleListResponse<List<SearchTag>>>(){});
+                break;
         }
         return data;
     }

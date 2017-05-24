@@ -13,4 +13,7 @@ public interface DataConstantValue {
     String CACHE_TYPE_RANKUSER = "type_rankuser";
     String CACHE_TYPE_MENU = "type_menu";
     String CACHE_TYPE_SIFTS = "type_sifts";
+    String CACHE_TYPE_SEARCH_MASTER = "type_search_master";
+    String CACHE_TYPE_SEARCH_TAG = "type_search_tag";
+    String CACHE_TYPE_FILTER_TAG = "type_filter_tag";
 }
