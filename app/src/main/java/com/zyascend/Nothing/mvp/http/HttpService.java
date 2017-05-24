@@ -4,15 +4,20 @@ import android.support.design.widget.BaseTransientBottomBar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
+import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
 import com.zyascend.Nothing.bean.BannerBean;
 import com.zyascend.Nothing.bean.BaseResponse;
 import com.zyascend.Nothing.bean.HomeTag;
+import com.zyascend.Nothing.bean.HotTag;
+import com.zyascend.Nothing.bean.ListData;
+import com.zyascend.Nothing.bean.Master;
 import com.zyascend.Nothing.bean.MenuBean;
 import com.zyascend.Nothing.bean.NormalData;
 import com.zyascend.Nothing.bean.Notice;
 import com.zyascend.Nothing.bean.RankingUser;
+import com.zyascend.Nothing.bean.SearchTag;
 import com.zyascend.Nothing.bean.SiftsDataBean;
 import com.zyascend.Nothing.bean.SimpleListResponse;
 import com.zyascend.Nothing.bean.SimpleResponse;
@@ -24,6 +29,7 @@ import com.zyascend.Nothing.mvp.data.DataConstantValue;
 
 import java.util.List;
 
+import okhttp3.RequestBody;
 import rx.Observable;
 
 import rx.Subscriber;
@@ -305,4 +311,120 @@ public class HttpService implements DataConstantValue{
                 });
 
     }
+
+    public void findMasterListByTags(int startRow, List<SearchTag> selectedTag, PublishSubject<LifeCycleEvent> subject
+            , final BaseDataCallback<List<Master>> callback){
+        boolean jumpCache = (startRow == 0 && selectedTag == null);
+
+
+        Observable<NormalData<ListData<Master>>> fromCache = CacheManager.getInstance()
+                .cacheObservable(CACHE_TYPE_SEARCH_MASTER,true,jumpCache);
+
+        RequestBody body = RequestHelper.getTagBody(startRow,selectedTag);
+
+        Observable<NormalData<ListData<Master>>> fromNet = RetrofitService.getDefault()
+                .findMasterListByTags(RequestHelper.getAccessToken(),body)
+                .compose(RxTransformer.INSTANCE.<NormalData<ListData<Master>>>transform(subject,CACHE_TYPE_SEARCH_MASTER));
+        Observable.concat(fromCache,fromNet)
+                .first()
+                .map(new Func1<NormalData<ListData<Master>>, List<Master>>() {
+                    @Override
+                    public List<Master> call(NormalData<ListData<Master>> data) {
+                        return data.getDATA().getList();
+                    }
+                })
+                .subscribe(new Subscriber<List<Master>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<Master> masters) {
+                        callback.onSuccess(masters);
+                    }
+                });
+
+
+    }
+
+    public void getHotTags(PublishSubject<LifeCycleEvent> subject
+            , final BaseDataCallback<List<HotTag>> callback){
+        Observable<SimpleListResponse<HotTag>> fromCache = CacheManager.getInstance()
+                .cacheObservable(CACHE_TYPE_SEARCH_TAG,true,false);
+
+        Observable<SimpleListResponse<HotTag>> fromNet = RetrofitService.getDefault()
+                .getHotTagList(RequestHelper.getAccessToken(),RequestHelper.getSimpleBody())
+                .compose(RxTransformer.INSTANCE.<SimpleListResponse<HotTag>>transform(subject,CACHE_TYPE_SEARCH_TAG));
+
+        Observable.concat(fromCache,fromNet)
+                .first()
+                .map(new Func1<SimpleListResponse<HotTag>, List<HotTag>>() {
+                    @Override
+                    public List<HotTag> call(SimpleListResponse<HotTag> data) {
+                        return data.getDATA().getList();
+                    }
+                })
+                .subscribe(new Subscriber<List<HotTag>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<HotTag> hotTags) {
+                        callback.onSuccess(hotTags);
+                    }
+                });
+
+    }
+
+    public void findTagListForSearchUser(PublishSubject<LifeCycleEvent> subject
+            , final BaseDataCallback<List<List<SearchTag>>> callback){
+
+        Observable<SimpleListResponse<List<SearchTag>>> fromCache = CacheManager.getInstance()
+                .cacheObservable(DataConstantValue.CACHE_TYPE_FILTER_TAG,false,false);
+
+        Observable<SimpleListResponse<List<SearchTag>>> fromNet = RetrofitService.getDefault()
+                .findTagListForSearchUser(RequestHelper.getAccessToken(),RequestHelper.getSimpleBody())
+                .compose(RxTransformer.INSTANCE.<SimpleListResponse<List<SearchTag>>>transform(subject,CACHE_TYPE_FILTER_TAG));
+
+        Observable.concat(fromCache,fromNet)
+                .first()
+                .map(new Func1<SimpleListResponse<List<SearchTag>>, List<List<SearchTag>>>() {
+                    @Override
+                    public List<List<SearchTag>> call(SimpleListResponse<List<SearchTag>> data) {
+                        return data.getDATA().getList();
+                    }
+                })
+                .subscribe(new Subscriber<List<List<SearchTag>>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<List<SearchTag>> lists) {
+                        callback.onSuccess(lists);
+                    }
+                });
+
+
+    }
+
 }

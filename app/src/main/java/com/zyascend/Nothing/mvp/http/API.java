@@ -3,16 +3,22 @@
 import com.zyascend.Nothing.bean.BannerBean;
 import com.zyascend.Nothing.bean.BaseResponse;
 import com.zyascend.Nothing.bean.HomeTag;
+import com.zyascend.Nothing.bean.HotTag;
+import com.zyascend.Nothing.bean.ListData;
+import com.zyascend.Nothing.bean.Master;
 import com.zyascend.Nothing.bean.MenuBean;
 import com.zyascend.Nothing.bean.NormalData;
 import com.zyascend.Nothing.bean.Notice;
 import com.zyascend.Nothing.bean.RankingUser;
 
+import com.zyascend.Nothing.bean.SearchTag;
 import com.zyascend.Nothing.bean.SiftsDataBean;
 import com.zyascend.Nothing.bean.SimpleListResponse;
 import com.zyascend.Nothing.bean.SimpleResponse;
 import com.zyascend.Nothing.bean.UserBean;
 
+
+import java.util.List;
 
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
@@ -103,7 +109,31 @@ public interface API {
     @POST("v1_9/sift/getSifts.do")
     Observable<NormalData<SiftsDataBean>> getSiftsList(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
 
+    /**
+     * 获取hottag
+     * url = https://api.nothing.la/nothing/v1_7/tag/common/findHotListByFind.do?accessToken=18a480ba87d04e1daac69cc540922703
+     * body={"appVersion":"1.9.9.2","deviceType":"android","sysVersion":"23"}
+     */
+    @POST("v1_7/tag/common/findHotListByFind.do")
+    Observable<SimpleListResponse<HotTag>> getHotTagList(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
 
+    /**
+     * search页面
+     * https://api.nothing.la/nothing/v1_9_8/tag/findMasterListByTags.do?accessToken=18a480ba87d04e1daac69cc540922703
+     * 首次,默认：{"appVersion":"1.9.9.2","deviceType":"android","startRow":0,"sysVersion":"23"}
+     * 下一页：{"appVersion":"1.9.9.2","deviceType":"android","startRow":30,"sysVersion":"23"}
+     * "startRow":30 = pagesize
+     * 筛选：{"appVersion":"1.9.9.2","childTagIds":[{"id":"40a23ab1bebb4ba2b2efcfbd0a56a62a","line":1,"name":"日系"},{"id":"26f98c66c5184c8e94d64ebe6007c0e2","line":2,"name":"155-159cm"}],"deviceType":"android","startRow":0,"sysVersion":"23"}
+     */
+    @POST("v1_9_8/tag/findMasterListByTags.do")
+    Observable<NormalData<ListData<Master>>> findMasterListByTags(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+
+    /**
+     * https://api.nothing.la/nothing/v1_9_8/tag/findTagListForSearchUser.do?accessToken=18a480ba87d04e1daac69cc540922703
+     * body simple Ver
+     */
+    @POST("v1_9_8/tag/findTagListForSearchUser.do")
+    Observable<SimpleListResponse<List<SearchTag>>> findTagListForSearchUser(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
 
 
 }

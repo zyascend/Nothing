@@ -5,13 +5,12 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.zyascend.Nothing.base.BaseApplication;
+import com.zyascend.Nothing.bean.SearchTag;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Map;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -23,7 +22,7 @@ import okhttp3.RequestBody;
  */
 
 public class RequestHelper {
-    private static final String JSON = "application/json";
+    private static final String TYPE_JSON = "application/json";
     private static final String TAG = "TAG_RequestHelper";
     private static final String simpleBdy = "{\"appVersion\":\"1.9.9.2\",\"deviceType\":\"android\",\"sysVersion\":\"23\"}";
 
@@ -37,7 +36,7 @@ public class RequestHelper {
         sb.append("{\"appVersion\":\"\",\"deviceType\":\"android\",\"pushToken\":\"");
         sb.append(getPushToken());
         sb.append("\",\"sysVersion\":\"23\"}");
-        return RequestBody.create(MediaType.parse(JSON), sb.toString());
+        return RequestBody.create(MediaType.parse(TYPE_JSON), sb.toString());
     }
 
     /**
@@ -78,17 +77,17 @@ public class RequestHelper {
 
     public static RequestBody getNoticeBody() {
         String def = "{\"appVersion\":\"1.9.9.2\",\"deviceType\":\"android\",\"lastLetterNumId\":-1,\"lastOtherNumId\":-1,\"lastSysNumId\":-1,\"sysVersion\":\"23\"}";
-        return RequestBody.create(MediaType.parse(JSON),def);
+        return RequestBody.create(MediaType.parse(TYPE_JSON),def);
     }
 
     public static RequestBody getSimpleBody() {
-        return RequestBody.create(MediaType.parse(JSON),simpleBdy);
+        return RequestBody.create(MediaType.parse(TYPE_JSON),simpleBdy);
     }
 
     public static RequestBody getMenuBody() {
         String json = "{\"appVersion\":\"1.9.9.2\",\"deviceType\":\"android\",\"isPage\":false,\"limit\"" +
                 ":0,\"menuType\":6,\"sourceType\":0,\"startRow\":0,\"sysVersion\":\"23\"}";
-        return RequestBody.create(MediaType.parse(JSON),json);
+        return RequestBody.create(MediaType.parse(TYPE_JSON),json);
     }
 
     public static RequestBody getPageLoadBody(String firstTime) {
@@ -97,11 +96,31 @@ public class RequestHelper {
             //这是第一次加载数据
             String json = "{\"appVersion\":\"1.9.9.2\",\"deviceType\":\"android\",\"isFirstRegister\"" +
                     ":false,\"startRow\":\"0\",\"sysVersion\":\"23\"}";
-            return RequestBody.create(MediaType.parse(JSON),json);
+            return RequestBody.create(MediaType.parse(TYPE_JSON),json);
         }else{
             String json = "{\"appVersion\":\"1.9.9.2\",\"deviceType\":\"android\",\"isFirstRegister\":false,\"startRow\":\"15\",\"startTime\"" +
                     ":\""+firstTime+"\",\"sysVersion\":\"23\"}";
-            return RequestBody.create(MediaType.parse(JSON),json);
+            return RequestBody.create(MediaType.parse(TYPE_JSON),json);
         }
+    }
+
+
+    public static RequestBody getStartRowBody(int startRow) {
+        String json = "{\"appVersion\":\"1.9.9.2\",\"deviceType\":\"android\",\"startRow\":"
+                +startRow+",\"sysVersion\":\"23\"}";
+        return RequestBody.create(MediaType.parse(TYPE_JSON),json);
+    }
+
+    public static RequestBody getTagBody(int startRow, List<SearchTag> selectedTag) {
+        String json;
+        if (selectedTag == null){
+            json = "{\"appVersion\":\"1.9.9.2\",\"deviceType\":\"android\",\"startRow\":"
+                    +startRow+",\"sysVersion\":\"23\"}";
+        }else {
+            json = "{\"appVersion\":\"1.9.9.2\",\"childTagIds\":"
+                    + JSON.toJSONString(selectedTag)
+                    + ",\"deviceType\":\"android\",\"startRow\":0,\"sysVersion\":\"23\"}";
+        }
+        return RequestBody.create(MediaType.parse(TYPE_JSON),json);
     }
 }

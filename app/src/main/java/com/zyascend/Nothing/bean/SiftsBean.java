@@ -1542,28 +1542,7 @@ public class SiftsBean {
             }
 
             public static class ProdListBean {
-                /**
-                 * brandId : 4243a04a8dc24870a24391ba49afbd9a
-                 * brandName : GUESSANY
-                 * buyurl : https://item.taobao.com/item.htm?ut_sk=1.WGvoUmCDQOIDADP8dKUrklae_21380790_1493742366317.Copy.1&id=549856963712&sourceType=item&price=59&suid=1B8014B6-CC2A-462F-8649-1B8F18B66532&cpp=1&shareurl=true&spm=a313p.22.17r.36967812122&short_name=h.TXBzeb
-                 * category : {"id":"c507af9bd5dc4833bc906c8bfa374fc2","name":"墨镜"}
-                 * categoryId : c507af9bd5dc4833bc906c8bfa374fc2
-                 * categoryName : 墨镜
-                 * colorId : 1b08f143faec48ba80d9bb0654242911
-                 * colorName : 蓝色系
-                 * currency : 1
-                 * id : 0cbfde77bbe34e6e961bfaba2de94cf4
-                 * isLeft : 1
-                 * matchProdType : 1
-                 * name : GUESSANY/墨镜/蓝色系
-                 * picture : {"compress":"medium","height":1070,"key":"FqPQGosZMjZOtfMbS3iVByNX2bsT?imageMogr2/crop/!1605x1070a0a0","url":"http://img.nothing.la/FqPQGosZMjZOtfMbS3iVByNX2bsT?imageMogr2/crop/!1605x1070a0a0/thumbnail/600x","webUrl":"//img.nothing.la/FqPQGosZMjZOtfMbS3iVByNX2bsT?imageMogr2/crop/!1605x1070a0a0/thumbnail/600x","width":1605}
-                 * positionX : 0.35507247
-                 * positionY : 0.23550725
-                 * shop : {}
-                 * sourceName : 淘宝
-                 * taobaoCode : 549856963712
-                 * type : 2
-                 */
+
 
                 private String brandId;
                 private String brandName;
