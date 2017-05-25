@@ -19,6 +19,8 @@ import okhttp3.RequestBody;
  * 功能：用于构建各种请求的参数
  * 作者：zyascend on 2017/5/8 22:32
  * 邮箱：zyascend@qq.com
+ * 注 ：这种构造请求体的方法有可读性差的缺点，实际项目中禁止使用
+ * 正确方法：根据内容生成对象，再转化为jsonString
  */
 
 public class RequestHelper {
@@ -122,5 +124,30 @@ public class RequestHelper {
                     + ",\"deviceType\":\"android\",\"startRow\":0,\"sysVersion\":\"23\"}";
         }
         return RequestBody.create(MediaType.parse(TYPE_JSON),json);
+    }
+
+    public static RequestBody getRankingBody(String rankingType, String gender) {
+        String json = "";
+        if (gender == null){
+            json = "{\"appVersion\":\"1.9.9.2\",\"deviceType\":\"android\",\"isFirstRegister\":false,\"rankingType\":\""
+                    +rankingType
+                    +"\",\"sysVersion\":\"23\",\"userId\":\""
+                    +getUserId()
+                    +"\"}";
+        }else {
+            json = "{\"appVersion\":\"1.9.9.2\",\"deviceType\":\"android\",\"gender\":\""
+                    +gender
+                    +"\",\"isFirstRegister\":false,\"rankingType\":\""
+                    +rankingType
+                    +"\",\"sysVersion\":\"23\",\"userId\":\""
+                    +getUserId()
+                    +"\"}";
+        }
+        //
+        return RequestBody.create(MediaType.parse(TYPE_JSON),json);
+    }
+
+    private static String getUserId() {
+        return "0236b7681e8848d39259d494b6507c05";
     }
 }
