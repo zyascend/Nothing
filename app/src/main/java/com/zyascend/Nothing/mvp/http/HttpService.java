@@ -16,6 +16,7 @@ import com.zyascend.Nothing.bean.Master;
 import com.zyascend.Nothing.bean.MenuBean;
 import com.zyascend.Nothing.bean.NormalData;
 import com.zyascend.Nothing.bean.Notice;
+import com.zyascend.Nothing.bean.RankingMatch;
 import com.zyascend.Nothing.bean.RankingUser;
 import com.zyascend.Nothing.bean.SearchTag;
 import com.zyascend.Nothing.bean.SiftsDataBean;
@@ -425,6 +426,79 @@ public class HttpService implements DataConstantValue{
                 });
 
 
+    }
+
+    public void findRankingMatchs(PublishSubject<LifeCycleEvent> subject, String rankingType
+            ,String gender,final BaseDataCallback<List<RankingMatch>> callback){
+        //只有选择“24小时榜”+无性别要求才会缓存
+        boolean jumpCache = (!rankingType.equals("D") || gender!=null);
+        Observable<SimpleListResponse<RankingMatch>> fromCache = CacheManager.getInstance()
+                .cacheObservable(CACHE_TYPE_RANKING_MATCH,true,jumpCache);
+
+        Observable<SimpleListResponse<RankingMatch>> fromNet = RetrofitService.getDefault()
+                .findRankingMatchs(RequestHelper.getAccessToken(),RequestHelper.getRankingBody(rankingType,gender))
+                .compose(RxTransformer.INSTANCE.<SimpleListResponse<RankingMatch>>transform(subject,CACHE_TYPE_RANKING_MATCH));
+        Observable.concat(fromCache,fromNet)
+                .first()
+                .map(new Func1<SimpleListResponse<RankingMatch>, List<RankingMatch>>() {
+                    @Override
+                    public List<RankingMatch> call(SimpleListResponse<RankingMatch> data) {
+                        return data.getDATA().getList();
+                    }
+                })
+                .subscribe(new Subscriber<List<RankingMatch>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<RankingMatch> rankingMatches) {
+                        callback.onSuccess(rankingMatches);
+                    }
+                });
+    }
+
+    // TODO: 2017/5/25 body可能有点问题
+    public void findRankingUsers(PublishSubject<LifeCycleEvent> subject, String rankingType
+            ,String gender,final BaseDataCallback<List<Master>> callback){
+        //只有选择“24小时榜”+无性别要求才会缓存
+        boolean jumpCache = (!rankingType.equals("D") || gender!=null);
+        Observable<SimpleListResponse<Master>> fromCache = CacheManager.getInstance()
+                .cacheObservable(CACHE_TYPE_RANKING_USER,true,jumpCache);
+
+        Observable<SimpleListResponse<Master>> fromNet = RetrofitService.getDefault()
+                .findRankingUser(RequestHelper.getAccessToken(),RequestHelper.getRankingBody(rankingType,gender))
+                .compose(RxTransformer.INSTANCE.<SimpleListResponse<Master>>transform(subject,CACHE_TYPE_RANKING_USER));
+        Observable.concat(fromCache,fromNet)
+                .first()
+                .map(new Func1<SimpleListResponse<Master>, List<Master>>() {
+                    @Override
+                    public List<Master> call(SimpleListResponse<Master> data) {
+                        return data.getDATA().getList();
+                    }
+                })
+                .subscribe(new Subscriber<List<Master>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<Master> data) {
+                        callback.onSuccess(data);
+                    }
+                });
     }
 
 }

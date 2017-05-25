@@ -9,6 +9,7 @@ import com.zyascend.Nothing.bean.Master;
 import com.zyascend.Nothing.bean.MenuBean;
 import com.zyascend.Nothing.bean.NormalData;
 import com.zyascend.Nothing.bean.Notice;
+import com.zyascend.Nothing.bean.RankingMatch;
 import com.zyascend.Nothing.bean.RankingUser;
 
 import com.zyascend.Nothing.bean.SearchTag;
@@ -134,6 +135,25 @@ public interface API {
      */
     @POST("v1_9_8/tag/findTagListForSearchUser.do")
     Observable<SimpleListResponse<List<SearchTag>>> findTagListForSearchUser(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+
+    /**
+     * rank
+     * match
+     * https://api.nothing.la/nothing/dynamic/common/findRankingList.do?accessToken=18a480ba87d04e1daac69cc540922703
+     *{"appVersion":"1.9.9.2","deviceType":"android","gender":"1","isFirstRegister":false,"rankingType":"D","sysVersion":"23","userId":"0236b7681e8848d39259d494b6507c05"}
+     * gender 性别
+     * type 24小时榜
+     */
+    @POST("dynamic/common/findRankingList.do")
+    Observable<SimpleListResponse<RankingMatch>> findRankingMatchs(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+
+    /**
+     * rank-user
+     * https://api.nothing.la/nothing/user/common/findRankingList.do?accessToken=18a480ba87d04e1daac69cc540922703
+     * {"appVersion":"1.9.9.2","deviceType":"android","rankingType":"D","startRow":0,"sysVersion":"23"}
+     */
+    @POST("user/common/findRankingList.do")
+    Observable<SimpleListResponse<Master>> findRankingUser(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
 
 
 }
