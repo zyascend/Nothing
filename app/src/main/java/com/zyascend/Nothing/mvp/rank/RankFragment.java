@@ -36,12 +36,21 @@ public class RankFragment extends MVPBaseFragment<RankContract.View, RankPresent
     SwipeRefreshLayout swipeRefreshLayout;
 
     private static final String TYPE = "fragment_type";
-    private static final int TYPE_MATCH = 1000;
-    private static final int TYPE_USER = 2000;
+    private static final int TYPE_MATCH = 0;
+    private static final int TYPE_USER = 1;
     private int type = TYPE_MATCH;
 
     private SearchMasterAdapter masterAdapter;
+    private RankingMatchAdapter matchAdapter;
 
+
+    public static RankFragment getInstance(int type){
+        RankFragment rankFragment = new RankFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(TYPE,type);
+        rankFragment.setArguments(bundle);
+        return rankFragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,10 +73,10 @@ public class RankFragment extends MVPBaseFragment<RankContract.View, RankPresent
         swipeRefreshLayout.setOnRefreshListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         if (type == TYPE_USER){
-
-
-        }else {
             masterAdapter = new SearchMasterAdapter(mActivity);
+            recyclerView.setAdapter(masterAdapter);
+        }else {
+            matchAdapter = new RankingMatchAdapter(mActivity);
             recyclerView.setAdapter(masterAdapter);
         }
     }
@@ -89,13 +98,21 @@ public class RankFragment extends MVPBaseFragment<RankContract.View, RankPresent
 
     @Override
     public void onGetRankingMatch(List<RankingMatch> matches) {
-        if (matches == null)showError();
-
+        swipeRefreshLayout.setRefreshing(false);
+        if (matches == null){
+            showError();
+            return;
+        }
+        matchAdapter.addDatas(matches,true);
     }
 
     @Override
     public void onGetRankingUser(List<Master> masters) {
-        if (masters == null)showError();
+        swipeRefreshLayout.setRefreshing(false);
+        if (masters == null){
+            showError();
+            return;
+        }
         masterAdapter.addDatas(masters,true);
     }
 
