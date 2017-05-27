@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.bean.RankingMatch;
+import com.zyascend.Nothing.common.utils.GlideUtils;
 import com.zyascend.amazingadapter.AmazingAdapter;
 
 import butterknife.Bind;
@@ -22,7 +23,6 @@ import butterknife.ButterKnife;
  */
 
 public class RankingMatchAdapter extends AmazingAdapter<RankingMatch> {
-
 
 
     public RankingMatchAdapter(Context mContext) {
@@ -42,12 +42,14 @@ public class RankingMatchAdapter extends AmazingAdapter<RankingMatch> {
     }
 
     private class RankingMatchHolder extends RecyclerView.ViewHolder {
+
         @Bind(R.id.iv_pic)
         ImageView ivPic;
         @Bind(R.id.tv_rankNum)
         TextView tvRankNum;
         @Bind(R.id.tv_hotNum)
         TextView tvHotNum;
+
         public RankingMatchHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
@@ -55,7 +57,9 @@ public class RankingMatchAdapter extends AmazingAdapter<RankingMatch> {
 
         public void bindData(RankingMatch data) {
             if (data == null)return;
-
+            GlideUtils.loadRoundPic(mContext,ivPic,data.getMatch().getPicture().getUrl());
+            tvRankNum.setText((getAdapterPosition()+1));
+            tvHotNum.setText(data.getMatch().getHotNum());
         }
     }
 }

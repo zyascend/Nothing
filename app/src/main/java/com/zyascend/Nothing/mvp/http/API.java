@@ -2,6 +2,7 @@
 
 import com.zyascend.Nothing.bean.BannerBean;
 import com.zyascend.Nothing.bean.BaseResponse;
+import com.zyascend.Nothing.bean.GrassProduct;
 import com.zyascend.Nothing.bean.HomeTag;
 import com.zyascend.Nothing.bean.HotTag;
 import com.zyascend.Nothing.bean.ListData;
@@ -9,13 +10,14 @@ import com.zyascend.Nothing.bean.Master;
 import com.zyascend.Nothing.bean.MenuBean;
 import com.zyascend.Nothing.bean.NormalData;
 import com.zyascend.Nothing.bean.Notice;
+import com.zyascend.Nothing.bean.ProdBox;
+import com.zyascend.Nothing.bean.ProductMenu;
 import com.zyascend.Nothing.bean.RankingMatch;
 import com.zyascend.Nothing.bean.RankingUser;
 
 import com.zyascend.Nothing.bean.SearchTag;
 import com.zyascend.Nothing.bean.SiftsDataBean;
 import com.zyascend.Nothing.bean.SimpleListResponse;
-import com.zyascend.Nothing.bean.SimpleResponse;
 import com.zyascend.Nothing.bean.UserBean;
 
 
@@ -154,6 +156,39 @@ public interface API {
      */
     @POST("user/common/findRankingList.do")
     Observable<SimpleListResponse<Master>> findRankingUser(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+
+    /**
+     * 竹编推荐-menu
+     * https://api.nothing.la/nothing/v1_9_2/menu/common/findList.do?accessToken=18a480ba87d04e1daac69cc540922703
+     * {"appVersion":"1.9.9.2","deviceType":"android","isPage":false,"limit":0,"menuType":2,"sourceType":0,"startRow":0,"sysVersion":"23"}
+     */
+    @POST("v1_9_2/menu/common/findList")
+    Observable<SimpleListResponse<ProductMenu>> getGrassProductMenu(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+
+    /**
+     * 主编推荐-人气单品
+     * https://api.nothing.la/nothing/v1_9_2/grass/common/findGrassHotProdList.do?accessToken=18a480ba87d04e1daac69cc540922703
+     * {"appVersion":"1.9.9.2","deviceType":"android","priceSort":0,"sourceType":0,"startRow":0,"sysVersion":"23"}
+     */
+    @POST("v1_9_2/grass/common/findGrassHotProdList.do")
+    Observable<NormalData<ListData<GrassProduct>>> findGrassHotProdList(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+
+    /**
+     * 主编推荐-推荐单品
+     * https://api.nothing.la/nothing/v1_9_2/grass/common/findGrassRecommendProdList.do?accessToken=18a480ba87d04e1daac69cc540922703
+     * {"appVersion":"1.9.9.2","deviceType":"android","priceSort":0,"sourceType":0,"startRow":0,"sysVersion":"23"}
+     */
+    @POST("v1_9_2/grass/common/findGrassRecommendProdList.do")
+    Observable<NormalData<ListData<GrassProduct>>> findGrassRecommendProdList(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+
+    /**
+     * 主编推荐-推荐品牌
+     * https://api.nothing.la/nothing/v1_8/productBox/common/getProdBoxList.do?accessToken=18a480ba87d04e1daac69cc540922703
+     * {"appVersion":"1.9.9.2","boxType":2,"deviceType":"android","sourceType":0,"startRow":0,"sysVersion":"23"}
+     */
+    @POST("v1_8/productBox/common/getProdBoxList.do")
+    Observable<SimpleListResponse<ProdBox>> getProdBoxList(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+
 
 
 }
