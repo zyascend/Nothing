@@ -19,6 +19,7 @@ import com.zyascend.Nothing.bean.SearchTag;
 import com.zyascend.Nothing.bean.SiftsDataBean;
 import com.zyascend.Nothing.bean.SimpleListResponse;
 import com.zyascend.Nothing.bean.UserBean;
+import com.zyascend.Nothing.bean.WearingMatch;
 
 
 import java.util.List;
@@ -163,7 +164,7 @@ public interface API {
      * {"appVersion":"1.9.9.2","deviceType":"android","isPage":false,"limit":0,"menuType":2,"sourceType":0,"startRow":0,"sysVersion":"23"}
      */
     @POST("v1_9_2/menu/common/findList")
-    Observable<SimpleListResponse<ProductMenu>> getGrassProductMenu(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+    Observable<SimpleListResponse<ProductMenu>> getCommonMenu(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
 
     /**
      * 主编推荐-人气单品
@@ -188,6 +189,17 @@ public interface API {
      */
     @POST("v1_8/productBox/common/getProdBoxList.do")
     Observable<SimpleListResponse<ProdBox>> getProdBoxList(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+
+
+    /**
+     * 博主都在穿-推荐单品
+     * https://api.nothing.la/nothing/v1_9_5/dynamic/common/findRecommendProdListByType.do?accessToken=18a480ba87d04e1daac69cc540922703
+     * {"appVersion":"2.0.3","deviceType":"android","queryType":1,"startRow":0,"sysVersion":"23"}
+     */
+    Observable<NormalData<ListData<WearingMatch>>> findWearingProduct(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+
+
+
 
 
 

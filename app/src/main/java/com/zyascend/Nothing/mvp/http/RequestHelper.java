@@ -86,9 +86,11 @@ public class RequestHelper {
         return RequestBody.create(MediaType.parse(TYPE_JSON),simpleBdy);
     }
 
-    public static RequestBody getMenuBody() {
+    public static RequestBody getMenuBody(int menuType) {
         String json = "{\"appVersion\":\"1.9.9.2\",\"deviceType\":\"android\",\"isPage\":false,\"limit\"" +
-                ":0,\"menuType\":6,\"sourceType\":0,\"startRow\":0,\"sysVersion\":\"23\"}";
+                ":0,\"menuType\":"
+                + menuType
+                + ",\"sourceType\":0,\"startRow\":0,\"sysVersion\":\"23\"}";
         return RequestBody.create(MediaType.parse(TYPE_JSON),json);
     }
 
@@ -149,5 +151,10 @@ public class RequestHelper {
 
     private static String getUserId() {
         return "0236b7681e8848d39259d494b6507c05";
+    }
+
+    public static RequestBody getGrassProdBody() {
+        String json = "{\"appVersion\":\"1.9.9.2\",\"deviceType\":\"android\",\"priceSort\":0,\"sourceType\":0,\"startRow\":0,\"sysVersion\":\"23\"}";
+        return RequestBody.create(MediaType.parse(TYPE_JSON),json);
     }
 }

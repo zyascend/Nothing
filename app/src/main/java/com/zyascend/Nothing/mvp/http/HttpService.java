@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.orhanobut.logger.Logger;
 import com.zyascend.Nothing.bean.BannerBean;
 import com.zyascend.Nothing.bean.BaseResponse;
+import com.zyascend.Nothing.bean.GrassProduct;
 import com.zyascend.Nothing.bean.HomeTag;
 import com.zyascend.Nothing.bean.HotTag;
 import com.zyascend.Nothing.bean.ListData;
@@ -16,12 +17,15 @@ import com.zyascend.Nothing.bean.Master;
 import com.zyascend.Nothing.bean.MenuBean;
 import com.zyascend.Nothing.bean.NormalData;
 import com.zyascend.Nothing.bean.Notice;
+import com.zyascend.Nothing.bean.ProdBox;
+import com.zyascend.Nothing.bean.ProductMenu;
 import com.zyascend.Nothing.bean.RankingMatch;
 import com.zyascend.Nothing.bean.RankingUser;
 import com.zyascend.Nothing.bean.SearchTag;
 import com.zyascend.Nothing.bean.SiftsDataBean;
 import com.zyascend.Nothing.bean.SimpleListResponse;
 import com.zyascend.Nothing.bean.SimpleResponse;
+import com.zyascend.Nothing.bean.WearingMatch;
 import com.zyascend.Nothing.common.BaseDataCallback;
 import com.zyascend.Nothing.common.rx.LifeCycleEvent;
 import com.zyascend.Nothing.common.rx.RxTransformer;
@@ -211,7 +215,7 @@ public class HttpService implements DataConstantValue{
         Observable<SimpleListResponse<MenuBean>> fromCache = CacheManager.getInstance()
                 .cacheObservable(CACHE_TYPE_MENU,true,false);
         Observable<SimpleListResponse<MenuBean>> fromNet = RetrofitService.getDefault()
-                .getMenu(RequestHelper.getAccessToken(),RequestHelper.getMenuBody())
+                .getMenu(RequestHelper.getAccessToken(),RequestHelper.getMenuBody(6))
                 .compose(RxTransformer.INSTANCE.<SimpleListResponse<MenuBean>>transform(subject,CACHE_TYPE_MENU));
         Observable.concat(fromCache,fromNet)
                 .first()
@@ -499,7 +503,141 @@ public class HttpService implements DataConstantValue{
                         callback.onSuccess(data);
                     }
                 });
+    }
+
+    public void getCommonMenu(int menuType, PublishSubject<LifeCycleEvent> subject
+             , final BaseDataCallback<List<ProductMenu>> callback){
+        RetrofitService.getDefault()
+                .getCommonMenu(RequestHelper.getAccessToken(),RequestHelper.getMenuBody(menuType))
+                .compose(RxTransformer.INSTANCE.<SimpleListResponse<ProductMenu>>transform(subject,null))
+                .map(new Func1<SimpleListResponse<ProductMenu>, List<ProductMenu>>() {
+                    @Override
+                    public List<ProductMenu> call(SimpleListResponse<ProductMenu> data) {
+                        return data.getDATA().getList();
+                    }
+                })
+                .subscribe(new Subscriber<List<ProductMenu>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<ProductMenu> menus) {
+                        callback.onSuccess(menus);
+                    }
+                });
 
     }
+
+    public void findGrassHotProd(PublishSubject<LifeCycleEvent> subject
+             , final BaseDataCallback<List<GrassProduct>> callback){
+        RetrofitService.getDefault()
+                .findGrassHotProdList(RequestHelper.getAccessToken(),RequestHelper.getGrassProdBody())
+                .compose(RxTransformer.INSTANCE.<NormalData<ListData<GrassProduct>>>transform(subject,null))
+                .map(new Func1<NormalData<ListData<GrassProduct>>, List<GrassProduct>>() {
+                    @Override
+                    public List<GrassProduct> call(NormalData<ListData<GrassProduct>> data) {
+                        return data.getDATA().getList();
+                    }
+                })
+                .subscribe(new Subscriber<List<GrassProduct>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+                    @Override
+                    public void onNext(List<GrassProduct> products) {
+                        callback.onSuccess(products);
+                    }
+                });
+    }
+
+    public void findGrassProd(PublishSubject<LifeCycleEvent> subject
+            , final BaseDataCallback<List<GrassProduct>> callback){
+        RetrofitService.getDefault()
+                .findGrassRecommendProdList(RequestHelper.getAccessToken(),RequestHelper.getGrassProdBody())
+                .compose(RxTransformer.INSTANCE.<NormalData<ListData<GrassProduct>>>transform(subject,null))
+                .map(new Func1<NormalData<ListData<GrassProduct>>, List<GrassProduct>>() {
+                    @Override
+                    public List<GrassProduct> call(NormalData<ListData<GrassProduct>> data) {
+                        return data.getDATA().getList();
+                    }
+                })
+                .subscribe(new Subscriber<List<GrassProduct>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+                    @Override
+                    public void onNext(List<GrassProduct> products) {
+                        callback.onSuccess(products);
+                    }
+                });
+    }
+
+    public void getProdBox(PublishSubject<LifeCycleEvent> subject
+            , final BaseDataCallback<List<ProdBox>> callback){
+        RetrofitService.getDefault()
+                .getProdBoxList(RequestHelper.getAccessToken(),RequestHelper.getGrassProdBody())
+                .compose(RxTransformer.INSTANCE.<SimpleListResponse<ProdBox>>transform(subject,null))
+                .map(new Func1<SimpleListResponse<ProdBox>, List<ProdBox>>() {
+                    @Override
+                    public List<ProdBox> call(SimpleListResponse<ProdBox> data) {
+                        return data.getDATA().getList();
+                    }
+                })
+                .subscribe(new Subscriber<List<ProdBox>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+                    @Override
+                    public void onNext(List<ProdBox> products) {
+                        callback.onSuccess(products);
+                    }
+                });
+    }
+
+    public void findWearingProduct(PublishSubject<LifeCycleEvent> subject
+            , final BaseDataCallback<List<WearingMatch>> callback){
+        RetrofitService.getDefault()
+                .findWearingProduct(RequestHelper.getAccessToken(),RequestHelper.getGrassProdBody())
+                .compose(RxTransformer.INSTANCE.<NormalData<ListData<WearingMatch>>>transform(subject,null))
+                .map(new Func1<NormalData<ListData<WearingMatch>>, List<WearingMatch>>() {
+                    @Override
+                    public List<WearingMatch> call(NormalData<ListData<WearingMatch>> data) {
+                        return data.getDATA().getList();
+                    }
+                })
+                .subscribe(new Subscriber<List<WearingMatch>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+                    @Override
+                    public void onNext(List<WearingMatch> products) {
+                        callback.onSuccess(products);
+                    }
+                });
+    }
+
 
 }

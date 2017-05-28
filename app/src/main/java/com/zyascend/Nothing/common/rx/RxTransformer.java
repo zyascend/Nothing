@@ -42,7 +42,8 @@ public enum RxTransformer {
                         //这个lifeObservable就对外发射数据
 
                         return LifeCycleEvent.DESTROY.equals(lifeCycleEvent)
-                                || LifeCycleEvent.STOP.equals(lifeCycleEvent) || LifeCycleEvent.PAUSE.equals(lifeCycleEvent);
+                                || LifeCycleEvent.STOP.equals(lifeCycleEvent)
+                                || LifeCycleEvent.PAUSE.equals(lifeCycleEvent);
                     }
                 });
                 return tObservable
@@ -83,7 +84,7 @@ public enum RxTransformer {
     }
 
     /**
-     * 数据没问题，重新发送
+     * 数据没问题，重新发射
      * @param data
      * @param <T>
      * @return
