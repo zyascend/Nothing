@@ -157,4 +157,12 @@ public class RequestHelper {
         String json = "{\"appVersion\":\"1.9.9.2\",\"deviceType\":\"android\",\"priceSort\":0,\"sourceType\":0,\"startRow\":0,\"sysVersion\":\"23\"}";
         return RequestBody.create(MediaType.parse(TYPE_JSON),json);
     }
+
+
+    public static RequestBody getSimpleTypeBody(String type) {
+        String json = "{\"appVersion\":\"2.0.4\",\"deviceType\":\"android\",\"sysVersion\":\"23\",\"type\":\""
+                + type
+                + "\"}";
+        return RequestBody.create(MediaType.parse(TYPE_JSON),json);
+    }
 }

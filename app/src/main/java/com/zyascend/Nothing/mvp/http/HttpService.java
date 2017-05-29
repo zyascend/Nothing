@@ -11,6 +11,7 @@ import com.zyascend.Nothing.bean.BannerBean;
 import com.zyascend.Nothing.bean.BaseResponse;
 import com.zyascend.Nothing.bean.GrassProduct;
 import com.zyascend.Nothing.bean.HomeTag;
+import com.zyascend.Nothing.bean.HotMatch;
 import com.zyascend.Nothing.bean.HotTag;
 import com.zyascend.Nothing.bean.ListData;
 import com.zyascend.Nothing.bean.Master;
@@ -19,6 +20,7 @@ import com.zyascend.Nothing.bean.NormalData;
 import com.zyascend.Nothing.bean.Notice;
 import com.zyascend.Nothing.bean.ProdBox;
 import com.zyascend.Nothing.bean.ProductMenu;
+import com.zyascend.Nothing.bean.RankMaster;
 import com.zyascend.Nothing.bean.RankingMatch;
 import com.zyascend.Nothing.bean.RankingUser;
 import com.zyascend.Nothing.bean.SearchTag;
@@ -639,5 +641,61 @@ public class HttpService implements DataConstantValue{
                 });
     }
 
+    public void findMatchRankByType(String type,PublishSubject<LifeCycleEvent> subject
+            , final BaseDataCallback<List<HotMatch>> callback) {
+        RetrofitService.getDefault()
+                .findMatchRanklistByType(RequestHelper.getAccessToken(), RequestHelper.getSimpleTypeBody(type))
+                .compose(RxTransformer.INSTANCE.<SimpleListResponse<HotMatch>>transform(subject, null))
+                .map(new Func1<SimpleListResponse<HotMatch>, List<HotMatch>>() {
+                    @Override
+                    public List<HotMatch> call(SimpleListResponse<HotMatch> data) {
+                        return data.getDATA().getList();
+                    }
+                })
+                .subscribe(new Subscriber<List<HotMatch>>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<HotMatch> matches) {
+                        callback.onSuccess(matches);
+                    }
+                });
+    }
+
+    public void findAllRanks(PublishSubject<LifeCycleEvent> subject
+            , final BaseDataCallback<List<RankMaster>> callback) {
+        RetrofitService.getDefault()
+                .findAllRanklist(RequestHelper.getAccessToken(), RequestHelper.getSimpleBody())
+                .compose(RxTransformer.INSTANCE.<SimpleListResponse<RankMaster>>transform(subject, null))
+                .map(new Func1<SimpleListResponse<RankMaster>, List<RankMaster>>() {
+                    @Override
+                    public List<RankMaster> call(SimpleListResponse<RankMaster> data) {
+                        return data.getDATA().getList();
+                    }
+                })
+                .subscribe(new Subscriber<List<RankMaster>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<RankMaster> matches) {
+                        callback.onSuccess(matches);
+                    }
+                });
+    }
 }

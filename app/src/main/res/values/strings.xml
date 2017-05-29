@@ -32,4 +32,8 @@
     <string name="more_shop">更多博主店铺</string>
     <string name="newest">最新</string>
     <string name="hottest">最热</string>
+    <string name="new_master_match">新人搭配榜</string>
+    <string name="week_match">周搭配榜</string>
+    <string name="month_match">月搭配榜</string>
+    <string name="master_total_rank">博主总榜</string>
 </resources>

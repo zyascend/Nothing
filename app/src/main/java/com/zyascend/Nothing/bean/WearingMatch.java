@@ -872,23 +872,7 @@ public class WearingMatch {
         }
 
         public static class ProdListBean {
-            /**
-             * brandId : a195fe54e9194106ba7791af01169a40
-             * brandName : 查理UNCLE
-             * buyType : 1
-             * buyurl : https://item.taobao.com/item.htm?ut_sk=1.VXtxN5rjjUwDAIO1ooCLwGDU_21380790_1495934066606.Copy.1&id=551734599864&sourceType=item&price=138&suid=E83441AB-4C21-4EDC-B1AF-7B38FB1E963D&un=dae6cde2d3519ac87a811649f8da3e26&share_crt_v=1&cpp=1&shareurl=true&spm=a313p.22.mj.40744908294&short_name=h.ShtNJE
-             * categoryId : b99e86d3c4444546b06da8535cee16a8
-             * categoryName : 短裤
-             * colorId : 6e4d1f4b68d24d4f922f0ca3da641152
-             * colorName : 黑色系
-             * currency : 1
-             * id : 526e1d3fa3e14789bdc31d18c9740357
-             * name : 查理uncle/短裤/黑色系
-             * picture : {"compress":"medium","height":1000,"key":"Fqm_G-Tbz8L-K7cF1eGb55ns3luh?imageMogr2/crop/!2000x1000a0a475","url":"http://img.nothing.la/Fqm_G-Tbz8L-K7cF1eGb55ns3luh?imageMogr2/crop/!2000x1000a0a475/thumbnail/600x","webUrl":"//img.nothing.la/Fqm_G-Tbz8L-K7cF1eGb55ns3luh?imageMogr2/crop/!2000x1000a0a475/thumbnail/600x","width":2000}
-             * shop : {}
-             * sourceName : 淘宝
-             * taobaoCode : 551734599864
-             */
+
 
             private String brandId;
             private String brandName;

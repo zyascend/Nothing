@@ -9,10 +9,6 @@ import java.util.List;
  */
 
 public class RankingUser {
-
-
-
-
             private int allRankSort;
             private AreaBean area;
             private String areaId;

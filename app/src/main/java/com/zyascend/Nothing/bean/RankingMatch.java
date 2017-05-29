@@ -1,7 +1,7 @@
 package com.zyascend.Nothing.bean;
 
 /**
- * 功能：
+ * 功能：用于rank界面
  * 作者：zyascend on 2017/5/25 15:17
  * 邮箱：zyascend@qq.com
  */
