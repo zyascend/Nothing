@@ -156,4 +156,5 @@ public class MasterHotActivity extends MVPBaseActivity<MasterContract.View, Mast
         }
         allRankAdapter.addDatas(masters,true);
     }
+
 }
