@@ -4,6 +4,7 @@ import com.zyascend.Nothing.bean.BannerBean;
 import com.zyascend.Nothing.bean.BaseResponse;
 import com.zyascend.Nothing.bean.GrassProduct;
 import com.zyascend.Nothing.bean.HomeTag;
+import com.zyascend.Nothing.bean.HotMatch;
 import com.zyascend.Nothing.bean.HotTag;
 import com.zyascend.Nothing.bean.ListData;
 import com.zyascend.Nothing.bean.Master;
@@ -12,6 +13,7 @@ import com.zyascend.Nothing.bean.NormalData;
 import com.zyascend.Nothing.bean.Notice;
 import com.zyascend.Nothing.bean.ProdBox;
 import com.zyascend.Nothing.bean.ProductMenu;
+import com.zyascend.Nothing.bean.RankMaster;
 import com.zyascend.Nothing.bean.RankingMatch;
 import com.zyascend.Nothing.bean.RankingUser;
 
@@ -196,10 +198,26 @@ public interface API {
      * https://api.nothing.la/nothing/v1_9_5/dynamic/common/findRecommendProdListByType.do?accessToken=18a480ba87d04e1daac69cc540922703
      * {"appVersion":"2.0.3","deviceType":"android","queryType":1,"startRow":0,"sysVersion":"23"}
      */
+    @POST("v1_9_5/dynamic/common/findRecommendProdListByType.do")
     Observable<NormalData<ListData<WearingMatch>>> findWearingProduct(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
 
 
+    /**
+     * 博主人气榜
+     * https://api.nothing.la/nothing/v1_8/rankinglist/common/findMatchRanklistByType.do?accessToken=18a480ba87d04e1daac69cc540922703
+     * {"appVersion":"2.0.4","deviceType":"android","sysVersion":"23","type":"3"}
+     * 关于type参数 ： 3-月 2-周 1-新
+     */
+    @POST("v1_8/rankinglist/common/findMatchRanklistByType.do")
+    Observable<SimpleListResponse<HotMatch>> findMatchRanklistByType(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
 
+    /**
+     * 博主总榜
+     * https://api.nothing.la/nothing/v1_8/rankinglist/common/findAllRanklist.do?accessToken=18a480ba87d04e1daac69cc540922703
+     * {"appVersion":"2.0.4","deviceType":"android","sysVersion":"23"}
+     */
+    @POST("v1_8/rankinglist/common/findAllRanklist.do")
+    Observable<SimpleListResponse<RankMaster>> findAllRanklist(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
 
 
 
