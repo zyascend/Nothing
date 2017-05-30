@@ -36,4 +36,5 @@
     <string name="week_match">周搭配榜</string>
     <string name="month_match">月搭配榜</string>
     <string name="master_total_rank">博主总榜</string>
+    <string name="grass_match">推荐搭配</string>
 </resources>

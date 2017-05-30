@@ -8,6 +8,7 @@ import com.zyascend.Nothing.bean.HotMatch;
 import com.zyascend.Nothing.bean.HotTag;
 import com.zyascend.Nothing.bean.ListData;
 import com.zyascend.Nothing.bean.Master;
+import com.zyascend.Nothing.bean.MatchDetail;
 import com.zyascend.Nothing.bean.MenuBean;
 import com.zyascend.Nothing.bean.NormalData;
 import com.zyascend.Nothing.bean.Notice;
@@ -219,6 +220,12 @@ public interface API {
     @POST("v1_8/rankinglist/common/findAllRanklist.do")
     Observable<SimpleListResponse<RankMaster>> findAllRanklist(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
 
-
+    /**
+     * Detail
+     * https://api.nothing.la/nothing/v1_8/dynamic/getDetail.do?accessToken=18a480ba87d04e1daac69cc540922703
+     * {"appVersion":"2.0.4","deviceType":"android","id":"3f11b01a8cd94e61ab1c60608654277a","sysVersion":"23"}
+     */
+    @POST("v1_8/dynamic/getDetail.do")
+    Observable<NormalData<MatchDetail>> getDetail(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
 
 }

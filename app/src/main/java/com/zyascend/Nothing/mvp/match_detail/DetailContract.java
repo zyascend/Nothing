@@ -1,6 +1,7 @@
 package com.zyascend.Nothing.mvp.match_detail;
 
 import com.zyascend.Nothing.base.BaseView;
+import com.zyascend.Nothing.bean.MatchDetail;
 
 /**
  * 功能：
@@ -9,6 +10,10 @@ import com.zyascend.Nothing.base.BaseView;
  */
 
 public interface DetailContract {
-    interface View extends BaseView{}
-    interface Presenter{}
+    interface View extends BaseView{
+        void onGetDetail(MatchDetail detail);
+    }
+    interface Presenter{
+        void getDetail(String id);
+    }
 }

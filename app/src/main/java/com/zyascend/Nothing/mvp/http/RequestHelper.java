@@ -165,4 +165,11 @@ public class RequestHelper {
                 + "\"}";
         return RequestBody.create(MediaType.parse(TYPE_JSON),json);
     }
+
+    public static RequestBody getIdBody(String id) {
+        String json = "{\"appVersion\":\"2.0.4\",\"deviceType\":\"android\",\"id\":\""
+                + id
+                + "\",\"sysVersion\":\"23\"}";
+        return RequestBody.create(MediaType.parse(TYPE_JSON),json);
+    }
 }
