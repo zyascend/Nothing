@@ -15,6 +15,7 @@ import com.zyascend.Nothing.bean.HotMatch;
 import com.zyascend.Nothing.bean.HotTag;
 import com.zyascend.Nothing.bean.ListData;
 import com.zyascend.Nothing.bean.Master;
+import com.zyascend.Nothing.bean.MatchDetail;
 import com.zyascend.Nothing.bean.MenuBean;
 import com.zyascend.Nothing.bean.NormalData;
 import com.zyascend.Nothing.bean.Notice;
@@ -697,5 +698,35 @@ public class HttpService implements DataConstantValue{
                         callback.onSuccess(matches);
                     }
                 });
+    }
+
+    public void getDetail(String id,PublishSubject<LifeCycleEvent> subject
+            , final BaseDataCallback<MatchDetail> callback){
+        RetrofitService.getDefault()
+                .getDetail(RequestHelper.getAccessToken(),RequestHelper.getIdBody(id))
+                .compose(RxTransformer.INSTANCE.<NormalData<MatchDetail>>transform(subject,null))
+                .map(new Func1<NormalData<MatchDetail>, MatchDetail>() {
+                    @Override
+                    public MatchDetail call(NormalData<MatchDetail> data) {
+                        return data.getDATA();
+                    }
+                })
+                .subscribe(new Subscriber<MatchDetail>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(MatchDetail matchDetail) {
+                        callback.onSuccess(matchDetail);
+                    }
+                });
+
     }
 }
