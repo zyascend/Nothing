@@ -145,7 +145,7 @@ public class HttpService implements DataConstantValue{
 
         Observable<SimpleListResponse<HomeTag>> fromCache
                 = CacheManager.getInstance()
-                .cacheObservable(CACHE_TYPE_ALL_HOME_TAG,false,false);
+                  .cacheObservable(CACHE_TYPE_ALL_HOME_TAG,false,false);
         Observable<SimpleListResponse<HomeTag>> fromNetWork
                 = RetrofitService.getDefault()
                 .getAllTagList(RequestHelper.getAccessToken(),RequestHelper.getSimpleBody())

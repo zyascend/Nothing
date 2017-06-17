@@ -139,14 +139,19 @@ public class DetailActivity extends MVPBaseActivity<DetailContract.View, DetailP
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
+
                 break;
             case R.id.iv_more:
+
                 break;
             case R.id.tv_likeCount:
+
                 break;
             case R.id.tv_collect:
+
                 break;
             case R.id.iv_remind:
+
                 break;
         }
     }

@@ -10,10 +10,13 @@ import com.zyascend.Nothing.bean.MatchDetail;
  */
 
 public interface DetailContract {
+
     interface View extends BaseView{
         void onGetDetail(MatchDetail detail);
     }
+
     interface Presenter{
         void getDetail(String id);
     }
+
 }
