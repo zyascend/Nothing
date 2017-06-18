@@ -199,4 +199,5 @@ public class GrassFragment extends MVPBaseFragment<MainContract.GrassView, Grass
     public void onLoadMore(boolean isReload) {
         if (!isRefresh) mPresenter.getSifts(curFirstTime);
     }
+
 }

@@ -53,6 +53,7 @@ public class SiftsAdapter extends MultiAdapter<SiftsBean> {
     }
 
     class SiftsHolder extends RecyclerView.ViewHolder {
+
         @Bind(R.id.iv_user_img)
         ImageView ivUserImg;
         @Bind(R.id.iv_vip_img)
@@ -174,6 +175,7 @@ public class SiftsAdapter extends MultiAdapter<SiftsBean> {
                 }
             }
         }
+
         private String appendUserInfo(SiftsBean.DynamicBean.MatchBean data) {
             if (data.getUser().getHair()!=null && data.getUser().getArea()!=null)
                 return data.getUser().getArea().getName()+"/"+data.getUser().getHair().getName()

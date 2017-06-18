@@ -21,7 +21,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * 功能：
+ * 功能：主编推荐页面
  * 作者：zyascend on 2017/5/26 15:02
  * 邮箱：zyascend@qq.com
  */

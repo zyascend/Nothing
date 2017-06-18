@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:scaleType="centerCrop"
+        tools:src="@drawable/welcome1"
+        android:id="@+id/iv_card_pic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/iv_close_card"
+        android:src="@drawable/ic_close_white_24dp"
+        android:layout_margin="@dimen/dp_10"
+        android:layout_alignParentTop="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+   <LinearLayout
+       android:layout_marginStart="@dimen/dp_20"
+       android:layout_alignParentBottom="true"
+       android:orientation="vertical"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+       <TextView
+           android:textSize="@dimen/sp_15"
+           tools:text="UserName"
+           android:textColor="@color/white"
+           android:id="@+id/tv_name"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content" />
+       <TextView
+           android:id="@+id/tv_info"
+           android:layout_marginTop="@dimen/dp_10"
+           android:textSize="@dimen/sp_15"
+           tools:text="information/175cm/hair"
+           android:textColor="@color/white"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content" />
+
+       <TextView
+           android:layout_marginTop="@dimen/dp_10"
+           android:textSize="@dimen/sp_15"
+           tools:text="5 关注   55粉丝"
+           android:textColor="@color/white"
+           android:id="@+id/tv_fans"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content" />
+
+       <TextView
+           android:layout_marginTop="@dimen/dp_20"
+           android:layout_marginBottom="@dimen/dp_20"
+           android:textColor="@color/white"
+           android:text="Nothing,连接一切有品位的人"
+           android:textSize="@dimen/sp_13"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content" />
+   </LinearLayout>
+    <include layout="@layout/activity_user_detail"/>
+    <include layout="@layout/user_toolbar"/>
+</RelativeLayout>

@@ -12,6 +12,7 @@ import com.zyascend.Nothing.mvp.mainpage.MainContract;
 
 public class FollowFragment extends MVPBaseFragment<MainContract.FollowView,FollowPresenter>
     implements MainContract.FollowView{
+
     @Override
     protected void loadData() {
 
