@@ -10,7 +10,6 @@ import java.util.List;
 
 public class Master {
 
-
     private int age;
     private int allRankSort;
     private AreaBean area;

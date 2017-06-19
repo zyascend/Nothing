@@ -21,6 +21,8 @@
         android:layout_height="wrap_content" />
 
    <LinearLayout
+       android:id="@+id/ll_card_info"
+       android:visibility="gone"
        android:layout_marginStart="@dimen/dp_20"
        android:layout_alignParentBottom="true"
        android:orientation="vertical"

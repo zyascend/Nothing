@@ -22,6 +22,7 @@ import com.zyascend.Nothing.bean.SearchTag;
 import com.zyascend.Nothing.bean.SiftsDataBean;
 import com.zyascend.Nothing.bean.SimpleListResponse;
 import com.zyascend.Nothing.bean.UserBean;
+import com.zyascend.Nothing.bean.UserMatch;
 import com.zyascend.Nothing.bean.WearingMatch;
 
 
@@ -85,12 +86,19 @@ public interface API {
     Observable<SimpleListResponse<RankingUser>> getRankingUserList(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
 
     /**
-     * 获取用户信息
+     * 获取当前用户信息
      * url=https://api.nothing.la/nothing/user/getUser.do?accessToken=18a480ba87d04e1daac69cc540922703
      * body=simple版
      */
     @POST("user/getUser.do")
-    Observable<NormalData<UserBean>> getUser(@Query(ACCESS_TOKEN)String accessToken,@Body RequestBody body);
+    Observable<NormalData<Master>> getUser(@Query(ACCESS_TOKEN)String accessToken,@Body RequestBody body);
+
+    /**
+     * 获取其他用户信息
+     * https://api.nothing.la/nothing/user/common/getUser.do?accessToken=18a480ba87d04e1daac69cc540922703
+     * {"appVersion":"2.0.4","deviceType":"android","id":"2b791ec33785403a983333a99648f9b8","sysVersion":"23"}
+     */
+    Observable<NormalData<Master>> getMaster(@Query(ACCESS_TOKEN)String accessToken,@Body RequestBody body);
 
     /**
      *获取banner数据
@@ -227,5 +235,22 @@ public interface API {
      */
     @POST("v1_8/dynamic/getDetail.do")
     Observable<NormalData<MatchDetail>> getDetail(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+
+
+    /**
+     * 个人界面的发布列表
+     * https://api.nothing.la/nothing/dynamic/common/findListByUser.do?accessToken=18a480ba87d04e1daac69cc540922703
+     * {"appVersion":"2.0.4","deviceType":"android","id":"d7f7ad757584423e89545d5fcc801387","sysVersion":"23"}
+     *
+     */
+
+    Observable<NormalData<ListData<UserMatch>>> getUserDynamic(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+
+    /**
+     * 个人界面赞过搭配
+     * https://api.nothing.la/nothing/v1_4/dynamic/common/praise/findList.do?accessToken=18a480ba87d04e1daac69cc540922703
+     * {"appVersion":"2.0.4","deviceType":"android","id":"d7f7ad757584423e89545d5fcc801387","sysVersion":"23"}
+     */
+    Observable<NormalData<ListData<UserMatch>>> getUserPraised(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
 
 }
