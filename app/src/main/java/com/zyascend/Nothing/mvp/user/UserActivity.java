@@ -29,6 +29,9 @@ import butterknife.OnClick;
 public class UserActivity extends MVPBaseActivity<UserContract.View, UserPresenter>
         implements UserContract.View {
 
+    public static final String USER_TYPE = "USER_TYPE";
+    private static final int TYPE_CUR_USER = 0;
+    private static final int TYPE_MASTER = 1;
     @Bind(R.id.iv_card_pic)
     ImageView ivCardPic;
     @Bind(R.id.iv_close_card)
@@ -106,6 +109,16 @@ public class UserActivity extends MVPBaseActivity<UserContract.View, UserPresent
     @Override
     protected void initView() {
 
+        //设置recyclerView
+
+        int userType = getIntent().getIntExtra(USER_TYPE,TYPE_CUR_USER);
+        if (userType == TYPE_CUR_USER) {
+            //当前用户界面
+
+        }else {
+
+        }
+
     }
 
     @Override
@@ -117,14 +130,19 @@ public class UserActivity extends MVPBaseActivity<UserContract.View, UserPresent
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_close_card:
+
                 break;
             case R.id.iv_head:
+
                 break;
             case R.id.iv_back:
+
                 break;
             case R.id.iv_card:
+
                 break;
             case R.id.iv_share:
+
                 break;
         }
     }

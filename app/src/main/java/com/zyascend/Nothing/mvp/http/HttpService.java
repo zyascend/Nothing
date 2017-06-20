@@ -28,6 +28,7 @@ import com.zyascend.Nothing.bean.SearchTag;
 import com.zyascend.Nothing.bean.SiftsDataBean;
 import com.zyascend.Nothing.bean.SimpleListResponse;
 import com.zyascend.Nothing.bean.SimpleResponse;
+import com.zyascend.Nothing.bean.UserMatch;
 import com.zyascend.Nothing.bean.WearingMatch;
 import com.zyascend.Nothing.common.BaseDataCallback;
 import com.zyascend.Nothing.common.rx.LifeCycleEvent;
@@ -728,5 +729,123 @@ public class HttpService implements DataConstantValue{
                     }
                 });
 
+    }
+
+    public void getUser(PublishSubject<LifeCycleEvent> subject
+            , final BaseDataCallback<Master> callback){
+        RetrofitService.getDefault()
+                .getUser(RequestHelper.getAccessToken(),RequestHelper.getSimpleBody())
+                .compose(RxTransformer.INSTANCE.<NormalData<Master>>transform(subject,null))
+                .map(new Func1<NormalData<Master>, Master>() {
+                    @Override
+                    public Master call(NormalData<Master> data) {
+                        return data.getDATA();
+                    }
+                })
+                .subscribe(new Subscriber<Master>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(Master master) {
+                        callback.onSuccess(master);
+                    }
+                });
+
+    }
+
+    public void getMaster(String id,PublishSubject<LifeCycleEvent> subject
+            , final BaseDataCallback<Master> callback){
+        RetrofitService.getDefault()
+                .getMaster(RequestHelper.getAccessToken(),RequestHelper.getIdBody(id))
+                .compose(RxTransformer.INSTANCE.<NormalData<Master>>transform(subject,null))
+                .map(new Func1<NormalData<Master>, Master>() {
+                    @Override
+                    public Master call(NormalData<Master> data) {
+                        return data.getDATA();
+                    }
+                })
+                .subscribe(new Subscriber<Master>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(Master master) {
+                        callback.onSuccess(master);
+                    }
+                });
+
+    }
+
+    public void getPraised(String id,PublishSubject<LifeCycleEvent> subject
+            , final BaseDataCallback<List<UserMatch>> callback) {
+        RetrofitService.getDefault()
+                .getUserPraised(RequestHelper.getAccessToken(), RequestHelper.getIdBody(id))
+                .compose(RxTransformer.INSTANCE.<NormalData<ListData<UserMatch>>>transform(subject,null))
+                .map(new Func1<NormalData<ListData<UserMatch>>, List<UserMatch>>() {
+                    @Override
+                    public List<UserMatch> call(NormalData<ListData<UserMatch>> data) {
+                        return data.getDATA().getList();
+                    }
+                })
+                .subscribe(new Subscriber<List<UserMatch>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<UserMatch> matches) {
+                        callback.onSuccess(matches);
+                    }
+                });
+    }
+
+    public void getUserDynamics(String id,PublishSubject<LifeCycleEvent> subject
+            , final BaseDataCallback<List<UserMatch>> callback) {
+        RetrofitService.getDefault()
+                .getUserDynamic(RequestHelper.getAccessToken(), RequestHelper.getIdBody(id))
+                .compose(RxTransformer.INSTANCE.<NormalData<ListData<UserMatch>>>transform(subject,null))
+                .map(new Func1<NormalData<ListData<UserMatch>>, List<UserMatch>>() {
+                    @Override
+                    public List<UserMatch> call(NormalData<ListData<UserMatch>> data) {
+                        return data.getDATA().getList();
+                    }
+                })
+                .subscribe(new Subscriber<List<UserMatch>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<UserMatch> matches) {
+                        callback.onSuccess(matches);
+                    }
+                });
     }
 }
