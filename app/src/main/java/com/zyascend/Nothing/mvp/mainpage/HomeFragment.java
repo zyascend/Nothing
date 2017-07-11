@@ -16,6 +16,7 @@ import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.base.MVPBaseFragment;
 import com.zyascend.Nothing.bean.HomeTag;
 import com.zyascend.Nothing.bean.Notice;
+import com.zyascend.Nothing.common.view.BottomDialog;
 import com.zyascend.Nothing.mvp.mainpage.follow.FollowFragment;
 import com.zyascend.Nothing.mvp.mainpage.grass.GrassFragment;
 import com.zyascend.Nothing.mvp.mainpage.tag.TagFragment;
@@ -50,6 +51,8 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
     ViewPager viewPager;
 
     private TagPagerAdapter adapter;
+    private BottomDialog mDialog;
+    private List<HomeTag> mTagList;
 
     @Override
     protected HomePresenter initPresenter() {
@@ -100,9 +103,23 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
 
                 break;
             case R.id.iv_tag:
-
+                showAllTagDialog();
                 break;
         }
+    }
+
+    private void showAllTagDialog() {
+        mDialog = BottomDialog.create(getChildFragmentManager())
+                .setLayoutRes(R.layout.dialog_edit_tag)
+                .setViewListener(new BottomDialog.ViewListener() {
+                    @Override
+                    public void bindView(View v) {
+
+                    }
+                })
+                .show();
+
+        //mDialog.dismiss();
     }
 
     @Override
@@ -119,6 +136,7 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
     public void onGetMyTagList(List<HomeTag> tagList) {
         if (tagList == null)showError();
         else {
+            mTagList = tagList;
             adapter.setList(tagList);
         }
     }

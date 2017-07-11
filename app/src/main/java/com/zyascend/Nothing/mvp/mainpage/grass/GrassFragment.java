@@ -20,6 +20,7 @@ import com.zyascend.Nothing.bean.BannerBean;
 import com.zyascend.Nothing.bean.MenuBean;
 import com.zyascend.Nothing.bean.RankingUser;
 import com.zyascend.Nothing.bean.SiftsDataBean;
+import com.zyascend.Nothing.common.view.FullyLinearLayoutManager;
 import com.zyascend.Nothing.mvp.mainpage.MainContract;
 import com.zyascend.amazingadapter.LoadMoreListener;
 import com.zyascend.amazingadapter.MultiAdapter;
@@ -112,7 +113,7 @@ public class GrassFragment extends MVPBaseFragment<MainContract.GrassView, Grass
 
         siftsAdapter = new SiftsAdapter(mActivity);
         siftsAdapter.setLoadMoreListener(this);
-        reSifts.setLayoutManager(new LinearLayoutManager(mActivity));
+        reSifts.setLayoutManager(new FullyLinearLayoutManager(mActivity));
         reSifts.setAdapter(siftsAdapter);
 
     }

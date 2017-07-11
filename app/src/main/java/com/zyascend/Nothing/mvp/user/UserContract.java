@@ -2,6 +2,7 @@ package com.zyascend.Nothing.mvp.user;
 
 import com.zyascend.Nothing.base.BaseView;
 import com.zyascend.Nothing.bean.Master;
+import com.zyascend.Nothing.bean.MasterDetail;
 import com.zyascend.Nothing.bean.MatchDetail;
 import com.zyascend.Nothing.bean.UserBean;
 import com.zyascend.Nothing.bean.UserMatch;
@@ -17,7 +18,7 @@ import java.util.List;
 public interface UserContract {
     interface View extends BaseView {
 
-        void onGetMaster(Master master);
+        void onGetMaster(MasterDetail master);
         void onGetPraise(List<UserMatch> matches);
         void onGetDynamic(List<UserMatch> matches);
 
@@ -27,6 +28,7 @@ public interface UserContract {
         void getMaster(String id);
         void getPraised(String id);
         void getDynamics(String id);
-        void fallowMaster(String masterId);
+        void fallowMaster(String id);
+        void cancelFollow(String id);
     }
 }

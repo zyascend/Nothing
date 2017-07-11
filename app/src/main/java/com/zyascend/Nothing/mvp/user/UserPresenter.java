@@ -2,8 +2,10 @@ package com.zyascend.Nothing.mvp.user;
 
 import com.zyascend.Nothing.base.BasePresenter;
 import com.zyascend.Nothing.bean.Master;
+import com.zyascend.Nothing.bean.MasterDetail;
 import com.zyascend.Nothing.bean.UserMatch;
 import com.zyascend.Nothing.common.BaseDataCallback;
+import com.zyascend.Nothing.common.rx.LifeCycleEvent;
 import com.zyascend.Nothing.mvp.http.HttpService;
 
 import java.util.List;
@@ -24,9 +26,9 @@ public class UserPresenter extends BasePresenter<UserContract.View> implements U
 
     @Override
     public void getUser() {
-        httpService.getUser(lifeCycleSubject, new BaseDataCallback<Master>() {
+        httpService.getUser(lifeCycleSubject, new BaseDataCallback<MasterDetail>() {
             @Override
-            public void onSuccess(Master data) {
+            public void onSuccess(MasterDetail data) {
                 if (isViewAttached())mViewRef.get().onGetMaster(data);
             }
 
@@ -39,9 +41,9 @@ public class UserPresenter extends BasePresenter<UserContract.View> implements U
 
     @Override
     public void getMaster(String id) {
-        httpService.getMaster(id,lifeCycleSubject, new BaseDataCallback<Master>() {
+        httpService.getMaster(id,lifeCycleSubject, new BaseDataCallback<MasterDetail>() {
             @Override
-            public void onSuccess(Master data) {
+            public void onSuccess(MasterDetail data) {
                 if (isViewAttached())mViewRef.get().onGetMaster(data);
             }
 
@@ -85,6 +87,14 @@ public class UserPresenter extends BasePresenter<UserContract.View> implements U
 
     @Override
     public void fallowMaster(String masterId) {
+        httpService.addFollow(masterId,lifeCycleSubject);
+    }
+
+    @Override
+    public void cancelFollow(String id) {
+        httpService.cancelFollow(id,lifeCycleSubject);
 
     }
+
+
 }

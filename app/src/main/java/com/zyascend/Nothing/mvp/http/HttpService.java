@@ -15,6 +15,7 @@ import com.zyascend.Nothing.bean.HotMatch;
 import com.zyascend.Nothing.bean.HotTag;
 import com.zyascend.Nothing.bean.ListData;
 import com.zyascend.Nothing.bean.Master;
+import com.zyascend.Nothing.bean.MasterDetail;
 import com.zyascend.Nothing.bean.MatchDetail;
 import com.zyascend.Nothing.bean.MenuBean;
 import com.zyascend.Nothing.bean.NormalData;
@@ -732,17 +733,17 @@ public class HttpService implements DataConstantValue{
     }
 
     public void getUser(PublishSubject<LifeCycleEvent> subject
-            , final BaseDataCallback<Master> callback){
+            , final BaseDataCallback<MasterDetail> callback){
         RetrofitService.getDefault()
                 .getUser(RequestHelper.getAccessToken(),RequestHelper.getSimpleBody())
-                .compose(RxTransformer.INSTANCE.<NormalData<Master>>transform(subject,null))
-                .map(new Func1<NormalData<Master>, Master>() {
+                .compose(RxTransformer.INSTANCE.<NormalData<MasterDetail>>transform(subject,null))
+                .map(new Func1<NormalData<MasterDetail>, MasterDetail>() {
                     @Override
-                    public Master call(NormalData<Master> data) {
+                    public MasterDetail call(NormalData<MasterDetail> data) {
                         return data.getDATA();
                     }
                 })
-                .subscribe(new Subscriber<Master>() {
+                .subscribe(new Subscriber<MasterDetail>() {
                     @Override
                     public void onCompleted() {
 
@@ -754,7 +755,7 @@ public class HttpService implements DataConstantValue{
                     }
 
                     @Override
-                    public void onNext(Master master) {
+                    public void onNext(MasterDetail master) {
                         callback.onSuccess(master);
                     }
                 });
@@ -762,17 +763,17 @@ public class HttpService implements DataConstantValue{
     }
 
     public void getMaster(String id,PublishSubject<LifeCycleEvent> subject
-            , final BaseDataCallback<Master> callback){
+            , final BaseDataCallback<MasterDetail> callback){
         RetrofitService.getDefault()
                 .getMaster(RequestHelper.getAccessToken(),RequestHelper.getIdBody(id))
-                .compose(RxTransformer.INSTANCE.<NormalData<Master>>transform(subject,null))
-                .map(new Func1<NormalData<Master>, Master>() {
+                .compose(RxTransformer.INSTANCE.<NormalData<MasterDetail>>transform(subject,null))
+                .map(new Func1<NormalData<MasterDetail>, MasterDetail>() {
                     @Override
-                    public Master call(NormalData<Master> data) {
+                    public MasterDetail call(NormalData<MasterDetail> data) {
                         return data.getDATA();
                     }
                 })
-                .subscribe(new Subscriber<Master>() {
+                .subscribe(new Subscriber<MasterDetail>() {
                     @Override
                     public void onCompleted() {
 
@@ -784,7 +785,7 @@ public class HttpService implements DataConstantValue{
                     }
 
                     @Override
-                    public void onNext(Master master) {
+                    public void onNext(MasterDetail master) {
                         callback.onSuccess(master);
                     }
                 });
@@ -845,6 +846,55 @@ public class HttpService implements DataConstantValue{
                     @Override
                     public void onNext(List<UserMatch> matches) {
                         callback.onSuccess(matches);
+                    }
+                });
+    }
+
+
+    public void addFollow(String masterId, PublishSubject<LifeCycleEvent> subject) {
+        RetrofitService.getDefault()
+                .addFollow(RequestHelper.getAccessToken(), RequestHelper.getIdBody(masterId))
+                .compose(RxTransformer.INSTANCE.<NormalData>transform(subject,null))
+                .subscribe(new Subscriber<NormalData>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(NormalData normalData) {
+                        if (!normalData.STATUS.equals("1")){
+                            Logger.e("follow Fail");
+                        }
+                    }
+                });
+    }
+
+    public void cancelFollow(String id, PublishSubject<LifeCycleEvent> subject) {
+        RetrofitService.getDefault()
+                .cancelFollow(RequestHelper.getAccessToken(), RequestHelper.getIdBody(id))
+                .compose(RxTransformer.INSTANCE.<NormalData>transform(subject,null))
+                .subscribe(new Subscriber<NormalData>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(NormalData normalData) {
+                        if (!normalData.STATUS.equals("1")){
+                            Logger.e("unfollow Fail");
+                        }
                     }
                 });
     }

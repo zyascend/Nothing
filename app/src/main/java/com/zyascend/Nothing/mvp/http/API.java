@@ -8,6 +8,7 @@ import com.zyascend.Nothing.bean.HotMatch;
 import com.zyascend.Nothing.bean.HotTag;
 import com.zyascend.Nothing.bean.ListData;
 import com.zyascend.Nothing.bean.Master;
+import com.zyascend.Nothing.bean.MasterDetail;
 import com.zyascend.Nothing.bean.MatchDetail;
 import com.zyascend.Nothing.bean.MenuBean;
 import com.zyascend.Nothing.bean.NormalData;
@@ -91,14 +92,14 @@ public interface API {
      * body=simple版
      */
     @POST("user/getUser.do")
-    Observable<NormalData<Master>> getUser(@Query(ACCESS_TOKEN)String accessToken,@Body RequestBody body);
+    Observable<NormalData<MasterDetail>> getUser(@Query(ACCESS_TOKEN)String accessToken,@Body RequestBody body);
 
     /**
      * 获取其他用户信息
      * https://api.nothing.la/nothing/user/common/getUser.do?accessToken=18a480ba87d04e1daac69cc540922703
      * {"appVersion":"2.0.4","deviceType":"android","id":"2b791ec33785403a983333a99648f9b8","sysVersion":"23"}
      */
-    Observable<NormalData<Master>> getMaster(@Query(ACCESS_TOKEN)String accessToken,@Body RequestBody body);
+    Observable<NormalData<MasterDetail>> getMaster(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
 
     /**
      *获取banner数据
@@ -243,7 +244,7 @@ public interface API {
      * {"appVersion":"2.0.4","deviceType":"android","id":"d7f7ad757584423e89545d5fcc801387","sysVersion":"23"}
      *
      */
-
+    @POST("dynamic/common/findListByUser.do")
     Observable<NormalData<ListData<UserMatch>>> getUserDynamic(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
 
     /**
@@ -251,6 +252,26 @@ public interface API {
      * https://api.nothing.la/nothing/v1_4/dynamic/common/praise/findList.do?accessToken=18a480ba87d04e1daac69cc540922703
      * {"appVersion":"2.0.4","deviceType":"android","id":"d7f7ad757584423e89545d5fcc801387","sysVersion":"23"}
      */
+    @POST("v1_4/dynamic/common/praise/findList.do")
     Observable<NormalData<ListData<UserMatch>>> getUserPraised(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+
+
+    /**
+     * 添加关注
+     * https://api.nothing.la/nothing/user/addAttention.do?accessToken=18a480ba87d04e1daac69cc540922703
+     *{"appVersion":"2.0.4","byUserId":"80a517869d144e8db4e4edd5986f7cdd","deviceType":"android","sysVersion":"23"}
+     */
+    @POST("user/addAttention.do")
+    Observable<NormalData> addFollow(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+
+
+    /**
+     * 取消关注
+     * https://api.nothing.la/nothing/user/cancelAttention.do?accessToken=18a480ba87d04e1daac69cc540922703
+     *
+     */
+    @POST("user/cancelAttention.do")
+    Observable<NormalData> cancelFollow(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+
 
 }

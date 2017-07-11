@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout android:layout_below="@+id/rl_titleBar"
+<android.support.v4.widget.SwipeRefreshLayout
+    android:layout_below="@+id/rl_titleBar"
     android:id="@+id/swipeRefresh"
     android:background="@color/white"
     android:layout_width="match_parent"
@@ -7,7 +8,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <ScrollView
+    <com.zyascend.Nothing.common.view.FloatScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -36,5 +37,5 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
         </LinearLayout>
-    </ScrollView>
+    </com.zyascend.Nothing.common.view.FloatScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>
