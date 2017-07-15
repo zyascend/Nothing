@@ -37,4 +37,12 @@
     <string name="month_match">月搭配榜</string>
     <string name="master_total_rank">博主总榜</string>
     <string name="grass_match">推荐搭配</string>
+    <string name="qiehuanbiaqian">点击切换兴趣标签</string>
+    <string name="rank_month">月榜</string>
+    <string name="rank_week">周榜</string>
+    <string name="cancel">取消</string>
+    <string name="male">男</string>
+    <string name="female">女</string>
+    <string name="filter_master">筛选博主</string>
+    <string name="sure">确定</string>
 </resources>

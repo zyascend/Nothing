@@ -32,6 +32,10 @@ public class SiftsBean {
 
     public static class DynamicBean {
 
+        public DynamicBean(String id, MatchBean match) {
+            this.id = id;
+            this.match = match;
+        }
 
         private String id;
         private MatchBean match;

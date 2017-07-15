@@ -10,12 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.base.BaseFragment;
+import com.zyascend.Nothing.common.view.BottomDialog;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 功能：
@@ -23,17 +27,28 @@ import butterknife.ButterKnife;
  * 邮箱：zyascend@qq.com
  */
 
-public class RankBaseFragment extends BaseFragment {
+public class RankBaseFragment extends BaseFragment implements View.OnClickListener {
 
 
     @Bind(R.id.iv_help)
     ImageView ivHelp;
+    @Bind(R.id.tv_sex_filter)
+    TextView sexFilter;
     @Bind(R.id.tabLayout)
     TabLayout tabLayout;
     @Bind(R.id.viewPager)
     ViewPager viewPager;
+    @Bind(R.id.tv_24)
+    TextView tv24;
+    @Bind(R.id.tv_week)
+    TextView tvWeek;
+    @Bind(R.id.tv_month)
+    TextView tvMonth;
+    @Bind(R.id.ll_rank)
+    LinearLayout llRank;
 
     private RankPageAdapter adapter;
+    private BottomDialog mDialog;
 
     @Override
     protected void loadData() {
@@ -62,6 +77,65 @@ public class RankBaseFragment extends BaseFragment {
 
     }
 
+    @OnClick({R.id.tv_sex_filter, R.id.tv_24, R.id.tv_week, R.id.tv_month})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_sex_filter:
+                showSexFilterDialog();
+                break;
+            case R.id.tv_24:
+
+                break;
+            case R.id.tv_week:
+
+                break;
+            case R.id.tv_month:
+
+                break;
+
+            case R.id.tv_all:
+
+                break;
+            case R.id.tv_male:
+
+                break;
+            case R.id.tv_female:
+
+                break;
+            case R.id.tv_cancel:
+
+                break;
+
+        }
+    }
+
+    private void showSexFilterDialog() {
+        mDialog = BottomDialog.create(getChildFragmentManager())
+                .setLayoutRes(R.layout.dialog_sex_filter)
+                .setViewListener(new BottomDialog.ViewListener() {
+                    @Override
+                    public void bindView(View v) {
+                        bindDialogView(v);
+                    }
+                })
+                .show();
+
+    }
+
+    private void bindDialogView(View v) {
+
+        TextView all = (TextView) v.findViewById(R.id.tv_all);
+        TextView male = (TextView) v.findViewById(R.id.tv_male);
+        TextView female = (TextView) v.findViewById(R.id.tv_female);
+        TextView cancel = (TextView) v.findViewById(R.id.tv_cancel);
+
+        all.setOnClickListener(this);
+        male.setOnClickListener(this);
+        female.setOnClickListener(this);
+        cancel.setOnClickListener(this);
+
+    }
+
     private static class RankPageAdapter extends FragmentStatePagerAdapter {
 
         public RankPageAdapter(FragmentManager fm) {
@@ -75,11 +149,11 @@ public class RankBaseFragment extends BaseFragment {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position){
+            switch (position) {
                 case 0:
                     return "搭配";
                 case 1:
-                    return  "n博主";
+                    return "n博主";
                 default:
                     return "搭配";
             }

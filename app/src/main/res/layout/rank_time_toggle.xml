@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/ll_rank"
+    android:visibility="gone"
+    android:background="@color/translucent_black"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:divider="@drawable/linnear_divider"
+    android:showDividers="middle"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_24"
+        android:padding="@dimen/dp_8"
+        android:gravity="center"
+        android:textSize="@dimen/sp_18"
+        android:text="@string/hour_rank_24"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_week"
+        android:padding="@dimen/dp_8"
+        android:gravity="center"
+        android:textSize="@dimen/sp_18"
+        android:text="@string/rank_week"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_month"
+        android:padding="@dimen/dp_8"
+        android:gravity="center"
+        android:textSize="@dimen/sp_18"
+        android:text="@string/rank_month"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

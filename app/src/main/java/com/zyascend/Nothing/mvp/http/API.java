@@ -2,6 +2,8 @@
 
 import com.zyascend.Nothing.bean.BannerBean;
 import com.zyascend.Nothing.bean.BaseResponse;
+import com.zyascend.Nothing.bean.ChildTag;
+import com.zyascend.Nothing.bean.ChildTagMatch;
 import com.zyascend.Nothing.bean.GrassProduct;
 import com.zyascend.Nothing.bean.HomeTag;
 import com.zyascend.Nothing.bean.HotMatch;
@@ -272,6 +274,32 @@ public interface API {
      */
     @POST("user/cancelAttention.do")
     Observable<NormalData> cancelFollow(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+
+
+    /**
+     * 获取关注动态
+     * https://api.nothing.la/nothing/v1_9/dynamic/findIndexList.do?accessToken=18a480ba87d04e1daac69cc540922703
+     * {"appVersion":"2.0.4","deviceType":"android","isFirstRegister":false,"startRow":"0","sysVersion":"23"}
+     */
+    @POST("v1_9/dynamic/findIndexList.do")
+    Observable<NormalData<SiftsDataBean>> getFollowDynamic(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+
+    /**
+     * 获取childTag
+     * https://api.nothing.la/nothing/v1_9_8/tag/findChildTagListForIndexByTag.do?accessToken=18a480ba87d04e1daac69cc540922703
+     * id body
+     */
+    @POST("v1_9_8/tag/findChildTagListForIndexByTag.do")
+    Observable<SimpleListResponse<List<ChildTag>>> getChildTags(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+
+    /**
+     * https://api.nothing.la/nothing/v2_1/tag/findDynamicListByTags.do?accessToken=18a480ba87d04e1daac69cc540922703
+     *
+     */
+    @POST("v2_1/tag/findDynamicListByTags.do")
+    Observable<NormalData<ListData<ChildTagMatch>>> getDynamicByTag(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+
+
 
 
 }

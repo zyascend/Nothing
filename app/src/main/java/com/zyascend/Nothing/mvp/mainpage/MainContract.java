@@ -1,11 +1,15 @@
 package com.zyascend.Nothing.mvp.mainpage;
 
+import android.view.ViewOutlineProvider;
+
 import com.zyascend.Nothing.base.BaseView;
 import com.zyascend.Nothing.bean.BannerBean;
+import com.zyascend.Nothing.bean.ChildTag;
 import com.zyascend.Nothing.bean.HomeTag;
 import com.zyascend.Nothing.bean.MenuBean;
 import com.zyascend.Nothing.bean.Notice;
 import com.zyascend.Nothing.bean.RankingUser;
+import com.zyascend.Nothing.bean.SiftsBean;
 import com.zyascend.Nothing.bean.SiftsDataBean;
 import com.zyascend.Nothing.common.BaseDataCallback;
 
@@ -55,18 +59,25 @@ public interface MainContract {
      *
      */
     interface FollowView extends BaseView{
-
+        void onGetDynamic(SiftsDataBean data);
     }
     interface FollowPresenter{
-        void fetchData();
+        void fetchDynamic(String firstTime);
     }
+
 
     /**
      * tag页面的逻辑
      */
 
-    interface TagView extends BaseView{}
-    interface TagPresenter{}
+    interface TagView extends BaseView{
+        void onGetChildTags(List<List<ChildTag>> tags);
+        void onGetDynamic(List<SiftsBean> data);
+    }
+    interface TagPresenter{
+        void getChildTags(String id);
+        void getDynamic(String mainId,List<ChildTag> childTags);
+    }
 
 
 }

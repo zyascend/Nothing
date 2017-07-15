@@ -1,13 +1,17 @@
 package com.zyascend.Nothing.mvp.mainpage;
 
-import android.os.Looper;
+import android.content.Context;
+import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,11 +24,13 @@ import com.zyascend.Nothing.common.view.BottomDialog;
 import com.zyascend.Nothing.mvp.mainpage.follow.FollowFragment;
 import com.zyascend.Nothing.mvp.mainpage.grass.GrassFragment;
 import com.zyascend.Nothing.mvp.mainpage.tag.TagFragment;
+import com.zyascend.amazingadapter.AmazingAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -34,7 +40,7 @@ import butterknife.OnClick;
  */
 
 public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePresenter>
-        implements MainContract.HomeView{
+        implements MainContract.HomeView {
 
 
     @Bind(R.id.btn_notifications)
@@ -53,6 +59,7 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
     private TagPagerAdapter adapter;
     private BottomDialog mDialog;
     private List<HomeTag> mTagList;
+    private int mCurrentItem;
 
     @Override
     protected HomePresenter initPresenter() {
@@ -114,7 +121,7 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
                 .setViewListener(new BottomDialog.ViewListener() {
                     @Override
                     public void bindView(View v) {
-
+                        bindDialogView(v);
                     }
                 })
                 .show();
@@ -122,11 +129,32 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
         //mDialog.dismiss();
     }
 
+    private void bindDialogView(View v) {
+        TextView btn = (TextView) v.findViewById(R.id.btn_edit);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.tagRecycler);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),4));
+        TabTagAdapter adapter = new TabTagAdapter(getActivity());
+        List<String> data = new ArrayList<>();
+        data.add("推荐");
+        data.add("关注");
+        for (HomeTag tag : mTagList){
+            data.add(tag.getName());
+        }
+        adapter.addDatas(data,true);
+        recyclerView.setAdapter(adapter);
+    }
+
     @Override
     public void onGetNotice(Notice notice) {
-        if (notice==null)showError();
+        if (notice == null) showError();
         else {
-            Logger.d("notice num :"+notice.getDATA().getList().size() );
+            Logger.d("notice num :" + notice.getDATA().getList().size());
             tvNotifiNum.setText(notice.getDATA().getList().size());
         }
         mPresenter.getMyTagList();
@@ -134,7 +162,7 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
 
     @Override
     public void onGetMyTagList(List<HomeTag> tagList) {
-        if (tagList == null)showError();
+        if (tagList == null) showError();
         else {
             mTagList = tagList;
             adapter.setList(tagList);
@@ -174,12 +202,64 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
         }
 
         public void setList(List<HomeTag> tagList) {
-            for (HomeTag tag : tagList){
+            for (HomeTag tag : tagList) {
                 titleList.add(tag.getName());
                 TagFragment fragment = TagFragment.getInstance(tag.getId());
                 fragmentList.add(fragment);
             }
             notifyDataSetChanged();
+        }
+    }
+
+    private class TabTagAdapter extends AmazingAdapter<String> {
+
+        public TabTagAdapter(Context mContext) {
+            super(mContext);
+        }
+
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new TabTagHolder(inflate(R.layout.item_home_tag, parent));
+        }
+
+        @Override
+        protected void bindView(RecyclerView.ViewHolder holder, int position) {
+            TabTagHolder h = (TabTagHolder) holder;
+            h.bind(dataList.get(position));
+        }
+
+
+        class TabTagHolder extends RecyclerView.ViewHolder {
+
+            @Bind(R.id.tv_text)
+            TextView tvText;
+
+            public TabTagHolder(View inflate) {
+                super(inflate);
+                ButterKnife.bind(this, inflate);
+            }
+
+            @OnClick(R.id.tv_text)
+            public void onClick() {
+
+                tvText.setBackground(ContextCompat.getDrawable(mContext,R.drawable.btn_round_orange_bg));
+                tvText.setTextColor(Color.WHITE);
+
+                if (mDialog != null)mDialog.dismiss();
+
+                mCurrentItem = getAdapterPosition();
+                viewPager.setCurrentItem(mCurrentItem);
+                tlTag.getTabAt(mCurrentItem).select();
+
+            }
+
+            public void bind(String tag) {
+                tvText.setText(tag);
+                if (getAdapterPosition() == mCurrentItem){
+                    tvText.setBackground(ContextCompat.getDrawable(mContext,R.drawable.btn_round_orange_bg));
+                    tvText.setTextColor(Color.WHITE);
+                }
+            }
         }
     }
 }

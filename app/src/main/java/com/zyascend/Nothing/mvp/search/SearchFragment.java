@@ -13,12 +13,14 @@ import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.base.MVPBaseFragment;
 import com.zyascend.Nothing.bean.HotTag;
 import com.zyascend.Nothing.bean.Master;
+import com.zyascend.Nothing.common.view.BottomDialog;
 import com.zyascend.amazingadapter.MultiAdapter;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 功能：
@@ -44,6 +46,7 @@ public class SearchFragment extends MVPBaseFragment<SearchContract.View, SearchP
     private HotTagAdapter tagAdapter;
     private SearchMasterAdapter masterAdapter;
     private boolean isRefresh = true;
+    private BottomDialog mDialog;
 
     @Override
     protected void loadData() {
@@ -61,7 +64,7 @@ public class SearchFragment extends MVPBaseFragment<SearchContract.View, SearchP
 
         tagAdapter = new HotTagAdapter(mActivity);
         tagRecyclerView.setAdapter(tagAdapter);
-        tagRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity,LinearLayoutManager.VERTICAL,false));
+        tagRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
 
         masterAdapter = new SearchMasterAdapter(mActivity);
         userRecyclerView.setAdapter(masterAdapter);
@@ -86,29 +89,29 @@ public class SearchFragment extends MVPBaseFragment<SearchContract.View, SearchP
 
     @Override
     public void onGetHotTags(List<HotTag> hotTags) {
-        if (hotTags == null)showError();
+        if (hotTags == null) showError();
         else {
-            tagAdapter.addDatas(hotTags,true);
+            tagAdapter.addDatas(hotTags, true);
         }
-        mPresenter.getMaster(0,null);
+        mPresenter.getMaster(0, null);
     }
 
     @Override
     public void onGetMaster(List<Master> masters) {
         swipeRefresh.setRefreshing(false);
-        if (masters == null){
-            if (!isRefresh){
+        if (masters == null) {
+            if (!isRefresh) {
                 masterAdapter.toggleStatus(MultiAdapter.STATUS_END);
-            }else{
+            } else {
                 showError();
             }
             return;
         }
-        if (masters.isEmpty()){
+        if (masters.isEmpty()) {
             masterAdapter.toggleStatus(MultiAdapter.STATUS_END);
             return;
         }
-        masterAdapter.addDatas(masters,isRefresh);
+        masterAdapter.addDatas(masters, isRefresh);
     }
 
     @Override
@@ -121,4 +124,32 @@ public class SearchFragment extends MVPBaseFragment<SearchContract.View, SearchP
         mPresenter.getHotTags();
     }
 
+    @OnClick({R.id.tv_moreHotTag, R.id.tv_filter})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_moreHotTag:
+
+                break;
+            case R.id.tv_filter:
+                showFilterDialog();
+                break;
+        }
+    }
+
+    private void showFilterDialog() {
+        mDialog = BottomDialog.create(getChildFragmentManager())
+                .setLayoutRes(R.layout.dialog_master_filter)
+                .setViewListener(new BottomDialog.ViewListener() {
+                    @Override
+                    public void bindView(View v) {
+                        bindDialogView(v);
+                    }
+                }).show();
+
+    }
+
+    private void bindDialogView(View v) {
+
+
+    }
 }

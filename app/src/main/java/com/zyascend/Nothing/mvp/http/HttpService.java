@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.orhanobut.logger.Logger;
 import com.zyascend.Nothing.bean.BannerBean;
 import com.zyascend.Nothing.bean.BaseResponse;
+import com.zyascend.Nothing.bean.ChildTag;
+import com.zyascend.Nothing.bean.ChildTagMatch;
 import com.zyascend.Nothing.bean.GrassProduct;
 import com.zyascend.Nothing.bean.HomeTag;
 import com.zyascend.Nothing.bean.HotMatch;
@@ -26,6 +28,7 @@ import com.zyascend.Nothing.bean.RankMaster;
 import com.zyascend.Nothing.bean.RankingMatch;
 import com.zyascend.Nothing.bean.RankingUser;
 import com.zyascend.Nothing.bean.SearchTag;
+import com.zyascend.Nothing.bean.SiftsBean;
 import com.zyascend.Nothing.bean.SiftsDataBean;
 import com.zyascend.Nothing.bean.SimpleListResponse;
 import com.zyascend.Nothing.bean.SimpleResponse;
@@ -37,6 +40,7 @@ import com.zyascend.Nothing.common.rx.RxTransformer;
 import com.zyascend.Nothing.mvp.data.CacheManager;
 import com.zyascend.Nothing.mvp.data.DataConstantValue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.RequestBody;
@@ -897,5 +901,110 @@ public class HttpService implements DataConstantValue{
                         }
                     }
                 });
+    }
+
+    public void getFollowDynamic(String firstTime,PublishSubject<LifeCycleEvent> subject
+            ,final BaseDataCallback<SiftsDataBean>  callback){
+
+        boolean jumpCache = firstTime == null;
+
+        Observable<NormalData<SiftsDataBean>> fromCache = CacheManager.getInstance()
+                .cacheObservable(CACHE_TYPE_SIFTS,true,jumpCache);
+        Observable<NormalData<SiftsDataBean>> fromNet = RetrofitService.getDefault()
+                .getFollowDynamic(RequestHelper.getAccessToken(),RequestHelper.getPageLoadBody(firstTime))
+                .compose(RxTransformer.INSTANCE.<NormalData<SiftsDataBean>>transform(subject,CACHE_TYPE_FOLLOW_DYNA));
+
+        Observable.concat(fromCache,fromNet)
+                .first()
+                .map(new Func1<NormalData<SiftsDataBean>, SiftsDataBean>() {
+                    @Override
+                    public SiftsDataBean call(NormalData<SiftsDataBean> data) {
+                        return data.getDATA();
+                    }
+                })
+                .subscribe(new Subscriber<SiftsDataBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(SiftsDataBean siftsDataBean) {
+
+                        callback.onSuccess(siftsDataBean);
+                    }
+                });
+    }
+
+    public void getChildTags(String id, PublishSubject<LifeCycleEvent> subject
+            , final BaseDataCallback<List<List<ChildTag>>> callback) {
+        RetrofitService.getDefault()
+                .getChildTags(RequestHelper.getAccessToken(), RequestHelper.getIdBody(id))
+                .compose(RxTransformer.INSTANCE.<SimpleListResponse<List<ChildTag>>>transform(subject,null))
+                .map(new Func1<SimpleListResponse<List<ChildTag>>, List<List<ChildTag>>>() {
+                    @Override
+                    public List<List<ChildTag>> call(SimpleListResponse<List<ChildTag>> data) {
+                        return data.getDATA().getList();
+                    }
+                })
+                .subscribe(new Subscriber<List<List<ChildTag>>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<List<ChildTag>> childTags) {
+                        callback.onSuccess(childTags);
+                    }
+                });
+    }
+
+    public void getDynamicByTags(String mainID,List<ChildTag> childTags,PublishSubject<LifeCycleEvent> subject
+            , final BaseDataCallback<List<SiftsBean>> callback){
+        RetrofitService.getDefault()
+                .getDynamicByTag(RequestHelper.getAccessToken(), RequestHelper.getMultiTagBody(childTags,mainID))
+                .compose(RxTransformer.INSTANCE.<NormalData<ListData<ChildTagMatch>>>transform(subject,null))
+                .map(new Func1<NormalData<ListData<ChildTagMatch>>, List<SiftsBean>>() {
+                    @Override
+                    public List<SiftsBean> call(NormalData<ListData<ChildTagMatch>> data) {
+                        List<ChildTagMatch> matches = data.getDATA().getList();
+                        List<SiftsBean> res = new ArrayList<SiftsBean>();
+                        for (ChildTagMatch match : matches){
+                            SiftsBean bean = new SiftsBean();
+                            bean.setDynamic(new SiftsBean.DynamicBean(match.getId(),match.getMatch()));
+                            res.add(bean);
+                        }
+                        return res;
+                    }
+                })
+                .subscribe(new Subscriber<List<SiftsBean>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<SiftsBean> been) {
+                        callback.onSuccess(been);
+                    }
+                });
+
+
     }
 }

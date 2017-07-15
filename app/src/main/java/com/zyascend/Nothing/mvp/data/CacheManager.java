@@ -134,6 +134,7 @@ public class CacheManager implements DataConstantValue{
                 data = (T) JSON.parseObject(json,new TypeReference<SimpleListResponse<RankingUser>>(){});
                 break;
             case CACHE_TYPE_SIFTS:
+            case CACHE_TYPE_FOLLOW_DYNA:
                 data = (T) JSON.parseObject(json,new TypeReference<NormalData<SiftsDataBean>>(){});
                 break;
             case CACHE_TYPE_SEARCH_MASTER:
@@ -145,6 +146,7 @@ public class CacheManager implements DataConstantValue{
             case CACHE_TYPE_FILTER_TAG:
                 data = (T) JSON.parseObject(json,new TypeReference<SimpleListResponse<List<SearchTag>>>(){});
                 break;
+
         }
         return data;
     }

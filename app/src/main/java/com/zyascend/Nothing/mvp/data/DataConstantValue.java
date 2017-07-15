@@ -18,4 +18,5 @@ public interface DataConstantValue {
     String CACHE_TYPE_FILTER_TAG = "type_filter_tag";
     String CACHE_TYPE_RANKING_MATCH = "type_ranking_match";
     String CACHE_TYPE_RANKING_USER = "type_ranking_user";
+    String CACHE_TYPE_FOLLOW_DYNA = "type_follow_dynamic";
 }

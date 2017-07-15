@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.zyascend.Nothing.base.BaseApplication;
+import com.zyascend.Nothing.bean.ChildTag;
 import com.zyascend.Nothing.bean.SearchTag;
 
 import java.security.MessageDigest;
@@ -178,5 +179,15 @@ public class RequestHelper {
                 + id
                 + "\",\"sysVersion\":\"23\"}";
         return RequestBody.create(MediaType.parse(TYPE_JSON),json);
+    }
+
+    public static RequestBody getMultiTagBody(List<ChildTag> childTags,String mainId) {
+        String tags = childTags.toString();
+        String body = "{\"appVersion\":\"2.0.4\",\"childTagIds\":"
+                + tags
+                + ",\"deviceType\":\"android\",\"mainTagId\":"
+                + mainId
+                + ",\"startRow\":0,\"sysVersion\":\"23\"}";
+        return null;
     }
 }
