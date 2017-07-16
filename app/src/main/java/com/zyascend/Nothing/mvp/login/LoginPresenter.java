@@ -38,7 +38,18 @@ public class LoginPresenter extends BasePresenter<LoginContract.View>
 
     @Override
     public void login(String phoneNumber, String password) {
+        httpService.login(phoneNumber,password,lifeCycleSubject,new BaseDataCallback<String>() {
+            @Override
+            public void onSuccess(String data) {
+                if (isViewAttached())
+                    mViewRef.get().onLogined(data);
+            }
 
+            @Override
+            public void onFail(String errorMsg) {
+
+            }
+        });
     }
 
     @Override

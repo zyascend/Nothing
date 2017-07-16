@@ -12,6 +12,7 @@ import com.zyascend.Nothing.bean.HomeTag;
 import com.zyascend.Nothing.bean.HotMatch;
 import com.zyascend.Nothing.bean.HotTag;
 import com.zyascend.Nothing.bean.ListData;
+import com.zyascend.Nothing.bean.LoginResponse;
 import com.zyascend.Nothing.bean.Master;
 import com.zyascend.Nothing.bean.MasterDetail;
 import com.zyascend.Nothing.bean.MatchDetail;
@@ -32,6 +33,7 @@ import com.zyascend.Nothing.bean.WearingMatch;
 import com.zyascend.Nothing.common.BaseDataCallback;
 import com.zyascend.Nothing.common.rx.LifeCycleEvent;
 import com.zyascend.Nothing.common.rx.RxTransformer;
+import com.zyascend.Nothing.common.utils.SharedPreUtils;
 import com.zyascend.Nothing.mvp.data.CacheManager;
 import com.zyascend.Nothing.mvp.data.DataConstantValue;
 
@@ -1035,6 +1037,29 @@ public class HttpService implements DataConstantValue{
                     @Override
                     public String call(BaseResponse baseResponse) {
                         return baseResponse.getMESSAGE();
+                    }
+                })
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    public void login(String phone,String password
+            , PublishSubject<LifeCycleEvent> subject
+            , final BaseDataCallback<String> callback){
+
+        RetrofitService.getDefault()
+                .login(RequestHelper.getLoginBody(phone,password))
+                .compose(RxTransformer.INSTANCE.<NormalData<LoginResponse>>transform(subject,null))
+                .map(new Func1<NormalData<LoginResponse>, String>() {
+                    @Override
+                    public String call(NormalData<LoginResponse> data) {
+                        //保存AccessToken
+                        SharedPreUtils.saveString(SharedPreUtils.KEY_ACCESS_TOKEN,data.getDATA().getAccessToken());
+                        return data.getMESSAGE();
                     }
                 })
                 .subscribe(new Action1<String>() {

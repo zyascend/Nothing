@@ -13,6 +13,7 @@ import com.zyascend.Nothing.bean.BaseResponse;
 import com.zyascend.Nothing.bean.HomeTag;
 import com.zyascend.Nothing.bean.HotTag;
 import com.zyascend.Nothing.bean.ListData;
+import com.zyascend.Nothing.bean.LoginResponse;
 import com.zyascend.Nothing.bean.Master;
 import com.zyascend.Nothing.bean.MenuBean;
 import com.zyascend.Nothing.bean.NormalData;
@@ -169,4 +170,9 @@ public class CacheManager implements DataConstantValue{
         }
     }
 
+    public void saveLoginData(LoginResponse data) {
+        if (data == null)return;
+        //暂时只缓存accessToken
+
+    }
 }

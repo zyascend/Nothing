@@ -5,7 +5,7 @@ import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.Generated;
 
 /**
- * 功能：
+ * 功能：所有的缓存类————将数据转化为json字符串储存，使用时转化为实体
  * 作者：zyascend on 2017/5/10 23:04
  * 邮箱：zyascend@qq.com
  */

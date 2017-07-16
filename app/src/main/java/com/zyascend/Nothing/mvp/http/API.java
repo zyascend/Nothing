@@ -326,6 +326,17 @@ public interface API {
     @POST("login.do")
     Observable<NormalData<LoginResponse>> login(@Body RequestBody body);
 
+    /**
+     * logout
+     * https://api.nothing.la/nothing/loginout.do?accessToken=7869db6b959c4b9385533c28c661587c
+     * {"appVersion":"2.0.4","deviceType":"android","pushToken":"13065ffa4e386063e87","sysVersion":"23"}
+     *
+     */
+    @POST("loginout.do")
+    Observable<BaseResponse> loginout(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+
+
+
 
 
 

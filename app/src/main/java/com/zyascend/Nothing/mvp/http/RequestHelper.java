@@ -8,6 +8,7 @@ import com.alibaba.fastjson.JSON;
 import com.zyascend.Nothing.base.BaseApplication;
 import com.zyascend.Nothing.bean.ChildTag;
 import com.zyascend.Nothing.bean.SearchTag;
+import com.zyascend.Nothing.common.utils.SharedPreUtils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -30,6 +31,7 @@ public class RequestHelper {
     private static final String simpleBdy = "{\"appVersion\":\"1.9.9.2\",\"deviceType\":\"android\",\"sysVersion\":\"23\"}";
 
     public static String getAccessToken(){
+        //return SharedPreUtils.getString(SharedPreUtils.KEY_ACCESS_TOKEN,null);
         return "18a480ba87d04e1daac69cc540922703";
     }
 
@@ -208,6 +210,17 @@ public class RequestHelper {
         String json = "{\"appVersion\":\"2.0.4\",\"deviceType\":\"android\",\"phone\":\"" +
                 phone +
                 "\",\"sysVersion\":\"23\",\"type\":1}";
+        return RequestBody.create(MediaType.parse(TYPE_JSON),json);
+    }
+
+    public static RequestBody getLoginBody(String phone, String password) {
+        String json = "{\"appVersion\":\"2.0.4\",\"deviceType\":\"android\",\"isEncrypt\":true,\"mainType\":1,\"password\":\"" +
+                getMd5(password) +
+                "\",\"pushToken\":\"" +
+                getPushToken() +
+                "\",\"sysVersion\":\"23\",\"userNo\":\"" +
+                phone +
+                "\"}";
         return RequestBody.create(MediaType.parse(TYPE_JSON),json);
     }
 }

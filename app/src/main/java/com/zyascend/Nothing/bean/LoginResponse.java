@@ -1,5 +1,9 @@
 package com.zyascend.Nothing.bean;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Unique;
+
 /**
  * 功能：
  * 作者：zyascend on 2017/7/16 11:23
@@ -7,6 +11,7 @@ package com.zyascend.Nothing.bean;
  */
 
 public class LoginResponse {
+
 
     private String accessToken;
     private int allRankSort;

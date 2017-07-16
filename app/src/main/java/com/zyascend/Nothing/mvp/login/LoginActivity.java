@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.base.MVPBaseActivity;
+import com.zyascend.Nothing.common.utils.ActivityUtils;
+import com.zyascend.Nothing.mvp.mainpage.MainActivity;
 import com.zyascend.Nothing.mvp.user.UserContract;
 
 import butterknife.Bind;
@@ -76,9 +78,7 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
 
     private int[] backImageRes;
     private ImagePagerAdapter pagerAdapter;
-    private float mPosX;
     private float mPosY;
-    private float mCurPosX;
     private float mCurPosY;
     private int loginBtnHeight;
     private int totalHeight;
@@ -102,6 +102,7 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
             }
         }
     }
+    private boolean isLoginMode;
 
     @Override
     protected void initView() {
@@ -114,11 +115,9 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        mPosX = event.getX();
                         mPosY = event.getY();
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        mCurPosX = event.getX();
                         mCurPosY = event.getY();
                         break;
                     case MotionEvent.ACTION_UP:
@@ -181,18 +180,20 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
     }
 
 
-
-    @OnClick({R.id.btn_jumpLogin_down, R.id.btn_login, R.id.btn_register, R.id.tv_getIdentifyCode, R.id.tv_forgetPassWord, R.id.btn_login_register})
+    @OnClick({R.id.btn_jumpLogin_down, R.id.btn_login, R.id.btn_register, R.id.tv_getIdentifyCode
+            , R.id.tv_forgetPassWord, R.id.btn_login_register})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_jumpLogin_down:
-                startLogin();
+                ActivityUtils.startActivity(this, MainActivity.class);
                 break;
             case R.id.btn_login:
+                isLoginMode = true;
                 startScrollUp();
                 showLoginView();
                 break;
             case R.id.btn_register:
+                isLoginMode = false;
                 startScrollUp();
                 showRegisterView();
                 break;
@@ -203,7 +204,8 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
                 forgetPassWord();
                 break;
             case R.id.btn_login_register:
-                startRegister();
+                if (isLoginMode)startLogin();
+                else startRegister();
                 break;
         }
     }
@@ -286,7 +288,13 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
 
     @Override
     public void onLogined(String msg) {
-
+        if (TextUtils.equals(msg,getString(R.string.sccuess))){
+            //login ok ,jump to main page
+            ActivityUtils.startActivity(this,MainActivity.class);
+        }else{
+            // login failed !!!
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private class ImagePagerAdapter extends PagerAdapter{
