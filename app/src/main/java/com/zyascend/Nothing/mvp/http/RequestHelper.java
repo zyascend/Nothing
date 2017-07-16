@@ -33,7 +33,7 @@ public class RequestHelper {
         return "18a480ba87d04e1daac69cc540922703";
     }
 
-    public static RequestBody getRegisterBody() {
+    public static RequestBody getRegisterPushTokenBody() {
         //{"appVersion":"","deviceType":"android","pushToken":"13065ffa4e386063e87","sysVersion":"23"}
         StringBuilder sb = new StringBuilder();
         sb.append("{\"appVersion\":\"\",\"deviceType\":\"android\",\"pushToken\":\"");
@@ -188,6 +188,26 @@ public class RequestHelper {
                 + ",\"deviceType\":\"android\",\"mainTagId\":"
                 + mainId
                 + ",\"startRow\":0,\"sysVersion\":\"23\"}";
-        return null;
+        return RequestBody.create(MediaType.parse(TYPE_JSON),body);
+    }
+
+    public static RequestBody getRegisterBody(String phone, String passWord, String code) {
+        String json = "{\"appVersion\":\"2.0.4\",\"authCode\":\""
+                + code +
+                "\",\"deviceType\":\"android\",\"isEncrypt\":true,\"password\":\""
+                + getMd5(passWord) +
+                "\",\"phone\":\""
+                + phone +
+                "\",\"pushToken\":\""
+                + getPushToken() +
+                "\",\"sysVersion\":\"23\"}";
+        return RequestBody.create(MediaType.parse(TYPE_JSON),json);
+    }
+
+    public static RequestBody getAuthCodeBody(String phone) {
+        String json = "{\"appVersion\":\"2.0.4\",\"deviceType\":\"android\",\"phone\":\"" +
+                phone +
+                "\",\"sysVersion\":\"23\",\"type\":1}";
+        return RequestBody.create(MediaType.parse(TYPE_JSON),json);
     }
 }

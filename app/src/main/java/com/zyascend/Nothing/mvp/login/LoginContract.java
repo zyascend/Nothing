@@ -10,6 +10,14 @@ import com.zyascend.Nothing.base.BaseView;
  */
 
 public interface LoginContract {
-    interface View extends BaseView{}
-    interface Presenter{}
+    interface View extends BaseView{
+        void onSendIdentifyCode(String msg);
+        void onRegistered(String msg);
+        void onLogined(String msg);
+    }
+    interface Presenter{
+        void getIdentifyCode(String phoneNumber);
+        void login(String phoneNumber,String password);
+        void register(String phoneNumber,String passWord,String code);
+    }
 }

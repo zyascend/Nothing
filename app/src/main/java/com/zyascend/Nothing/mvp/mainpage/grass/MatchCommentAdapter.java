@@ -39,7 +39,7 @@ public class MatchCommentAdapter
         matchCommentHolder.bind(dataList.get(position));
     }
 
-    private class MatchCommentHolder extends RecyclerView.ViewHolder {
+    class MatchCommentHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.tv_comments)
         TextView tvComments;
         public MatchCommentHolder(View view) {

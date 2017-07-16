@@ -9,6 +9,7 @@ import com.zyascend.Nothing.bean.HomeTag;
 import com.zyascend.Nothing.bean.HotMatch;
 import com.zyascend.Nothing.bean.HotTag;
 import com.zyascend.Nothing.bean.ListData;
+import com.zyascend.Nothing.bean.LoginResponse;
 import com.zyascend.Nothing.bean.Master;
 import com.zyascend.Nothing.bean.MasterDetail;
 import com.zyascend.Nothing.bean.MatchDetail;
@@ -298,6 +299,34 @@ public interface API {
      */
     @POST("v2_1/tag/findDynamicListByTags.do")
     Observable<NormalData<ListData<ChildTagMatch>>> getDynamicByTag(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+
+    /**
+     * 获取验证码
+     * https://api.nothing.la/nothing/common/getAuthCode.do
+     * {"appVersion":"2.0.4","deviceType":"android","phone":"15754302311","sysVersion":"23","type":1}
+     */
+    @POST("common/getAuthCode.do")
+    Observable<BaseResponse> getAuthCode(@Body RequestBody body);
+
+    /**
+     * 注册
+     * https://api.nothing.la/nothing/register.do
+     * {"appVersion":"2.0.4","authCode":"2222","deviceType":"android","isEncrypt":true,"password":"24077C8BC23A254EAD4BB5D6AEFBF2CE","phone":"15754302311","pushToken":"13065ffa4e386063e87","sysVersion":"23"}
+     * 密码：32位MD5加密
+     */
+    @POST("register.do")
+    Observable<BaseResponse> register(@Body RequestBody body);
+
+    /**
+     * 登录
+     * https://api.nothing.la/nothing/login.do
+     * {"appVersion":"2.0.4","deviceType":"android","isEncrypt":true,"mainType":1,"password":"6E8EE1964EE9C762B20B5B5C56363DDA","pushToken":"13065ffa4e386063e87","sysVersion":"23","userNo":"15754302311"}
+     *
+     */
+    @POST("login.do")
+    Observable<NormalData<LoginResponse>> login(@Body RequestBody body);
+
+
 
 
 

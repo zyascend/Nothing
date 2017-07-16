@@ -1,10 +1,6 @@
 package com.zyascend.Nothing.mvp.http;
 
-import android.support.design.widget.BaseTransientBottomBar;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.Menu;
-import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
 import com.zyascend.Nothing.bean.BannerBean;
@@ -31,7 +27,6 @@ import com.zyascend.Nothing.bean.SearchTag;
 import com.zyascend.Nothing.bean.SiftsBean;
 import com.zyascend.Nothing.bean.SiftsDataBean;
 import com.zyascend.Nothing.bean.SimpleListResponse;
-import com.zyascend.Nothing.bean.SimpleResponse;
 import com.zyascend.Nothing.bean.UserMatch;
 import com.zyascend.Nothing.bean.WearingMatch;
 import com.zyascend.Nothing.common.BaseDataCallback;
@@ -47,6 +42,7 @@ import okhttp3.RequestBody;
 import rx.Observable;
 
 import rx.Subscriber;
+import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.subjects.PublishSubject;
 
@@ -77,7 +73,7 @@ public class HttpService implements DataConstantValue{
 
     public void getNotice(PublishSubject<LifeCycleEvent> subject, final BaseDataCallback<Notice> callback){
         RetrofitService.getDefault()
-                .registerPushToken(RequestHelper.getAccessToken(),RequestHelper.getRegisterBody())
+                .registerPushToken(RequestHelper.getAccessToken(),RequestHelper.getRegisterPushTokenBody())
                 //处理嵌套请求 先注册pushToken 再请求数据
                 .flatMap(new Func1<BaseResponse, Observable<Notice>>() {
                     @Override
@@ -1004,7 +1000,50 @@ public class HttpService implements DataConstantValue{
                         callback.onSuccess(been);
                     }
                 });
+    }
+    public void getIdentifyCode(String phone, PublishSubject<LifeCycleEvent> subject
+            , final BaseDataCallback<String> callback){
 
+        RetrofitService.getDefault()
+                .getAuthCode(RequestHelper.getAuthCodeBody(phone))
+                .compose(RxTransformer.INSTANCE.<BaseResponse>transform(subject,null))
+                .map(new Func1<BaseResponse, String>() {
+                    @Override
+                    public String call(BaseResponse baseResponse) {
+                        return baseResponse.getMESSAGE();
+                    }
+                })
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        callback.onSuccess(s);
+                    }
+                });
 
     }
+
+
+
+    public void register(String phone,String passWord,String code
+            , PublishSubject<LifeCycleEvent> subject
+            , final BaseDataCallback<String> callback){
+
+        RetrofitService.getDefault()
+                .register(RequestHelper.getRegisterBody(phone,passWord,code))
+                .compose(RxTransformer.INSTANCE.<BaseResponse>transform(subject,null))
+                .map(new Func1<BaseResponse, String>() {
+                    @Override
+                    public String call(BaseResponse baseResponse) {
+                        return baseResponse.getMESSAGE();
+                    }
+                })
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+
 }

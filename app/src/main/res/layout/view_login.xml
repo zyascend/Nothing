@@ -7,8 +7,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <LinearLayout
+        android:showDividers="middle"
+        android:divider="@drawable/linnear_divider"
         android:id="@+id/ll_login_register"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -31,31 +32,11 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_below="@+id/ll_login_register"
-        android:id="@+id/ll_indicator"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_8">
-
-
-        <com.zyascend.Nothing.common.view.TriangleView
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
-        <com.zyascend.Nothing.common.view.TriangleView
-            android:visibility="invisible"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
-
-    </LinearLayout>
-
 
     <RelativeLayout
         android:background="@color/white"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/ll_indicator"
+        android:layout_below="@+id/ll_login_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -75,10 +56,12 @@
                 style="@style/LoginEditText"/>
 
             <LinearLayout
+                android:id="@+id/ll_identify_code"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <EditText
+                    android:maxLength="4"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -101,8 +84,6 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-
                 <EditText
                     android:layout_weight="3"
                     android:layout_width="0dp"
@@ -121,7 +102,6 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
-
             </LinearLayout>
 
             <Button
@@ -177,7 +157,6 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp_60" />
-
             <Space
                 android:layout_weight="0.5"
                 android:layout_width="0dp"

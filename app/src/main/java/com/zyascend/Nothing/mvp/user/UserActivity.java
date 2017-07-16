@@ -49,7 +49,7 @@ public class UserActivity extends MVPBaseActivity<UserContract.View, UserPresent
     TextView tvName;
     @Bind(R.id.tv_info)
     TextView tvInfo;
-    @Bind(R.id.tv_fans)
+    @Bind(R.id.tv_fans_follow)
     TextView tvFans;
     @Bind(R.id.ll_card_info)
     LinearLayout llCardInfo;

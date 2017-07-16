@@ -45,4 +45,5 @@
     <string name="female">女</string>
     <string name="filter_master">筛选博主</string>
     <string name="sure">确定</string>
+    <string name="resend">秒后重新发送</string>
 </resources>
