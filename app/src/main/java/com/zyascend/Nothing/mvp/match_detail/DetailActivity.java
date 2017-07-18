@@ -1,18 +1,27 @@
 package com.zyascend.Nothing.mvp.match_detail;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.flexbox.FlexboxLayout;
 import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.base.MVPBaseActivity;
+import com.zyascend.Nothing.bean.MatchComments;
 import com.zyascend.Nothing.bean.MatchDetail;
+import com.zyascend.Nothing.bean.ProductAITag;
+import com.zyascend.Nothing.bean.RecommendMatch;
+import com.zyascend.Nothing.bean.RecommendProduct;
 import com.zyascend.Nothing.common.utils.GlideUtils;
+import com.zyascend.Nothing.mvp.mainpage.grass.MatchCommentAdapter;
 
 import java.util.List;
 
@@ -21,7 +30,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * 功能：
+ * 功能：搭配详情页
  * 作者：zyascend on 2017/5/29 20:53
  * 邮箱：zyascend@qq.com
  */
@@ -29,6 +38,7 @@ import butterknife.OnClick;
 public class DetailActivity extends MVPBaseActivity<DetailContract.View, DetailPresenter>
         implements DetailContract.View {
 
+    private static final String MATCH_ID = "match_id";
     @Bind(R.id.iv_back)
     ImageView ivBack;
     @Bind(R.id.iv_more)
@@ -66,6 +76,8 @@ public class DetailActivity extends MVPBaseActivity<DetailContract.View, DetailP
     @Bind(R.id.iv_remind)
     ImageView ivRemind;
     private MatchDetailAdapter detailAdapter;
+    private String matchId;
+    private List<ProductAITag> mAiTag;
 
     @Override
     public void showError() {
@@ -79,10 +91,17 @@ public class DetailActivity extends MVPBaseActivity<DetailContract.View, DetailP
 
     @Override
     protected void initView() {
+
+        matchId = getIntent().getStringExtra(MATCH_ID);
+        if (TextUtils.isEmpty(matchId)){
+            Toast.makeText(this, "id errror", Toast.LENGTH_SHORT).show();
+        }
+
         detailAdapter = new MatchDetailAdapter(this);
         rePic.setAdapter(detailAdapter);
         rePic.setLayoutManager(new LinearLayoutManager(this));
 
+        mPresenter.getDetail(matchId);
     }
 
     @Override
@@ -114,10 +133,63 @@ public class DetailActivity extends MVPBaseActivity<DetailContract.View, DetailP
         if (match.getMatchComments() != null && !match.getMatchComments().isEmpty()){
             setMatchComment(match.getMatchComments());
         }
+
+        mPresenter.getProdAITags(matchId);
     }
 
-    private void setMatchComment(List<MatchDetail.MatchBean.MatchCommentsBean> matchComments) {
+    @Override
+    public void onGetProdAiTag(List<ProductAITag> tags) {
+        mAiTag = tags;
+        if (tags != null && !tags.isEmpty()){
+            for (ProductAITag tag : tags){
+                TextView tv = new TextView(this);
+                tv.setText(tag.getTagLabel());
+                tv.setBackground(ContextCompat.getDrawable(this,R.drawable.btn_stroke_bg));
+                tv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onAiTagClicked(String.valueOf(((TextView) view).getText()));
+                    }
+                });
+                flexMatch.addView(tv);
+            }
+        }
+        mPresenter.getRecommedMatch(matchId);
+    }
 
+    private void onAiTagClicked(String text) {
+        if (mAiTag != null && !mAiTag.isEmpty()){
+            for (ProductAITag t : mAiTag){
+                if (t.getTagLabel().equals(text)){
+                    Toast.makeText(this, "跳转"+text, Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onGetRecommendProd(List<RecommendProduct> products) {
+        if (products != null && !products.isEmpty()){
+
+        }
+
+    }
+
+    @Override
+    public void onGetRecommendMatch(List<RecommendMatch> matches) {
+        if (matches != null && !matches.isEmpty()){
+            RecommendMatchAdapter adapter = new RecommendMatchAdapter(this);
+            reMatch.setAdapter(adapter);
+            reMatch.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+            adapter.addDatas(matches,true);
+        }
+    }
+
+    private void setMatchComment(List<MatchComments> matchComments) {
+        MatchCommentAdapter adapter = new MatchCommentAdapter(this);
+        reComment.setAdapter(adapter);
+        reComment.setLayoutManager(new LinearLayoutManager(this));
+        adapter.addDatas(matchComments,true);
     }
 
     private void setUser(MatchDetail.MatchBean.UserBean user) {
@@ -130,10 +202,23 @@ public class DetailActivity extends MVPBaseActivity<DetailContract.View, DetailP
         tvUserInfo.setText(info);
     }
 
-    private void setTagList(List<MatchDetail.MatchBean.TagListBean> tagList) {
-        
-    }
+    private void setTagList(List<MatchDetail.MatchBean.TagListBean> tags) {
+        if (tags != null && !tags.isEmpty()){
+            for (MatchDetail.MatchBean.TagListBean tag : tags){
+                TextView tv = new TextView(this);
+                tv.setText(tag.getName());
+                tv.setBackground(ContextCompat.getDrawable(this,R.drawable.btn_stroke_bg));
+                tv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(DetailActivity.this, String.valueOf(((TextView) view).getText()), Toast.LENGTH_SHORT).show();
+                    }
+                });
+                flexTag.addView(tv);
+            }
+        }
 
+    }
 
     @OnClick({R.id.iv_back, R.id.iv_more, R.id.tv_likeCount, R.id.tv_collect, R.id.iv_remind})
     public void onClick(View view) {

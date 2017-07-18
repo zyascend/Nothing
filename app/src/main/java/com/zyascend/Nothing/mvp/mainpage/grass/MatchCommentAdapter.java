@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.zyascend.Nothing.R;
+import com.zyascend.Nothing.bean.MatchComments;
 import com.zyascend.Nothing.bean.SiftsBean;
 import com.zyascend.amazingadapter.AmazingAdapter;
 
@@ -21,7 +22,7 @@ import butterknife.ButterKnife;
  */
 
 public class MatchCommentAdapter
-        extends AmazingAdapter<SiftsBean.DynamicBean.MatchBean.MatchCommentsBean> {
+        extends AmazingAdapter<MatchComments> {
 
     public MatchCommentAdapter(Context mContext) {
         super(mContext);
@@ -47,7 +48,7 @@ public class MatchCommentAdapter
             ButterKnife.bind(this, view);
         }
 
-        public void bind(SiftsBean.DynamicBean.MatchBean.MatchCommentsBean comments) {
+        public void bind(MatchComments comments) {
             // TODO: 2017/5/23 待处理： 1.用户名高亮 2.表情
             String content = "";
             if (comments.getReplyUser()!=null){

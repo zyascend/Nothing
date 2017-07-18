@@ -223,4 +223,11 @@ public class RequestHelper {
                 "\"}";
         return RequestBody.create(MediaType.parse(TYPE_JSON),json);
     }
+
+    public static RequestBody getMatchIdBody(String matchId) {
+        String json = "{\"appVersion\":\"2.0.4\",\"deviceType\":\"android\",\"matchId\":\"" +
+                matchId +
+                "\",\"startRow\":0,\"sysVersion\":\"23\"}";
+        return RequestBody.create(MediaType.parse(TYPE_JSON),json);
+    }
 }

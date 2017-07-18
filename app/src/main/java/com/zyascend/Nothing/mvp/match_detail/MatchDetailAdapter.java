@@ -1,11 +1,14 @@
 package com.zyascend.Nothing.mvp.match_detail;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -25,8 +28,7 @@ import butterknife.ButterKnife;
  */
 public class MatchDetailAdapter extends AmazingAdapter<MatchDetail.MatchBean.PicListBean> {
 
-    @Bind(R.id.iv_pic)
-    ImageView ivPic;
+
     private List<MatchDetail.MatchBean.ProdListBean> prodList;
 
     public MatchDetailAdapter(Context context) {
@@ -74,15 +76,27 @@ public class MatchDetailAdapter extends AmazingAdapter<MatchDetail.MatchBean.Pic
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(ivPic);
 
-            if (getAdapterPosition() == 0 && prodList != null){
+            if (getAdapterPosition() == 0 && prodList != null
+                    && !prodList.isEmpty()){
                 for(MatchDetail.MatchBean.ProdListBean prod : prodList){
                     setProds(prod);
                 }
             }
         }
 
-        private void setProds(MatchDetail.MatchBean.ProdListBean prod) {
-
+        private void setProds(final MatchDetail.MatchBean.ProdListBean prod) {
+            TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.item_home_tag,null,false);
+            tv.setX((float) (prod.getPositionX() * ivPic.getLayoutParams().width));
+            tv.setY((float) (prod.getPositionY()*ivPic.getLayoutParams().height));
+            tv.setText(prod.getName());
+            tv.setTextColor(Color.WHITE);
+            tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //跳转
+                    Toast.makeText(mContext, prod.getName(), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 }

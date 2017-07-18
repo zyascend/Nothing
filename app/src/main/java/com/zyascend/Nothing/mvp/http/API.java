@@ -16,16 +16,18 @@ import com.zyascend.Nothing.bean.MatchDetail;
 import com.zyascend.Nothing.bean.MenuBean;
 import com.zyascend.Nothing.bean.NormalData;
 import com.zyascend.Nothing.bean.Notice;
+import com.zyascend.Nothing.bean.ProductAITag;
 import com.zyascend.Nothing.bean.ProdBox;
 import com.zyascend.Nothing.bean.ProductMenu;
 import com.zyascend.Nothing.bean.RankMaster;
 import com.zyascend.Nothing.bean.RankingMatch;
 import com.zyascend.Nothing.bean.RankingUser;
 
+import com.zyascend.Nothing.bean.RecommendMatch;
+import com.zyascend.Nothing.bean.RecommendProduct;
 import com.zyascend.Nothing.bean.SearchTag;
 import com.zyascend.Nothing.bean.SiftsDataBean;
 import com.zyascend.Nothing.bean.SimpleListResponse;
-import com.zyascend.Nothing.bean.UserBean;
 import com.zyascend.Nothing.bean.UserMatch;
 import com.zyascend.Nothing.bean.WearingMatch;
 
@@ -334,6 +336,30 @@ public interface API {
      */
     @POST("loginout.do")
     Observable<BaseResponse> loginout(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+
+
+    /**
+     * https://api.nothing.la/nothing/v1_9/dynamic/common/findRecommendProductByMatch.do?accessToken=dcd8349fdf024ec38a7d7795202220cd
+     * {"appVersion":"2.0.4","deviceType":"android","matchId":"a18385fd5fc3476984653d40423fc52c","startRow":0,"sysVersion":"23"}
+     *
+     */
+    @POST("v1_9/dynamic/common/findRecommendProductByMatch.do")
+    Observable<NormalData<ListData<RecommendProduct>>> findRecommendProductbyMatch(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+
+    /**
+     * https://api.nothing.la/nothing//v2_1/dynamic/common/findProductAITagList.do?accessToken=dcd8349fdf024ec38a7d7795202220cd
+     * 同上
+     */
+    @POST("/v2_1/dynamic/common/findProductAITagList.do")
+    Observable<SimpleListResponse<ProductAITag>> findProductAITags(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+
+    /**
+     * https://api.nothing.la/nothing//v2_1/dynamic/common/findRecommendMatchByMatch.do?accessToken=dcd8349fdf024ec38a7d7795202220cd
+     * tong shang
+     */
+    @POST("/v2_1/dynamic/common/findRecommendMatchByMatch.do")
+    Observable<NormalData<ListData<RecommendMatch>>> findRecommendMatchbyMatch(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+
 
 
 

@@ -33,4 +33,21 @@ public class DetailPresenter extends BasePresenter<DetailContract.View>
             }
         });
     }
+
+    @Override
+    public void getProdAITags(String matchID) {
+
+    }
+
+    @Override
+    public void getRecomendProd(String matchId) {
+
+    }
+
+    @Override
+    public void getRecommedMatch(String matchId) {
+
+    }
+
+
 }

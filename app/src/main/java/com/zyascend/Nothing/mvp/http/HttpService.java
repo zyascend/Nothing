@@ -20,10 +20,13 @@ import com.zyascend.Nothing.bean.MenuBean;
 import com.zyascend.Nothing.bean.NormalData;
 import com.zyascend.Nothing.bean.Notice;
 import com.zyascend.Nothing.bean.ProdBox;
+import com.zyascend.Nothing.bean.ProductAITag;
 import com.zyascend.Nothing.bean.ProductMenu;
 import com.zyascend.Nothing.bean.RankMaster;
 import com.zyascend.Nothing.bean.RankingMatch;
 import com.zyascend.Nothing.bean.RankingUser;
+import com.zyascend.Nothing.bean.RecommendMatch;
+import com.zyascend.Nothing.bean.RecommendProduct;
 import com.zyascend.Nothing.bean.SearchTag;
 import com.zyascend.Nothing.bean.SiftsBean;
 import com.zyascend.Nothing.bean.SiftsDataBean;
@@ -1066,6 +1069,93 @@ public class HttpService implements DataConstantValue{
                     @Override
                     public void call(String s) {
                         callback.onSuccess(s);
+                    }
+                });
+    }
+
+    public void getRecommendProd(String matchId,PublishSubject<LifeCycleEvent> subject
+            , final BaseDataCallback<List<RecommendProduct>> callback){
+        RetrofitService.getDefault()
+                .findRecommendProductbyMatch(RequestHelper.getAccessToken(),RequestHelper.getMatchIdBody(matchId))
+                .compose(RxTransformer.INSTANCE.<NormalData<ListData<RecommendProduct>>>transform(subject,null))
+                .map(new Func1<NormalData<ListData<RecommendProduct>>, List<RecommendProduct>>() {
+                    @Override
+                    public List<RecommendProduct> call(NormalData<ListData<RecommendProduct>> data) {
+                        return data.getDATA().getList();
+                    }
+                })
+                .subscribe(new Subscriber<List<RecommendProduct>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<RecommendProduct> recommendProducts) {
+                        callback.onSuccess(recommendProducts);
+                    }
+                });
+    }
+
+    public void getRecommendMatch(String matchId,PublishSubject<LifeCycleEvent> subject
+            , final BaseDataCallback<List<RecommendMatch>> callback){
+        RetrofitService.getDefault()
+                .findRecommendMatchbyMatch(RequestHelper.getAccessToken(),RequestHelper.getMatchIdBody(matchId))
+                .compose(RxTransformer.INSTANCE.<NormalData<ListData<RecommendMatch>>>transform(subject,null))
+                .map(new Func1<NormalData<ListData<RecommendMatch>>, List<RecommendMatch>>() {
+                    @Override
+                    public List<RecommendMatch> call(NormalData<ListData<RecommendMatch>> data) {
+                        return data.getDATA().getList();
+                    }
+                })
+                .subscribe(new Subscriber<List<RecommendMatch>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<RecommendMatch> recommendProducts) {
+                        callback.onSuccess(recommendProducts);
+                    }
+                });
+    }
+
+    public void findProductAITags(String matchId,PublishSubject<LifeCycleEvent> subject
+            , final BaseDataCallback<List<ProductAITag>> callback){
+        RetrofitService.getDefault()
+                .findProductAITags(RequestHelper.getAccessToken(),RequestHelper.getMatchIdBody(matchId))
+                .compose(RxTransformer.INSTANCE.<SimpleListResponse<ProductAITag>>transform(subject,null))
+                .map(new Func1<SimpleListResponse<ProductAITag>, List<ProductAITag>>() {
+                    @Override
+                    public List<ProductAITag> call(SimpleListResponse<ProductAITag> data) {
+                        return data.getDATA().getList();
+                    }
+                })
+                .subscribe(new Subscriber<List<ProductAITag>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<ProductAITag> recommendProducts) {
+                        callback.onSuccess(recommendProducts);
                     }
                 });
     }
