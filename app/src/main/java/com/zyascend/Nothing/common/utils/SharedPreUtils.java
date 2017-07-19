@@ -13,6 +13,7 @@ import com.zyascend.Nothing.base.BaseApplication;
 
 public class SharedPreUtils {
 
+    public static final String KEY_SPLASH = "key_splash";
     private static String tag = SharedPreUtils.class.getSimpleName();
     private final static String SP_NAME = "data";
     private static SharedPreferences sp;

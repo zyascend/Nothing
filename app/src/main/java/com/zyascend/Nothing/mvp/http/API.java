@@ -28,6 +28,7 @@ import com.zyascend.Nothing.bean.RecommendProduct;
 import com.zyascend.Nothing.bean.SearchTag;
 import com.zyascend.Nothing.bean.SiftsDataBean;
 import com.zyascend.Nothing.bean.SimpleListResponse;
+import com.zyascend.Nothing.bean.SplashInfo;
 import com.zyascend.Nothing.bean.UserMatch;
 import com.zyascend.Nothing.bean.WearingMatch;
 
@@ -361,6 +362,16 @@ public interface API {
     Observable<NormalData<ListData<RecommendMatch>>> findRecommendMatchbyMatch(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
 
 
+    /**
+     * https://api.nothing.la/nothing/common/v1_8/getAppStartPic.do
+     * normal body
+     */
+    @POST("common/v1_8/getAppStartPic.do")
+    Observable<NormalData<SplashInfo>> getSplashInfo(@Body RequestBody body);
+
+
+
+
 
 
 
@@ -369,3 +380,4 @@ public interface API {
 
 
 }
+

@@ -173,6 +173,5 @@ public class CacheManager implements DataConstantValue{
     public void saveLoginData(LoginResponse data) {
         if (data == null)return;
         //暂时只缓存accessToken
-
     }
 }
