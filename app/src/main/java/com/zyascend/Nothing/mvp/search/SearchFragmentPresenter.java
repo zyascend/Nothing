@@ -16,11 +16,11 @@ import java.util.List;
  * 邮箱：zyascend@qq.com
  */
 
-public class SearchPresenter extends BasePresenter<SearchContract.View>
+public class SearchFragmentPresenter extends BasePresenter<SearchContract.View>
     implements SearchContract.Presenter{
 
     private HttpService httpService;
-    public SearchPresenter() {
+    public SearchFragmentPresenter() {
         httpService = HttpService.getInstance();
     }
 

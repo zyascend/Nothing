@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.Resource;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 
 /**
  * 功能：
@@ -31,7 +32,7 @@ public class GlideUtils {
         Glide.with(context)
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .transform(transform)
+                .transform(new CenterCrop(context),transform)
                 .into(imageView);
 
     }

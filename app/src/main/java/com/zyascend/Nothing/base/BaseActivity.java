@@ -36,8 +36,13 @@ public abstract class BaseActivity extends AppCompatActivity {
                 //.setErrorView(R.layout.view_error)
                 //.setLoadingView(R.layout.view_loading)
                 //.build();
+        doBeforeInitView();
         initView();
         loadData();
+    }
+
+    public void doBeforeInitView() {
+
     }
 
     public boolean canBind() {

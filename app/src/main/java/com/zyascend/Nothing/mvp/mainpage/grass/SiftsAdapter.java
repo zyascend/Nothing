@@ -1,7 +1,9 @@
 package com.zyascend.Nothing.mvp.mainpage.grass;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -16,15 +18,19 @@ import android.widget.TextView;
 import com.google.android.flexbox.FlexboxLayout;
 import com.orhanobut.logger.Logger;
 import com.zyascend.Nothing.R;
+import com.zyascend.Nothing.bean.MatchComments;
 import com.zyascend.Nothing.bean.SiftsBean;
+import com.zyascend.Nothing.common.utils.ActivityUtils;
 import com.zyascend.Nothing.common.utils.GlideUtils;
 import com.zyascend.Nothing.common.view.SpanTextView;
+import com.zyascend.Nothing.mvp.match_detail.DetailActivity;
 import com.zyascend.amazingadapter.MultiAdapter;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 功能：
@@ -33,7 +39,6 @@ import butterknife.ButterKnife;
  */
 
 public class SiftsAdapter extends MultiAdapter<SiftsBean> {
-
 
 
     public SiftsAdapter(Context mContext) {
@@ -65,7 +70,7 @@ public class SiftsAdapter extends MultiAdapter<SiftsBean> {
         @Bind(R.id.tv_time)
         TextView tvTime;
         @Bind(R.id.tv_description)
-        SpanTextView tvDescription;
+        TextView tvDescription;
         @Bind(R.id.iv_picture)
         ImageView ivPicture;
         @Bind(R.id.tv_picNum)
@@ -86,6 +91,7 @@ public class SiftsAdapter extends MultiAdapter<SiftsBean> {
         TextView tvCommentsCount;
         @Bind(R.id.list_comments)
         RecyclerView listComments;
+        private String matchId;
 
         public SiftsHolder(View view) {
             super(view);
@@ -94,10 +100,13 @@ public class SiftsAdapter extends MultiAdapter<SiftsBean> {
 
         public void bind(Context context, SiftsBean siftsBean) {
 
-            if (siftsBean == null || siftsBean.getDynamic() == null
+            if (siftsBean == null || siftsBean.getType() == 6 || siftsBean.getDynamic() == null
                     ||siftsBean.getDynamic().getMatch() == null) return;
 
+            matchId = siftsBean.getDynamic().getId();
+
             final SiftsBean.DynamicBean.MatchBean data = siftsBean.getDynamic().getMatch();
+
             String headUrl = data.getUser().getHead().getUrl();
             GlideUtils.loadCirclePic(context,ivUserImg,headUrl);
 
@@ -113,14 +122,8 @@ public class SiftsAdapter extends MultiAdapter<SiftsBean> {
                     String user = "@"+reminder.getName();
                     des+=user;
                 }
-                tvDescription.setText(des, new SpanTextView.ReminderClickListener() {
-                    @Override
-                    public void onReminderClick(String reminder) {
-                        jumpToUser(reminder,list);
-                    }
-                });
+                tvDescription.setText(des);
             }
-
 
             String picUrl = data.getPicture().getUrl();
             GlideUtils.loadRoundPic(context,ivPicture,picUrl);
@@ -136,10 +139,17 @@ public class SiftsAdapter extends MultiAdapter<SiftsBean> {
                 bindComments(data.getMatchComments());
             }
 
+        }
 
+        @OnClick(R.id.iv_picture)
+        public void onClick() {
+            Intent intent = new Intent(mContext, DetailActivity.class);
+            intent.putExtra(DetailActivity.MATCH_ID,matchId);
+            mContext.startActivity(intent);
         }
 
         private void fillFlexBox(SiftsBean.DynamicBean.MatchBean data) {
+            if (data.getSiftTag() == null)return;
             String siftTag = data.getSiftTag().getName();
             flexboxLayout.addView(obtainTextView(siftTag));
             if (data.getProdList() != null && !data.getProdList().isEmpty()){
@@ -157,12 +167,30 @@ public class SiftsAdapter extends MultiAdapter<SiftsBean> {
         }
 
         private TextView obtainTextView(String content) {
+
             TextView textView = new TextView(mContext);
-            textView.setBackground(ContextCompat.getDrawable(mContext,R.drawable.btn_stroke_bg));
-            textView.setText(content);
             textView.setGravity(Gravity.CENTER);
-            textView.setPadding(20,0,20,0);
+            textView.setText(content);
+            textView.setTextSize(12);
             textView.setTextColor(ContextCompat.getColor(mContext,R.color.orange_dark));
+            textView.setBackgroundResource(R.drawable.btn_stroke_bg);
+//            textView.setTag();
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+            int padding = ActivityUtils.dpToPixel(4);
+            int paddingLeftAndRight = ActivityUtils.dpToPixel(8);
+            ViewCompat.setPaddingRelative(textView, paddingLeftAndRight, padding, paddingLeftAndRight, padding);
+            FlexboxLayout.LayoutParams layoutParams = new FlexboxLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            int margin = ActivityUtils.dpToPixel(6);
+            int marginTop = ActivityUtils.dpToPixel(10);
+            layoutParams.setMargins(margin, marginTop, margin, 0);
+            textView.setLayoutParams(layoutParams);
             return textView;
         }
 
@@ -183,7 +211,7 @@ public class SiftsAdapter extends MultiAdapter<SiftsBean> {
             else return data.getUser().getHeight();
         }
 
-        private void bindComments(List<SiftsBean.DynamicBean.MatchBean.MatchCommentsBean> comments) {
+        private void bindComments(List<MatchComments> comments) {
             MatchCommentAdapter adapter = new MatchCommentAdapter(mContext);
             listComments.setAdapter(adapter);
             listComments.setLayoutManager(new LinearLayoutManager(mContext));

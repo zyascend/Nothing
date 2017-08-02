@@ -12,6 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
+            android:descendantFocusability="blocksDescendants"
+            android:showDividers="middle"
+            android:divider="@drawable/linnear_divider"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -19,7 +22,7 @@
             <com.loonggg.rvbanner.lib.RecyclerViewBanner
                 android:id="@+id/rv_banner_1"
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
+                android:layout_height="160dp"
                 tools:background="@color/colorPrimaryDark"
                 app:rvb_showIndicator="false"
                 app:rvb_interval="1500"/>
@@ -31,7 +34,7 @@
             <!--findRankView-->
             <include layout="@layout/view_find_rank_user"/>
             <!--Sifts view-->
-            <android.support.v7.widget.RecyclerView
+            <com.zyascend.Nothing.common.view.ScrollRecyclerView
                 android:id="@+id/re_sifts"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"

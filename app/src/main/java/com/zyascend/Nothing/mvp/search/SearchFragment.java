@@ -1,12 +1,9 @@
 package com.zyascend.Nothing.mvp.search;
 
-import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.zyascend.Nothing.R;
@@ -19,7 +16,6 @@ import com.zyascend.amazingadapter.MultiAdapter;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -28,7 +24,7 @@ import butterknife.OnClick;
  * 邮箱：zyascend@qq.com
  */
 
-public class SearchFragment extends MVPBaseFragment<SearchContract.View, SearchPresenter>
+public class SearchFragment extends MVPBaseFragment<SearchContract.View, SearchFragmentPresenter>
         implements SearchContract.View, SwipeRefreshLayout.OnRefreshListener {
 
     @Bind(R.id.tv_search)
@@ -115,8 +111,8 @@ public class SearchFragment extends MVPBaseFragment<SearchContract.View, SearchP
     }
 
     @Override
-    protected SearchPresenter initPresenter() {
-        return new SearchPresenter();
+    protected SearchFragmentPresenter initPresenter() {
+        return new SearchFragmentPresenter();
     }
 
     @Override

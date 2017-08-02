@@ -143,6 +143,8 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
         List<String> data = new ArrayList<>();
         data.add("推荐");
         data.add("关注");
+        if (mTagList == null || mTagList.isEmpty())return;
+
         for (HomeTag tag : mTagList){
             data.add(tag.getName());
         }
@@ -211,7 +213,7 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
         }
     }
 
-    private class TabTagAdapter extends AmazingAdapter<String> {
+    public class TabTagAdapter extends AmazingAdapter<String> {
 
         public TabTagAdapter(Context mContext) {
             super(mContext);
@@ -229,7 +231,7 @@ public class HomeFragment extends MVPBaseFragment<MainContract.HomeView, HomePre
         }
 
 
-        class TabTagHolder extends RecyclerView.ViewHolder {
+        public class TabTagHolder extends RecyclerView.ViewHolder {
 
             @Bind(R.id.tv_text)
             TextView tvText;

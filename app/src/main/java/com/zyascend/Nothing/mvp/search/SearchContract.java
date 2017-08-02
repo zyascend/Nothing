@@ -23,4 +23,12 @@ public interface SearchContract {
         void onGetHotTags(List<HotTag> hotTags);
         void onGetMaster(List<Master> masters);
     }
+
+    interface SearchView extends BaseView{}
+    interface  SearchPresenter{}
+
+    interface SearchResultView{}
+    interface SearchResultPresenter{}
+
+
 }

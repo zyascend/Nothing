@@ -101,7 +101,7 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
                 tvGetIdentifyCode.setEnabled(true);
             }
         }
-    }
+    };
     private boolean isLoginMode;
 
     @Override

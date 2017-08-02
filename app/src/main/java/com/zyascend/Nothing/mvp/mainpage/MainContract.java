@@ -1,5 +1,6 @@
 package com.zyascend.Nothing.mvp.mainpage;
 
+import android.util.SparseArray;
 import android.view.ViewOutlineProvider;
 
 import com.zyascend.Nothing.base.BaseView;
@@ -76,7 +77,7 @@ public interface MainContract {
     }
     interface TagPresenter{
         void getChildTags(String id);
-        void getDynamic(String mainId,List<ChildTag> childTags);
+        void getDynamic(String mainId, SparseArray<ChildTag> childTags);
     }
 
 

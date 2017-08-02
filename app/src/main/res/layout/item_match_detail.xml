@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView
-    android:scaleType="centerCrop"
-    android:id="@+id/iv_pic"
-    android:layout_height="wrap_content"
+<FrameLayout
+    android:id="@+id/pic_frame"
+    android:layout_marginBottom="@dimen/dp_2"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android" />
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView
+        android:scaleType="centerCrop"
+        android:id="@+id/iv_pic"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+</FrameLayout>

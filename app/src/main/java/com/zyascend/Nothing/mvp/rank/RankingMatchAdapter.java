@@ -41,7 +41,7 @@ public class RankingMatchAdapter extends AmazingAdapter<RankingMatch> {
         matchHolder.bindData(dataList.get(position));
     }
 
-    private class RankingMatchHolder extends RecyclerView.ViewHolder {
+    class RankingMatchHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.iv_pic)
         ImageView ivPic;

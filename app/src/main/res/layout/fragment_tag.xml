@@ -1,16 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<com.zyascend.Nothing.common.view.FloatScrollView
+    android:background="@color/gray_back"
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <include layout="@layout/view_tag_filter"/>
-
-    <View
-        android:background="@color/gray_back"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:descendantFocusability="blocksDescendants"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_2"/>
+        android:layout_height="wrap_content">
 
-    <include layout="@layout/fragment_recycler"/>
-</LinearLayout>
+        <include layout="@layout/view_tag_filter"/>
+
+        <View
+            android:background="@color/gray_back"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_2"/>
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/swipeRefreshLayout"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+            <com.zyascend.Nothing.common.view.ScrollRecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+    </LinearLayout>
+</com.zyascend.Nothing.common.view.FloatScrollView>

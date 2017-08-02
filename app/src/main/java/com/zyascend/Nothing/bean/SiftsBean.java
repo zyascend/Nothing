@@ -32,6 +32,10 @@ public class SiftsBean {
 
     public static class DynamicBean {
 
+        public DynamicBean() {
+            super();
+        }
+
         public DynamicBean(String id, MatchBean match) {
             this.id = id;
             this.match = match;
@@ -277,7 +281,6 @@ public class SiftsBean {
             }
 
             public static class HeightTagBean {
-
 
                 private int hotNum;
                 private int hotType;

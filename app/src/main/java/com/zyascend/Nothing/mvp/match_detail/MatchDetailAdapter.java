@@ -3,17 +3,23 @@ package com.zyascend.Nothing.mvp.match_detail;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.orhanobut.logger.Logger;
 import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.bean.MatchDetail;
+import com.zyascend.Nothing.common.utils.ActivityUtils;
 import com.zyascend.amazingadapter.AmazingAdapter;
 
 import java.util.List;
@@ -56,6 +62,10 @@ public class MatchDetailAdapter extends AmazingAdapter<MatchDetail.MatchBean.Pic
 
         @Bind(R.id.iv_pic)
         ImageView ivPic;
+        @Bind(R.id.pic_frame)
+        FrameLayout frameLayout;
+        private int picH;
+        private int picW;
 
         public DetailHolder(View view) {
             super(view);
@@ -65,14 +75,15 @@ public class MatchDetailAdapter extends AmazingAdapter<MatchDetail.MatchBean.Pic
         public void bindData(MatchDetail.MatchBean.PicListBean data) {
             if (data == null) return;
             float ratio = data.getHeight()/data.getWidth();
-            int width = ivPic.getWidth() == 0
+
+            picW = ivPic.getWidth() == 0
                     ? mContext.getResources().getDisplayMetrics().widthPixels : ivPic.getWidth();
-            int height = (int) (width*ratio);
+            picH = (int) (picW*ratio);
 
             Glide.with(mContext)
                     .load(data.getUrl())
                     .centerCrop()
-                    .override(width,height)
+                    .override(picW,picH)
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(ivPic);
 
@@ -85,11 +96,22 @@ public class MatchDetailAdapter extends AmazingAdapter<MatchDetail.MatchBean.Pic
         }
 
         private void setProds(final MatchDetail.MatchBean.ProdListBean prod) {
-            TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.item_home_tag,null,false);
-            tv.setX((float) (prod.getPositionX() * ivPic.getLayoutParams().width));
-            tv.setY((float) (prod.getPositionY()*ivPic.getLayoutParams().height));
-            tv.setText(prod.getName());
+
+            float x = (float) (prod.getPositionX() * picW);
+            float y = (float) (prod.getPositionY()* picH);
+
+            Logger.d("tag x , y = "+x +"/"+y);
+
+            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT
+                    , FrameLayout.LayoutParams.WRAP_CONTENT);
+            lp.leftMargin = (int) x;
+            lp.topMargin = (int) y;
+            lp.height = ActivityUtils.dpToPixel(40);
+            TextView tv = new TextView(mContext);
+            tv.setText(prod.getBrandName());
+            tv.setGravity(Gravity.CENTER);
             tv.setTextColor(Color.WHITE);
+            tv.setBackgroundResource(prod.getIsLeft() == 0 ? R.drawable.bg_tag_right : R.drawable.ic_tag);
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -97,6 +119,7 @@ public class MatchDetailAdapter extends AmazingAdapter<MatchDetail.MatchBean.Pic
                     Toast.makeText(mContext, prod.getName(), Toast.LENGTH_SHORT).show();
                 }
             });
+            frameLayout.addView(tv,lp);
         }
     }
 }

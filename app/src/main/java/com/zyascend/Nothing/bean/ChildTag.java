@@ -1,5 +1,7 @@
 package com.zyascend.Nothing.bean;
 
+import com.alibaba.fastjson.JSON;
+
 /**
  * 功能：首页便签页面
  * 作者：zyascend on 2017/7/15 09:38
@@ -40,5 +42,17 @@ public class ChildTag {
 
     public void setShowLine(int showLine) {
         this.showLine = showLine;
+    }
+
+    //
+    @Override
+    public String toString() {
+        return "{\"id\":\"" +
+                id +
+                "\",\"line\":" +
+                showLine +
+                ",\"name\":\"" +
+                name +
+                "\"}";
     }
 }

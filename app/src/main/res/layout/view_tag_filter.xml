@@ -11,13 +11,13 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_style"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_40"/>
+        android:layout_height="wrap_content"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_height"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_40"/>
+        android:layout_height="wrap_content"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_brand"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_40"/>
+        android:layout_height="wrap_content"/>
 </LinearLayout>

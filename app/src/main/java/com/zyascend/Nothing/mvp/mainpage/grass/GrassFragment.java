@@ -1,5 +1,7 @@
 package com.zyascend.Nothing.mvp.mainpage.grass;
 
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.GridLayoutManager;
@@ -20,7 +22,9 @@ import com.zyascend.Nothing.bean.BannerBean;
 import com.zyascend.Nothing.bean.MenuBean;
 import com.zyascend.Nothing.bean.RankingUser;
 import com.zyascend.Nothing.bean.SiftsDataBean;
-import com.zyascend.Nothing.common.view.FullyLinearLayoutManager;
+import com.zyascend.Nothing.common.utils.ActivityUtils;
+import com.zyascend.Nothing.common.view.RecyclerDivider;
+import com.zyascend.Nothing.common.view.ScrollRecyclerView;
 import com.zyascend.Nothing.mvp.mainpage.MainContract;
 import com.zyascend.amazingadapter.LoadMoreListener;
 import com.zyascend.amazingadapter.MultiAdapter;
@@ -39,7 +43,6 @@ import butterknife.Bind;
 public class GrassFragment extends MVPBaseFragment<MainContract.GrassView, GrassPresenter>
         implements MainContract.GrassView, SwipeRefreshLayout.OnRefreshListener, LoadMoreListener {
 
-
     @Bind(R.id.rv_banner_1)
     RecyclerViewBanner banner;
     @Bind(R.id.re_MenuView)
@@ -49,9 +52,9 @@ public class GrassFragment extends MVPBaseFragment<MainContract.GrassView, Grass
     @Bind(R.id.tv_getMore)
     TextView tvGetMore;
     @Bind(R.id.re_findRankUser)
-    RecyclerView reFindRankUser;
+    ScrollRecyclerView reFindRankUser;
     @Bind(R.id.re_sifts)
-    RecyclerView reSifts;
+    ScrollRecyclerView reSifts;
     @Bind(R.id.swipeRefresh)
     SwipeRefreshLayout swipeRefresh;
 
@@ -101,11 +104,13 @@ public class GrassFragment extends MVPBaseFragment<MainContract.GrassView, Grass
                 Toast.makeText(mActivity, "position: " + position, Toast.LENGTH_SHORT).show();
             }
         });
+        banner.setIndicatorInterval(2000);
 
         //配置RecyclerView
         reMenu.setLayoutManager(new GridLayoutManager(mActivity,2));
         menuAdapter = new MenuAdapter(mActivity);
         reMenu.setAdapter(menuAdapter);
+        reMenu.addItemDecoration(new RecyclerDivider(getActivity(), RecyclerDivider.BOTH_SET,ActivityUtils.dpToPixel(1),  Color.parseColor("#939393")));
 
         reFindRankUser.setLayoutManager(new LinearLayoutManager(mActivity,LinearLayoutManager.HORIZONTAL,false));
         userAdapter = new RankUserAdapter(mActivity);
@@ -113,9 +118,9 @@ public class GrassFragment extends MVPBaseFragment<MainContract.GrassView, Grass
 
         siftsAdapter = new SiftsAdapter(mActivity);
         siftsAdapter.setLoadMoreListener(this);
-        reSifts.setLayoutManager(new FullyLinearLayoutManager(mActivity));
+        reSifts.setLayoutManager(new LinearLayoutManager(mActivity));
         reSifts.setAdapter(siftsAdapter);
-
+        reSifts.addItemDecoration(new RecyclerDivider(getActivity(), RecyclerDivider.BOTH_SET, ActivityUtils.dpToPixel(1), Color.parseColor("#939393")));
     }
 
     @Override
@@ -147,6 +152,7 @@ public class GrassFragment extends MVPBaseFragment<MainContract.GrassView, Grass
             banner.setRvBannerData(bannerList);
         }
         mPresenter.getMenu();
+
     }
 
     @Override
@@ -172,7 +178,7 @@ public class GrassFragment extends MVPBaseFragment<MainContract.GrassView, Grass
 
     @Override
     public void onGetSifts(SiftsDataBean data) {
-
+        swipeRefresh.setRefreshing(false);
         if (data == null) {
             showError();
             if (!isRefresh){
@@ -198,6 +204,7 @@ public class GrassFragment extends MVPBaseFragment<MainContract.GrassView, Grass
 
     @Override
     public void onLoadMore(boolean isReload) {
+        Logger.d("loadMore");
         if (!isRefresh) mPresenter.getSifts(curFirstTime);
     }
 

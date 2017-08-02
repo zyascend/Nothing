@@ -1,12 +1,14 @@
 package com.zyascend.Nothing.mvp.match_detail;
 
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,13 +22,15 @@ import com.zyascend.Nothing.bean.MatchDetail;
 import com.zyascend.Nothing.bean.ProductAITag;
 import com.zyascend.Nothing.bean.RecommendMatch;
 import com.zyascend.Nothing.bean.RecommendProduct;
+import com.zyascend.Nothing.common.utils.ActivityUtils;
 import com.zyascend.Nothing.common.utils.GlideUtils;
+import com.zyascend.Nothing.common.view.ExStaggeredGridLayoutManager;
+import com.zyascend.Nothing.common.view.ScrollRecyclerView;
 import com.zyascend.Nothing.mvp.mainpage.grass.MatchCommentAdapter;
 
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -38,13 +42,13 @@ import butterknife.OnClick;
 public class DetailActivity extends MVPBaseActivity<DetailContract.View, DetailPresenter>
         implements DetailContract.View {
 
-    private static final String MATCH_ID = "match_id";
+    public static final String MATCH_ID = "match_id";
     @Bind(R.id.iv_back)
     ImageView ivBack;
     @Bind(R.id.iv_more)
     ImageView ivMore;
     @Bind(R.id.re_pic)
-    RecyclerView rePic;
+    ScrollRecyclerView rePic;
     @Bind(R.id.tv_lookCount)
     TextView tvLookCount;
     @Bind(R.id.tv_praiseCount)
@@ -62,7 +66,7 @@ public class DetailActivity extends MVPBaseActivity<DetailContract.View, DetailP
     @Bind(R.id.tv_commentsCount)
     TextView tvCommentsCount;
     @Bind(R.id.re_comment)
-    RecyclerView reComment;
+    ScrollRecyclerView reComment;
     @Bind(R.id.flex_match)
     FlexboxLayout flexMatch;
     @Bind(R.id.re_match)
@@ -78,6 +82,7 @@ public class DetailActivity extends MVPBaseActivity<DetailContract.View, DetailP
     private MatchDetailAdapter detailAdapter;
     private String matchId;
     private List<ProductAITag> mAiTag;
+    private RecommendMatchAdapter recommendMatchAdapter;
 
     @Override
     public void showError() {
@@ -98,8 +103,12 @@ public class DetailActivity extends MVPBaseActivity<DetailContract.View, DetailP
         }
 
         detailAdapter = new MatchDetailAdapter(this);
-        rePic.setAdapter(detailAdapter);
         rePic.setLayoutManager(new LinearLayoutManager(this));
+        rePic.setAdapter(detailAdapter);
+
+        recommendMatchAdapter = new RecommendMatchAdapter(this);
+        reMatch.setAdapter(recommendMatchAdapter);
+        reMatch.setLayoutManager(new ExStaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
 
         mPresenter.getDetail(matchId);
     }
@@ -142,16 +151,7 @@ public class DetailActivity extends MVPBaseActivity<DetailContract.View, DetailP
         mAiTag = tags;
         if (tags != null && !tags.isEmpty()){
             for (ProductAITag tag : tags){
-                TextView tv = new TextView(this);
-                tv.setText(tag.getTagLabel());
-                tv.setBackground(ContextCompat.getDrawable(this,R.drawable.btn_stroke_bg));
-                tv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        onAiTagClicked(String.valueOf(((TextView) view).getText()));
-                    }
-                });
-                flexMatch.addView(tv);
+                flexMatch.addView(obtainTextView(tag.getTagLabel()));
             }
         }
         mPresenter.getRecommedMatch(matchId);
@@ -170,7 +170,7 @@ public class DetailActivity extends MVPBaseActivity<DetailContract.View, DetailP
     @Override
     public void onGetRecommendProd(List<RecommendProduct> products) {
         if (products != null && !products.isEmpty()){
-
+            //ignore
         }
 
     }
@@ -178,10 +178,7 @@ public class DetailActivity extends MVPBaseActivity<DetailContract.View, DetailP
     @Override
     public void onGetRecommendMatch(List<RecommendMatch> matches) {
         if (matches != null && !matches.isEmpty()){
-            RecommendMatchAdapter adapter = new RecommendMatchAdapter(this);
-            reMatch.setAdapter(adapter);
-            reMatch.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
-            adapter.addDatas(matches,true);
+            recommendMatchAdapter.addDatas(matches,true);
         }
     }
 
@@ -205,20 +202,39 @@ public class DetailActivity extends MVPBaseActivity<DetailContract.View, DetailP
     private void setTagList(List<MatchDetail.MatchBean.TagListBean> tags) {
         if (tags != null && !tags.isEmpty()){
             for (MatchDetail.MatchBean.TagListBean tag : tags){
-                TextView tv = new TextView(this);
-                tv.setText(tag.getName());
-                tv.setBackground(ContextCompat.getDrawable(this,R.drawable.btn_stroke_bg));
-                tv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(DetailActivity.this, String.valueOf(((TextView) view).getText()), Toast.LENGTH_SHORT).show();
-                    }
-                });
-                flexTag.addView(tv);
+                flexTag.addView(obtainTextView(tag.getName()));
             }
         }
-
     }
+
+    private TextView obtainTextView(String content) {
+
+        TextView textView = new TextView(this);
+        textView.setGravity(Gravity.CENTER);
+        textView.setText(content);
+        textView.setTextSize(12);
+        textView.setTextColor(ContextCompat.getColor(this,R.color.orange_dark));
+        textView.setBackgroundResource(R.drawable.btn_stroke_bg);
+//            textView.setTag();
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        int padding = ActivityUtils.dpToPixel(4);
+        int paddingLeftAndRight = ActivityUtils.dpToPixel(8);
+        ViewCompat.setPaddingRelative(textView, paddingLeftAndRight, padding, paddingLeftAndRight, padding);
+        FlexboxLayout.LayoutParams layoutParams = new FlexboxLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        int margin = ActivityUtils.dpToPixel(6);
+        int marginTop = ActivityUtils.dpToPixel(10);
+        layoutParams.setMargins(margin, marginTop, margin, 0);
+        textView.setLayoutParams(layoutParams);
+        return textView;
+    }
+
 
     @OnClick({R.id.iv_back, R.id.iv_more, R.id.tv_likeCount, R.id.tv_collect, R.id.iv_remind})
     public void onClick(View view) {

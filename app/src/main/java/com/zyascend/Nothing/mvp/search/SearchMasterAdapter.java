@@ -43,7 +43,7 @@ public class SearchMasterAdapter extends MultiAdapter<Master> {
         return new MasterHolder(view);
     }
 
-    private class MasterHolder extends RecyclerView.ViewHolder {
+    class MasterHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.iv_user_img)
         ImageView ivUserImg;

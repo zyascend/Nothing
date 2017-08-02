@@ -22,6 +22,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".mvp.match_detail.DetailActivity"/>
+
         <!--初始化服务-->
         <service
             android:name=".service.InitializeService"

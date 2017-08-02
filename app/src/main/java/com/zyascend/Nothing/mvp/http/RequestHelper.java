@@ -3,8 +3,10 @@ package com.zyascend.Nothing.mvp.http;
 import android.content.Context;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.util.SparseArray;
 
 import com.alibaba.fastjson.JSON;
+import com.orhanobut.logger.Logger;
 import com.zyascend.Nothing.base.BaseApplication;
 import com.zyascend.Nothing.bean.ChildTag;
 import com.zyascend.Nothing.bean.SearchTag;
@@ -32,7 +34,7 @@ public class RequestHelper {
 
     public static String getAccessToken(){
         //return SharedPreUtils.getString(SharedPreUtils.KEY_ACCESS_TOKEN,null);
-        return "18a480ba87d04e1daac69cc540922703";
+        return "802fceba0eca44fdb2b654e1ce0efcad";
     }
 
     public static RequestBody getRegisterPushTokenBody() {
@@ -183,13 +185,27 @@ public class RequestHelper {
         return RequestBody.create(MediaType.parse(TYPE_JSON),json);
     }
 
-    public static RequestBody getMultiTagBody(List<ChildTag> childTags,String mainId) {
-        String tags = childTags.toString();
-        String body = "{\"appVersion\":\"2.0.4\",\"childTagIds\":"
+    public static RequestBody getMultiTagBody(SparseArray<ChildTag> childTags, String mainId) {
+        String tags = "";
+        if (childTags != null && childTags.size() != 0){
+            StringBuilder sb = new StringBuilder();
+            sb.append("[");
+            for (int i = 0; i < childTags.size() - 1; i++) {
+                String s = childTags.get(childTags.keyAt(i)).getName();
+                Logger.d("TAG = "+s);
+                sb.append(childTags.get(childTags.keyAt(i)));
+                sb.append(",");
+            }
+            sb.append(childTags.get(childTags.size()-1));
+            sb.append("]");
+            tags = "childTagIds:"+sb.toString()+",";
+        }
+        String body = "{\"appVersion\":\"2.0.4\",\"deviceType\":\"android\","
                 + tags
-                + ",\"deviceType\":\"android\",\"mainTagId\":"
-                + mainId
-                + ",\"startRow\":0,\"sysVersion\":\"23\"}";
+                +"\"mainTagId\":\""
+                + mainId +
+                "\",\"startRow\":0,\"sysVersion\":\"23\"}";
+
         return RequestBody.create(MediaType.parse(TYPE_JSON),body);
     }
 
@@ -228,6 +244,13 @@ public class RequestHelper {
         String json = "{\"appVersion\":\"2.0.4\",\"deviceType\":\"android\",\"matchId\":\"" +
                 matchId +
                 "\",\"startRow\":0,\"sysVersion\":\"23\"}";
+        return RequestBody.create(MediaType.parse(TYPE_JSON),json);
+    }
+
+    public static RequestBody getAItagsBody(String matchId) {
+        String json = "{\"matchId\":\"" +
+                matchId +
+                "\",\"appVersion\":\"2.0.6.3\",\"deviceType\":\"android\",\"sysVersion\":\"23\"}";
         return RequestBody.create(MediaType.parse(TYPE_JSON),json);
     }
 }

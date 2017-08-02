@@ -1,6 +1,7 @@
 package com.zyascend.Nothing.mvp.http;
 
 import android.text.TextUtils;
+import android.util.SparseArray;
 
 import com.orhanobut.logger.Logger;
 import com.zyascend.Nothing.bean.BannerBean;
@@ -291,8 +292,8 @@ public class HttpService implements DataConstantValue{
             , PublishSubject<LifeCycleEvent> subject
             , final BaseDataCallback<SiftsDataBean> callback){
 
-        boolean jumpCache = firstTime == null;
-
+        boolean jumpCache = firstTime != null;
+        Logger.d("jumCache = "+jumpCache);
         Observable<NormalData<SiftsDataBean>> fromCache = CacheManager.getInstance()
                 .cacheObservable(CACHE_TYPE_SIFTS,true,jumpCache);
         Observable<NormalData<SiftsDataBean>> fromNet = RetrofitService.getDefault()
@@ -737,6 +738,8 @@ public class HttpService implements DataConstantValue{
 
     }
 
+
+
     public void getUser(PublishSubject<LifeCycleEvent> subject
             , final BaseDataCallback<MasterDetail> callback){
         RetrofitService.getDefault()
@@ -971,7 +974,7 @@ public class HttpService implements DataConstantValue{
                 });
     }
 
-    public void getDynamicByTags(String mainID,List<ChildTag> childTags,PublishSubject<LifeCycleEvent> subject
+    public void getDynamicByTags(String mainID, SparseArray<ChildTag> childTags, PublishSubject<LifeCycleEvent> subject
             , final BaseDataCallback<List<SiftsBean>> callback){
         RetrofitService.getDefault()
                 .getDynamicByTag(RequestHelper.getAccessToken(), RequestHelper.getMultiTagBody(childTags,mainID))
@@ -1134,7 +1137,7 @@ public class HttpService implements DataConstantValue{
     public void findProductAITags(String matchId,PublishSubject<LifeCycleEvent> subject
             , final BaseDataCallback<List<ProductAITag>> callback){
         RetrofitService.getDefault()
-                .findProductAITags(RequestHelper.getAccessToken(),RequestHelper.getMatchIdBody(matchId))
+                .findProductAITags(RequestHelper.getAccessToken(),RequestHelper.getAItagsBody(matchId))
                 .compose(RxTransformer.INSTANCE.<SimpleListResponse<ProductAITag>>transform(subject,null))
                 .map(new Func1<SimpleListResponse<ProductAITag>, List<ProductAITag>>() {
                     @Override

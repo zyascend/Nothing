@@ -12,10 +12,14 @@ import android.view.ViewGroup;
 import com.orhanobut.logger.Logger;
 import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.base.MVPBaseFragment;
+import com.zyascend.Nothing.bean.SiftsBean;
 import com.zyascend.Nothing.bean.SiftsDataBean;
 import com.zyascend.Nothing.mvp.mainpage.MainContract;
 import com.zyascend.Nothing.mvp.mainpage.grass.SiftsAdapter;
 import com.zyascend.amazingadapter.MultiAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -91,12 +95,15 @@ public class FollowFragment extends MVPBaseFragment<MainContract.FollowView, Fol
             }
             return;
         }
-        Logger.d(data.getList().size());
+        List<SiftsBean> list = data.getList();
+        if (!list.isEmpty() && list.get(0).getType() == 6){
+            list.remove(0);
+        }
         if (isRefresh) {
-            adapter.addDatas(data.getList(),true);
+            adapter.addDatas(list,true);
             isRefresh = false;
         }
-        else adapter.addDatas(data.getList(),false);
+        else adapter.addDatas(list,false);
         curFirstTime = data.getFirstTime();
         if (TextUtils.isEmpty(curFirstTime))
             adapter.toggleStatus(MultiAdapter.STATUS_END);

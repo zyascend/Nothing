@@ -349,16 +349,16 @@ public interface API {
 
     /**
      * https://api.nothing.la/nothing//v2_1/dynamic/common/findProductAITagList.do?accessToken=dcd8349fdf024ec38a7d7795202220cd
-     * 同上
+     * 同上{"matchId":"7500087fa55641f8b04ed35dfdfb231a","appVersion":"2.0.6.3","deviceType":"android","sysVersion":"23"}
      */
-    @POST("/v2_1/dynamic/common/findProductAITagList.do")
+    @POST("v2_1/dynamic/common/findProductAITagList.do")
     Observable<SimpleListResponse<ProductAITag>> findProductAITags(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
 
     /**
      * https://api.nothing.la/nothing//v2_1/dynamic/common/findRecommendMatchByMatch.do?accessToken=dcd8349fdf024ec38a7d7795202220cd
      * tong shang
      */
-    @POST("/v2_1/dynamic/common/findRecommendMatchByMatch.do")
+    @POST("v2_1/dynamic/common/findRecommendMatchByMatch.do")
     Observable<NormalData<ListData<RecommendMatch>>> findRecommendMatchbyMatch(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
 
 

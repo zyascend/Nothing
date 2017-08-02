@@ -6,24 +6,22 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.util.SparseArray;
 import android.widget.Toast;
 
 import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.base.MVPBaseFragment;
 import com.zyascend.Nothing.bean.ChildTag;
 import com.zyascend.Nothing.bean.SiftsBean;
+import com.zyascend.Nothing.common.view.ScrollRecyclerView;
 import com.zyascend.Nothing.mvp.mainpage.MainContract;
 import com.zyascend.Nothing.mvp.mainpage.grass.SiftsAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * 功能：
@@ -42,7 +40,7 @@ public class TagFragment extends MVPBaseFragment<MainContract.TagView, TagPresen
     @Bind(R.id.rv_brand)
     RecyclerView rvColor;
     @Bind(R.id.recyclerView)
-    RecyclerView rvDynamic;
+    ScrollRecyclerView rvDynamic;
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     private String currentId;
@@ -52,7 +50,7 @@ public class TagFragment extends MVPBaseFragment<MainContract.TagView, TagPresen
     private TagFilterAdapter adapter_Line3;
 
     private SiftsAdapter siftsAdapter;
-    private List<ChildTag> currentTagList;
+    private SparseArray<ChildTag> currentTagArray;
 
     public static TagFragment getInstance(String id) {
         Bundle bundle = new Bundle();
@@ -124,15 +122,15 @@ public class TagFragment extends MVPBaseFragment<MainContract.TagView, TagPresen
 
     @Override
     public void onTagClick(ChildTag tag) {
-        if (currentTagList == null)
-            currentTagList = new ArrayList<>();
-        currentTagList.set(tag.getShowLine()-1,tag);
+        if (currentTagArray == null)
+            currentTagArray = new SparseArray<>();
+        currentTagArray.put(tag.getShowLine(),tag);
         onRefresh();
     }
 
     @Override
     public void onRefresh() {
-        mPresenter.getDynamic(currentId,currentTagList);
+        mPresenter.getDynamic(currentId, currentTagArray);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.zyascend.Nothing.mvp.mainpage.tag;
 
+import android.util.SparseArray;
+
 import com.zyascend.Nothing.base.BasePresenter;
 import com.zyascend.Nothing.bean.ChildTag;
 import com.zyascend.Nothing.bean.SiftsBean;
@@ -40,7 +42,7 @@ public class TagPresenter extends BasePresenter<MainContract.TagView>
     }
 
     @Override
-    public void getDynamic(String mainId, List<ChildTag> childTags) {
+    public void getDynamic(String mainId, SparseArray<ChildTag> childTags) {
         httpService.getDynamicByTags(mainId, childTags, lifeCycleSubject, new BaseDataCallback<List<SiftsBean>>() {
             @Override
             public void onSuccess(List<SiftsBean> data) {

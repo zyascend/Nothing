@@ -68,8 +68,10 @@ public class TagFilterAdapter extends AmazingAdapter<ChildTag> {
 
             if (mSelectRecorder.get(getAdapterPosition())){
                 tvText.setBackground(ContextCompat.getDrawable(mContext,R.drawable.btn_round_orange_bg));
+                tvText.setTextColor(Color.WHITE);
             }else {
                 tvText.setBackgroundColor(Color.WHITE);
+                tvText.setTextColor(Color.GRAY);
             }
             tvText.setText(childTag.getName());
         }

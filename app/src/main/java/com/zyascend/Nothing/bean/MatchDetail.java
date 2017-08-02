@@ -975,34 +975,6 @@ public class MatchDetail {
         }
 
         public static class ProdListBean {
-            /**
-             * brandId : 968d074c806940e68bf459d86d82ccdc
-             * brandName : ZQC#
-             * buyType : 1
-             * buyurl : http://item.taobao.com/item.htm?ut_sk=1.VQxa3s6j1QgDAKyk%2B6KDMYJr_21380790_1482908976583.Copy.1&id=543795270106&sourceType=item&price=335&suid=71159830-ED25-42C2-8B3D-24C1238DBF8D&un=a0ffd43be93406e146e6040d6f65052e&share_crt_v=1&cpp=1&shareurl=true&spm=a313p.22.1ff.20448450521&short_name=h.cwQ0Pt
-             * category : {"id":"a84da69e86a54ee2aafd81242fc946b0","namePath":"外套/大衣"}
-             * categoryId : a84da69e86a54ee2aafd81242fc946b0
-             * categoryName : 大衣
-             * colorId : 6e4d1f4b68d24d4f922f0ca3da641152
-             * colorName : 黑色系
-             * currency : 1
-             * description : 还有三天就要步入2017了
-             这些天你们的赞就是我发搭配的动力
-             满满的爱藏在这件加厚保暖灯芯绒棉大衣里送给你们
-             @NOTHING官方
-              * id : 0c854fd4d4d54adb9fea5f398310168c
-              * isLeft : 0
-              * matchProdType : 1
-              * name : Zqc#/大衣/黑色系
-              * picture : {"compress":"medium","height":562,"key":"nothing_14410c276f0e4a5ab31f01aa20112260.png?imageMogr2/crop/!843x562a0a281","url":"http://img.nothing.la/nothing_14410c276f0e4a5ab31f01aa20112260.png?imageMogr2/crop/!843x562a0a281/thumbnail/600x","webUrl":"//img.nothing.la/nothing_14410c276f0e4a5ab31f01aa20112260.png?imageMogr2/crop/!843x562a0a281/thumbnail/600x","width":843}
-              * positionX : 0.62077296
-              * positionY : 0.5
-              * shop : {}
-              * sourceName : 淘宝
-              * taobaoCode : 543795270106
-              * type : 2
-              * unused_description :
-             */
 
             private String brandId;
             private String brandName;
