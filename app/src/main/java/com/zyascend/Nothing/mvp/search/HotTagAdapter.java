@@ -59,7 +59,7 @@ public class HotTagAdapter extends AmazingAdapter<HotTag> {
         public void bindData(HotTag data) {
             if (data == null)return;
             GlideUtils.loadRoundPic(mContext,ivTagImg,data.getPicture().getUrl());
-            tvHotNum.setText(data.getHotNum());
+            tvHotNum.setText(String.valueOf(data.getHotNum()));
             tvTagName.setText("#"+data.getName());
         }
     }

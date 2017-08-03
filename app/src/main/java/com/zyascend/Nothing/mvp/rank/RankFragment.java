@@ -1,8 +1,10 @@
 package com.zyascend.Nothing.mvp.rank;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +15,8 @@ import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.base.MVPBaseFragment;
 import com.zyascend.Nothing.bean.Master;
 import com.zyascend.Nothing.bean.RankingMatch;
+import com.zyascend.Nothing.common.utils.ActivityUtils;
+import com.zyascend.Nothing.common.view.RecyclerDivider;
 import com.zyascend.Nothing.mvp.search.SearchMasterAdapter;
 
 import java.util.List;
@@ -71,13 +75,16 @@ public class RankFragment extends MVPBaseFragment<RankContract.View, RankPresent
     @Override
     protected void initViews() {
         swipeRefreshLayout.setOnRefreshListener(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         if (type == TYPE_USER){
+            recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
             masterAdapter = new SearchMasterAdapter(mActivity);
             recyclerView.setAdapter(masterAdapter);
         }else {
+            recyclerView.setLayoutManager(new GridLayoutManager(mActivity,3));
+            recyclerView.addItemDecoration(new RecyclerDivider(getActivity(), RecyclerDivider.BOTH_SET
+                    , ActivityUtils.dpToPixel(2), Color.WHITE));
             matchAdapter = new RankingMatchAdapter(mActivity);
-            recyclerView.setAdapter(masterAdapter);
+            recyclerView.setAdapter(matchAdapter);
         }
     }
 

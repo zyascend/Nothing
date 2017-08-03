@@ -82,7 +82,6 @@ public class MatchDetailAdapter extends AmazingAdapter<MatchDetail.MatchBean.Pic
 
             Glide.with(mContext)
                     .load(data.getUrl())
-                    .centerCrop()
                     .override(picW,picH)
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(ivPic);

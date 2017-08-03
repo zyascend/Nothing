@@ -3,14 +3,17 @@ package com.zyascend.Nothing.mvp.search;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
 import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.base.MVPBaseFragment;
 import com.zyascend.Nothing.bean.HotTag;
 import com.zyascend.Nothing.bean.Master;
 import com.zyascend.Nothing.common.view.BottomDialog;
+import com.zyascend.Nothing.common.view.ScrollRecyclerView;
 import com.zyascend.amazingadapter.MultiAdapter;
 
 import java.util.List;
@@ -36,7 +39,7 @@ public class SearchFragment extends MVPBaseFragment<SearchContract.View, SearchF
     @Bind(R.id.tv_filter)
     TextView tvFilter;
     @Bind(R.id.userRecyclerView)
-    RecyclerView userRecyclerView;
+    ScrollRecyclerView userRecyclerView;
     @Bind(R.id.swipeRefresh)
     SwipeRefreshLayout swipeRefresh;
     private HotTagAdapter tagAdapter;
@@ -46,9 +49,11 @@ public class SearchFragment extends MVPBaseFragment<SearchContract.View, SearchF
 
     @Override
     protected void loadData() {
+        Logger.d("loadData: SEARCH");
         swipeRefresh.post(new Runnable() {
             @Override
             public void run() {
+                Logger.d("SEARCH_REFRESH");
                 onRefresh();
             }
         });
@@ -60,7 +65,7 @@ public class SearchFragment extends MVPBaseFragment<SearchContract.View, SearchF
 
         tagAdapter = new HotTagAdapter(mActivity);
         tagRecyclerView.setAdapter(tagAdapter);
-        tagRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
+        tagRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
 
         masterAdapter = new SearchMasterAdapter(mActivity);
         userRecyclerView.setAdapter(masterAdapter);

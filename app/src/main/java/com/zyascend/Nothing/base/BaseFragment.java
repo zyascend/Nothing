@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.orhanobut.logger.Logger;
 import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.common.rx.LifeCycleEvent;
 
@@ -80,9 +81,10 @@ public abstract class BaseFragment extends Fragment {
 
 
     private void lazyLoad() {
-
         if (isLazyLoad()){
+            Logger.d("lazyLoad: "+isFirstLoad+"/"+isVisible+"/"+isInitView);
             if(!isFirstLoad || !isVisible || !isInitView)return;
+            Logger.d("lazyLoad: LOAD DATA");
             loadData();
             isFirstLoad = false;
         }else {

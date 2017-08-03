@@ -96,7 +96,7 @@ public class DetailActivity extends MVPBaseActivity<DetailContract.View, DetailP
 
     @Override
     protected void initView() {
-
+        edComment.clearFocus();//禁止自动弹出软键盘
         matchId = getIntent().getStringExtra(MATCH_ID);
         if (TextUtils.isEmpty(matchId)){
             Toast.makeText(this, "id errror", Toast.LENGTH_SHORT).show();
@@ -130,6 +130,7 @@ public class DetailActivity extends MVPBaseActivity<DetailContract.View, DetailP
         detailAdapter.addDatas(match.getPicList(),true);
 
         tvPraiseCount.setText(match.getPraiseCount()+" 赞");
+        tvCollect.setText(match.getPraiseCount()+" 赞");
         tvLookCount.setText(match.getLookCount()+" 浏览");
         tvDescription.setText(match.getDescription());// TODO: 2017/5/30 处理@ 
         

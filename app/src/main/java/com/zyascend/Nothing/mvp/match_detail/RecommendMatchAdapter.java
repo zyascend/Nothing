@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.orhanobut.logger.Logger;
 import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.bean.RecommendMatch;
 import com.zyascend.Nothing.common.utils.GlideUtils;
@@ -59,12 +60,12 @@ public class RecommendMatchAdapter extends AmazingAdapter<RecommendMatch> {
 
         public void bind(RecommendMatch match) {
 
-            if (match == null || match.matchBean == null)return;
-            GlideUtils.loadNormalPic(mContext,ivPic,match.matchBean.getPicture().getUrl());
-
-            tvDescription.setText(match.matchBean.getDescription());
-            tvName.setText(match.matchBean.getUser().getName());
-            tvLikeCount.setText(match.matchBean.getPraiseCount());
+            if (match == null || match.getMatch() == null)return;
+            Logger.d("MATCH NOT NULL");
+            GlideUtils.loadRoundPic(mContext,ivPic,match.getMatch().getPicture().getUrl());
+            tvDescription.setText(match.getMatch().getDescription());
+            tvName.setText(match.getMatch().getUser().getName());
+            tvLikeCount.setText(String.valueOf(match.getMatch().getPraiseCount()));
 
         }
     }

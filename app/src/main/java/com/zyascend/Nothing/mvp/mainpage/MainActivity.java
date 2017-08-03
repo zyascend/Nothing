@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,9 @@ import android.widget.ImageView;
 
 import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.base.BaseActivity;
+import com.zyascend.Nothing.mvp.rank.RankBaseFragment;
+import com.zyascend.Nothing.mvp.rank.RankFragment;
+import com.zyascend.Nothing.mvp.search.SearchFragment;
 
 import java.lang.ref.WeakReference;
 
@@ -29,6 +33,8 @@ import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG_HOME = "tag_home";
+    private static final String TAG_SEARCH = "tag_search";
+    private static final String TAG_RANK = "tag_rank";
     /**
      *
      */
@@ -53,6 +59,8 @@ public class MainActivity extends BaseActivity {
     private HomeFragment homeFragment;
     private SplashFragment splashFragment;
     private Handler mHandler;
+    private SearchFragment searchFragment;
+    private RankBaseFragment rankFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,7 +70,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
         viewStub = (ViewStub) findViewById(R.id.content_viewstub);
         mHandler = new Handler();
         //首先加载并显示SplashFragment
@@ -124,14 +131,22 @@ public class MainActivity extends BaseActivity {
             //初始化各个Fragment
             //初次创建
             homeFragment = new HomeFragment();
+            searchFragment = new SearchFragment();
+            rankFragment = new RankBaseFragment();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragmentFrame,homeFragment,TAG_HOME)
+                    .add(R.id.fragmentFrame,searchFragment,TAG_SEARCH)
+                    .add(R.id.fragmentFrame,rankFragment,TAG_RANK)
+                    .hide(searchFragment)
+                    .hide(rankFragment)
                     .show(homeFragment)
                     .commit();
         }else {
             //异常情况下被销毁后的恢复
             FragmentManager manager = getSupportFragmentManager();
             homeFragment = (HomeFragment) manager.findFragmentByTag(TAG_HOME);
+            searchFragment = (SearchFragment) manager.findFragmentByTag(TAG_SEARCH);
+            rankFragment = (RankBaseFragment) manager.findFragmentByTag(TAG_RANK);
         }
     }
 
@@ -154,12 +169,20 @@ public class MainActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.iv_home:
                 if (selected!=0){
+                    getSupportFragmentManager().beginTransaction()
+                            .show(homeFragment)
+                            .hide(getShowFragment())
+                            .commit();
                     selected = 0;
                     toggleImageResource();
                 }
                 break;
             case R.id.iv_search:
                 if (selected!=1){
+                    getSupportFragmentManager().beginTransaction()
+                            .show(searchFragment)
+                            .hide(getShowFragment())
+                            .commit();
                     selected = 1;
                     toggleImageResource();
                 }
@@ -169,17 +192,37 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.iv_rank:
                 if (selected!=3){
+                    getSupportFragmentManager().beginTransaction()
+                            .show(rankFragment)
+                            .hide(getShowFragment())
+                            .commit();
                     selected = 3;
                     toggleImageResource();
                 }
                 break;
             case R.id.iv_profile:
                 if (selected!=4){
+
+
                     selected = 4;
                     toggleImageResource();
                 }
                 break;
         }
+    }
+
+    private Fragment getShowFragment() {
+        switch (selected){
+            case 0:
+                return homeFragment;
+            case 1:
+                return searchFragment;
+            case 3:
+                return rankFragment;
+            case 4:
+                return null;
+        }
+        return null;
     }
 
     private void toggleImageResource() {

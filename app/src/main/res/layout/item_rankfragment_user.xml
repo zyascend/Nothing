@@ -5,6 +5,8 @@
     tools:background="@color/white"
     android:orientation="vertical"
     android:layout_marginBottom="@dimen/dp_5"
+    android:paddingStart="@dimen/dp_10"
+    android:paddingEnd="@dimen/dp_10"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <RelativeLayout
@@ -51,30 +53,33 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:padding="@dimen/dp_5"
-        android:layout_marginTop="@dimen/dp_10"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_150">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_5"
+        android:orientation="horizontal"
+        android:padding="@dimen/dp_5">
+
         <ImageView
-            android:scaleType="centerCrop"
             android:id="@+id/iv_pic_1"
             android:layout_width="0dp"
+            android:layout_height="@dimen/dp_100"
             android:layout_weight="1"
-            android:layout_height="match_parent" />
+            android:scaleType="centerCrop" />
+
         <ImageView
-            android:layout_marginStart="@dimen/dp_2"
-            android:layout_marginEnd="@dimen/dp_2"
-            android:scaleType="centerCrop"
             android:id="@+id/iv_pic_2"
             android:layout_width="0dp"
+            android:layout_height="@dimen/dp_100"
+            android:layout_marginEnd="@dimen/dp_2"
+            android:layout_marginStart="@dimen/dp_2"
             android:layout_weight="1"
-            android:layout_height="match_parent" />
+            android:scaleType="centerCrop" />
+
         <ImageView
-            android:scaleType="centerCrop"
             android:id="@+id/iv_pic_3"
             android:layout_width="0dp"
+            android:layout_height="@dimen/dp_100"
             android:layout_weight="1"
-            android:layout_height="match_parent" />
+            android:scaleType="centerCrop" />
     </LinearLayout>
 </LinearLayout>

@@ -29,7 +29,6 @@ import butterknife.OnClick;
 
 public class RankBaseFragment extends BaseFragment implements View.OnClickListener {
 
-
     @Bind(R.id.iv_help)
     ImageView ivHelp;
     @Bind(R.id.tv_sex_filter)

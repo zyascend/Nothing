@@ -1,6 +1,7 @@
 package com.zyascend.Nothing.mvp.search;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,8 +26,6 @@ import butterknife.ButterKnife;
 
 public class SearchMasterAdapter extends MultiAdapter<Master> {
 
-
-
     public SearchMasterAdapter(Context mContext) {
         super(mContext);
     }
@@ -39,7 +38,7 @@ public class SearchMasterAdapter extends MultiAdapter<Master> {
 
     @Override
     protected RecyclerView.ViewHolder createCommonHolder(ViewGroup parent) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_follow_user, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rankfragment_user, parent, false);
         return new MasterHolder(view);
     }
 

@@ -57,9 +57,9 @@ public class RankingMatchAdapter extends AmazingAdapter<RankingMatch> {
 
         public void bindData(RankingMatch data) {
             if (data == null)return;
-            GlideUtils.loadRoundPic(mContext,ivPic,data.getMatch().getPicture().getUrl());
-            tvRankNum.setText((getAdapterPosition()+1));
-            tvHotNum.setText(data.getMatch().getHotNum());
+            GlideUtils.loadNormalPic(mContext,ivPic,data.getMatch().getPicture().getUrl());
+            tvRankNum.setText(String.valueOf(getAdapterPosition()+1));
+            tvHotNum.setText(String.valueOf(data.getMatch().getHotNum()));
         }
     }
 }
