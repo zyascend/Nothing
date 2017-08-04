@@ -1,5 +1,6 @@
 package com.zyascend.Nothing.mvp.search;
 
+import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.base.BasePresenter;
 import com.zyascend.Nothing.base.MVPBaseActivity;
 
@@ -12,7 +13,7 @@ import com.zyascend.Nothing.base.MVPBaseActivity;
 public class SearchActivity extends MVPBaseActivity {
     @Override
     protected BasePresenter initPresenter() {
-        return null;
+        return new SearchActivityPresenter();
     }
 
     @Override
@@ -22,6 +23,6 @@ public class SearchActivity extends MVPBaseActivity {
 
     @Override
     protected int getLayoutID() {
-        return 0;
+        return R.layout.activity_search;
     }
 }

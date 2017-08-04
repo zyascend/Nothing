@@ -1163,5 +1163,62 @@ public class HttpService implements DataConstantValue{
                 });
     }
 
+    public void getSearchHotWord(PublishSubject<LifeCycleEvent> subject
+            , final BaseDataCallback<List<String>> callback){
+        RetrofitService.getDefault()
+                .getHotKeyWords(RequestHelper.getAccessToken(),RequestHelper.getSimpleBody())
+                .compose(RxTransformer.INSTANCE.<SimpleListResponse<String>>transform(subject,null))
+                .map(new Func1<SimpleListResponse<String>, List<String>>() {
+                    @Override
+                    public List<String> call(SimpleListResponse<String> data) {
+                        return data.getDATA().getList();
+                    }
+                })
+                .subscribe(new Subscriber<List<String>>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<String> data) {
+                        callback.onSuccess(data);
+                    }
+                });
+    }
+
+
+    public void getSuggestWords(String input,PublishSubject<LifeCycleEvent> subject
+            , final BaseDataCallback<List<String>> callback){
+        RetrofitService.getDefault()
+                .getSearchProductSuggestList(RequestHelper.getAccessToken(),RequestHelper.getContentBody(input))
+                .compose(RxTransformer.INSTANCE.<SimpleListResponse<String>>transform(subject,null))
+                .map(new Func1<SimpleListResponse<String>, List<String>>() {
+                    @Override
+                    public List<String> call(SimpleListResponse<String> data) {
+                        return data.getDATA().getList();
+                    }
+                })
+                .subscribe(new Subscriber<List<String>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<String> data) {
+                        callback.onSuccess(data);
+                    }
+                });
+    }
 }

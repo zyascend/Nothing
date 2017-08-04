@@ -33,9 +33,9 @@ public abstract class BaseFragment extends Fragment {
     protected boolean isInitView = false;
     protected boolean isLoad = false;
     protected View rootView;
-    private boolean isVisible;
+    protected boolean isVisible;
     protected Activity mActivity;
-    private boolean isFirstLoad = true;
+    protected boolean isFirstLoad = true;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,16 +75,19 @@ public abstract class BaseFragment extends Fragment {
         ButterKnife.bind(this,rootView);
         isInitView = true;
         lazyLoad();
+        afterLazyLoad();
         return rootView;
     }
 
+    public void afterLazyLoad() {
+
+    }
 
 
     private void lazyLoad() {
         if (isLazyLoad()){
-            Logger.d("lazyLoad: "+isFirstLoad+"/"+isVisible+"/"+isInitView);
+            //Logger.d("lazyLoad: "+isFirstLoad+"/"+isVisible+"/"+isInitView);
             if(!isFirstLoad || !isVisible || !isInitView)return;
-            Logger.d("lazyLoad: LOAD DATA");
             loadData();
             isFirstLoad = false;
         }else {
@@ -128,7 +131,9 @@ public abstract class BaseFragment extends Fragment {
         if (!getUserVisibleHint()){
             doOnInvisible();
             isVisible = false;
+            Logger.d("NOW 不可见");
         }else {
+            Logger.d("NOW 可见");
             isVisible = true;
             lazyLoad();
             doOnVisible();

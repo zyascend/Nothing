@@ -19,20 +19,30 @@ import com.zyascend.Nothing.bean.MenuBean;
 import com.zyascend.Nothing.bean.NormalData;
 import com.zyascend.Nothing.bean.RankingUser;
 import com.zyascend.Nothing.bean.SearchTag;
+import com.zyascend.Nothing.bean.SiftsBean;
 import com.zyascend.Nothing.bean.SiftsDataBean;
 import com.zyascend.Nothing.bean.SimpleListResponse;
+import com.zyascend.Nothing.common.BaseDataCallback;
+import com.zyascend.Nothing.common.rx.LifeCycleEvent;
+import com.zyascend.Nothing.common.rx.RxTransformer;
+import com.zyascend.Nothing.common.utils.ActivityUtils;
 import com.zyascend.Nothing.common.utils.NetWorkUtils;
 import com.zyascend.Nothing.dao.CacheBean;
 import com.zyascend.Nothing.dao.CacheBeanDao;
 import com.zyascend.Nothing.dao.DaoMaster;
 import com.zyascend.Nothing.dao.DaoSession;
+import com.zyascend.Nothing.dao.HistoryBean;
+import com.zyascend.Nothing.dao.HistoryBeanDao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import rx.subjects.PublishSubject;
 
 /**
  * 功能：缓存管理类（singleTon）
@@ -170,8 +180,82 @@ public class CacheManager implements DataConstantValue{
         }
     }
 
-    public void saveLoginData(LoginResponse data) {
-        if (data == null)return;
-        //暂时只缓存accessToken
+    public void addSearchHistory(final String word){
+        Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                addWord(word);
+                subscriber.onNext("SAVE HISTORY OK");
+                subscriber.onCompleted();
+            }
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        Logger.d(s);
+
+                    }
+                });
+
+    }
+
+    private void addWord(String word) {
+        HistoryBeanDao dao = daoSession.getHistoryBeanDao();
+        dao.insertOrReplace(new HistoryBean(word));
+    }
+
+    public void getSearchHistory(final BaseDataCallback<List<String>> callback) {
+
+        Observable.create(new Observable.OnSubscribe<List<HistoryBean>>() {
+            @Override
+            public void call(Subscriber<? super List<HistoryBean>> subscriber) {
+
+                subscriber.onNext(getHistory());
+                subscriber.onCompleted();
+            }
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(new Func1<List<HistoryBean>, List<String>>() {
+                    @Override
+                    public List<String> call(List<HistoryBean> historyBeen) {
+                        List<String> res = new ArrayList<String>();
+                        for (HistoryBean bean : historyBeen){
+                            res.add(bean.getWord());
+                        }
+                        return res;
+                    }
+                })
+                .subscribe(new Subscriber<List<String>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e(e.getMessage());
+                        callback.onFail(e.getMessage());
+                    }
+                    @Override
+                    public void onNext(List<String> s) {
+                        callback.onSuccess(s);
+                    }
+                });
+
+    }
+
+    private List<HistoryBean> getHistory() {
+        return daoSession.getHistoryBeanDao().queryBuilder().list();
     }
 }

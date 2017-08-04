@@ -370,12 +370,18 @@ public interface API {
     Observable<NormalData<SplashInfo>> getSplashInfo(@Body RequestBody body);
 
 
+    /**
+     * https://api.nothing.la/nothing/v2_0/search/common/searchProductSuggestList.do?accessToken=802fceba0eca44fdb2b654e1ce0efcad
+     *{"appVersion":"2.0.6.3","content":"裤","deviceType":"android","sysVersion":"23"}
+     */
+     Observable<SimpleListResponse<String>> getSearchProductSuggestList(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
 
 
-
-
-
-
+    /**
+     * https://api.nothing.la/nothing/v2_0/search/common/hotKeyWords.do?accessToken=802fceba0eca44fdb2b654e1ce0efcad
+     * {"appVersion":"2.0.6.3","deviceType":"android","sysVersion":"23"}
+     */
+    Observable<SimpleListResponse<String>> getHotKeyWords(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
 
 
 

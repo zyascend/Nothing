@@ -24,11 +24,24 @@ public interface SearchContract {
         void onGetMaster(List<Master> masters);
     }
 
-    interface SearchView extends BaseView{}
-    interface  SearchPresenter{}
+    interface SearchView extends BaseView{
+        void onGetSearchHistory(List<String> list);
+        void onGetHotSearchWord(List<String> hotWords);
+        void onGetSuggestWord(List<String> suggestWords);
+    }
+    interface  SearchPresenter{
+        void getSearchHistory();
+        void addSearchHistory(String word);
+        void getSuggestWord(String tempWord);
+        void getHotSearchWord();
+    }
 
-    interface SearchResultView{}
-    interface SearchResultPresenter{}
+    interface SearchResultView{
+
+    }
+    interface SearchResultPresenter{
+
+    }
 
 
 }

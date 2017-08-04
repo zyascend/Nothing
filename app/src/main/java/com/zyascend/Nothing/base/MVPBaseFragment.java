@@ -44,7 +44,7 @@ public abstract class MVPBaseFragment<V extends BaseView,T extends BasePresenter
     @Override
     public void onStop() {
         super.onStop();
-        mPresenter.onPause();
+        mPresenter.onStop();
     }
 
     @Override

@@ -253,4 +253,11 @@ public class RequestHelper {
                 "\",\"appVersion\":\"2.0.6.3\",\"deviceType\":\"android\",\"sysVersion\":\"23\"}";
         return RequestBody.create(MediaType.parse(TYPE_JSON),json);
     }
+
+    public static RequestBody getContentBody(String input) {
+        String json = "{\"appVersion\":\"2.0.6.3\",\"content\":\"" +
+                input +
+                "\",\"deviceType\":\"android\",\"sysVersion\":\"23\"}";
+        return RequestBody.create(MediaType.parse(TYPE_JSON),json);
+    }
 }

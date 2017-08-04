@@ -5,13 +5,13 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@color/white"
+    android:background="@color/white"
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40">
+        android:layout_height="@dimen/dp_50">
         <ImageView
             android:id="@+id/iv_help"
             android:layout_marginStart="@dimen/dp_15"
