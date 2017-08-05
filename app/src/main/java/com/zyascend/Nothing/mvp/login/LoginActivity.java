@@ -179,7 +179,6 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
         return new LoginPresenter();
     }
 
-
     @OnClick({R.id.btn_jumpLogin_down, R.id.btn_login, R.id.btn_register, R.id.tv_getIdentifyCode
             , R.id.tv_forgetPassWord, R.id.btn_login_register})
     public void onClick(View view) {

@@ -23,7 +23,8 @@
         </activity>
 
         <activity android:name=".mvp.match_detail.DetailActivity"/>
-
+        <activity android:name=".mvp.search.SearchActivity"/>
+        <activity android:name=".mvp.user.UserActivity"/>
         <!--初始化服务-->
         <service
             android:name=".service.InitializeService"

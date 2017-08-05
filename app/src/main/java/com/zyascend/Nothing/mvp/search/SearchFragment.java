@@ -16,6 +16,7 @@ import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.base.MVPBaseFragment;
 import com.zyascend.Nothing.bean.HotTag;
 import com.zyascend.Nothing.bean.Master;
+import com.zyascend.Nothing.common.utils.ActivityUtils;
 import com.zyascend.Nothing.common.view.BottomDialog;
 import com.zyascend.Nothing.common.view.ScrollRecyclerView;
 import com.zyascend.amazingadapter.MultiAdapter;
@@ -39,7 +40,7 @@ public class SearchFragment extends MVPBaseFragment<SearchContract.View, SearchF
     @Bind(R.id.tv_moreHotTag)
     TextView tvMoreHotTag;
     @Bind(R.id.tagRecyclerView)
-    RecyclerView tagRecyclerView;
+    ScrollRecyclerView tagRecyclerView;
     @Bind(R.id.tv_filter)
     TextView tvFilter;
     @Bind(R.id.userRecyclerView)
@@ -134,11 +135,14 @@ public class SearchFragment extends MVPBaseFragment<SearchContract.View, SearchF
         mPresenter.getHotTags();
     }
 
-    @OnClick({R.id.tv_moreHotTag, R.id.tv_filter})
+    @OnClick({R.id.tv_moreHotTag, R.id.tv_filter,R.id.tv_search})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_moreHotTag:
 
+                break;
+            case R.id.tv_search:
+                ActivityUtils.startActivity(getActivity(),SearchActivity.class);
                 break;
             case R.id.tv_filter:
                 showFilterDialog();

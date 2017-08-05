@@ -47,4 +47,10 @@
     <string name="sure">确定</string>
     <string name="resend">秒后重新发送</string>
     <string name="sccuess">成功</string>
+    <string name="hot_search">热门搜索</string>
+    <string name="search_history">历史搜索</string>
+    <string name="clear_history">清除记录</string>
+    <string name="search_info">搜索搭配，单品，用户</string>
+    <string name="haitao">海淘</string>
+    <string name="taobao">淘宝</string>
 </resources>

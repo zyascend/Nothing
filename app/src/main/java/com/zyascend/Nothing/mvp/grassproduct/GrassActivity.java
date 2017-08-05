@@ -1,10 +1,10 @@
 package com.zyascend.Nothing.mvp.grassproduct;
 
-import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,12 +13,16 @@ import com.zyascend.Nothing.base.MVPBaseActivity;
 import com.zyascend.Nothing.bean.GrassProduct;
 import com.zyascend.Nothing.bean.ProdBox;
 import com.zyascend.Nothing.bean.ProductMenu;
+import com.zyascend.Nothing.common.utils.ActivityUtils;
+import com.zyascend.Nothing.common.view.BottomDialog;
+import com.zyascend.Nothing.mvp.search.SearchActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 功能：主编推荐页面
@@ -27,8 +31,9 @@ import butterknife.ButterKnife;
  */
 
 public class GrassActivity extends MVPBaseActivity<GrassContract.View, GrassPresenter>
-        implements GrassContract.View, SwipeRefreshLayout.OnRefreshListener {
-
+        implements GrassContract.View,
+        SwipeRefreshLayout.OnRefreshListener
+        , View.OnClickListener {
 
     @Bind(R.id.iv_back)
     ImageView ivBack;
@@ -55,6 +60,7 @@ public class GrassActivity extends MVPBaseActivity<GrassContract.View, GrassPres
     private GrassProdAdapter grassProdAdapter;
     private HotProdAdapter hotProdAdapter;
     private ProdBoxAdapter boxAdapter;
+    private BottomDialog mDialog;
 
     @Override
     protected GrassPresenter initPresenter() {
@@ -66,11 +72,11 @@ public class GrassActivity extends MVPBaseActivity<GrassContract.View, GrassPres
 
         menuAdapter = new GrassMenuAdapter(this);
         reMenu.setAdapter(menuAdapter);
-        reMenu.setLayoutManager(new GridLayoutManager(this,4));
+        reMenu.setLayoutManager(new GridLayoutManager(this, 4));
 
         hotProdAdapter = new HotProdAdapter(this);
         reHotProduct.setAdapter(hotProdAdapter);
-        reHotProduct.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        reHotProduct.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         boxAdapter = new ProdBoxAdapter(this);
         reHotBox.setAdapter(boxAdapter);
@@ -102,38 +108,92 @@ public class GrassActivity extends MVPBaseActivity<GrassContract.View, GrassPres
     @Override
     public void onGetProdMenu(List<ProductMenu> menus) {
         mPresenter.getHotProd();
-        if (menus == null){
+        if (menus == null) {
             return;
         }
-        menuAdapter.addDatas(menus,true);
+        menuAdapter.addDatas(menus, true);
     }
 
     @Override
     public void onGetHotProd(List<GrassProduct> products) {
         mPresenter.getProdBox();
-        if (products == null)return;
+        if (products == null) return;
         List<List<GrassProduct>> lists = new ArrayList<>();
-        for (int i = 0; i < products.size() && i+5 < products.size(); i+=6) {
-            lists.add(products.subList(i,i+5));
+        for (int i = 0; i < products.size() && i + 5 < products.size(); i += 6) {
+            lists.add(products.subList(i, i + 5));
         }
-        hotProdAdapter.addDatas(lists,true);
+        hotProdAdapter.addDatas(lists, true);
     }
 
     @Override
     public void onGetGrassProd(List<GrassProduct> products) {
-        if (products == null)return;
+        if (products == null) return;
         swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void onGetProdBox(List<ProdBox> boxes) {
         mPresenter.getGrassProd();
-        if (boxes == null)return;
-        boxAdapter.addDatas(boxes,true);
+        if (boxes == null) return;
+        boxAdapter.addDatas(boxes, true);
     }
 
     @Override
     public void onRefresh() {
+        mPresenter.getProdMenu();
+    }
 
+    private void showFilterDialog() {
+        mDialog = BottomDialog.create(getSupportFragmentManager())
+                .setLayoutRes(R.layout.dialog_grass_filter)
+                .setViewListener(new BottomDialog.ViewListener() {
+                    @Override
+                    public void bindView(View v) {
+                        bindDialogView(v);
+                    }
+                })
+                .show();
+    }
+
+    private void bindDialogView(View v) {
+
+        TextView all = (TextView) v.findViewById(R.id.tv_all);
+        TextView haitao = (TextView) v.findViewById(R.id.tv_haitao);
+        TextView female = (TextView) v.findViewById(R.id.tv_taobao);
+        TextView taobao = (TextView) v.findViewById(R.id.tv_cancel);
+
+        all.setOnClickListener(this);
+        haitao.setOnClickListener(this);
+        female.setOnClickListener(this);
+        taobao.setOnClickListener(this);
+
+    }
+
+
+    @OnClick({R.id.iv_back, R.id.tv_search, R.id.tv_filter})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_back:
+                onBackPressed();
+                break;
+            case R.id.tv_search:
+                ActivityUtils.startActivity(this,SearchActivity.class);
+                break;
+            case R.id.tv_filter:
+                showFilterDialog();
+                break;
+            case R.id.tv_all:
+                mDialog.dismiss();
+                break;
+            case R.id.tv_haitao:
+
+                break;
+            case R.id.tv_taobao:
+
+                break;
+            case R.id.tv_cancel:
+
+                break;
+        }
     }
 }
