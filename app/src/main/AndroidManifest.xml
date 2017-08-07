@@ -25,6 +25,9 @@
         <activity android:name=".mvp.match_detail.DetailActivity"/>
         <activity android:name=".mvp.search.SearchActivity"/>
         <activity android:name=".mvp.user.UserActivity"/>
+        <activity android:name=".mvp.grassproduct.GrassActivity" />
+        <activity android:name=".mvp.masterhot.MasterHotActivity" />
+
         <!--初始化服务-->
         <service
             android:name=".service.InitializeService"

@@ -1,14 +1,16 @@
 package com.zyascend.Nothing.mvp.mainpage.grass;
 
 import android.graphics.Color;
-import android.support.v4.content.ContextCompat;
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +28,7 @@ import com.zyascend.Nothing.common.utils.ActivityUtils;
 import com.zyascend.Nothing.common.view.RecyclerDivider;
 import com.zyascend.Nothing.common.view.ScrollRecyclerView;
 import com.zyascend.Nothing.mvp.mainpage.MainContract;
+import com.zyascend.Nothing.mvp.masterhot.MasterHotActivity;
 import com.zyascend.amazingadapter.LoadMoreListener;
 import com.zyascend.amazingadapter.MultiAdapter;
 
@@ -33,6 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 功能：
@@ -107,12 +112,12 @@ public class GrassFragment extends MVPBaseFragment<MainContract.GrassView, Grass
         banner.setIndicatorInterval(2000);
 
         //配置RecyclerView
-        reMenu.setLayoutManager(new GridLayoutManager(mActivity,2));
+        reMenu.setLayoutManager(new GridLayoutManager(mActivity, 2));
         menuAdapter = new MenuAdapter(mActivity);
         reMenu.setAdapter(menuAdapter);
-        reMenu.addItemDecoration(new RecyclerDivider(getActivity(), RecyclerDivider.BOTH_SET,ActivityUtils.dpToPixel(1),  Color.parseColor("#939393")));
+        reMenu.addItemDecoration(new RecyclerDivider(getActivity(), RecyclerDivider.BOTH_SET, ActivityUtils.dpToPixel(1), Color.parseColor("#939393")));
 
-        reFindRankUser.setLayoutManager(new LinearLayoutManager(mActivity,LinearLayoutManager.HORIZONTAL,false));
+        reFindRankUser.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
         userAdapter = new RankUserAdapter(mActivity);
         reFindRankUser.setAdapter(userAdapter);
 
@@ -146,7 +151,7 @@ public class GrassFragment extends MVPBaseFragment<MainContract.GrassView, Grass
 
     @Override
     public void onGetBanner(List<BannerBean> list) {
-        if (list == null)showError();
+        if (list == null) showError();
         else {
             bannerList = list;
             banner.setRvBannerData(bannerList);
@@ -158,7 +163,7 @@ public class GrassFragment extends MVPBaseFragment<MainContract.GrassView, Grass
     @Override
     public void onGetMenu(List<MenuBean> menuList) {
         if (menuList != null) {
-            menuAdapter.addDatas(menuList,true);
+            menuAdapter.addDatas(menuList, true);
         } else {
             showError();
         }
@@ -168,7 +173,7 @@ public class GrassFragment extends MVPBaseFragment<MainContract.GrassView, Grass
     @Override
     public void onGetRankUser(List<RankingUser> userList) {
         if (userList != null) {
-            userAdapter.addDatas(userList,true);
+            userAdapter.addDatas(userList, true);
         } else {
             showError();
         }
@@ -181,17 +186,16 @@ public class GrassFragment extends MVPBaseFragment<MainContract.GrassView, Grass
         swipeRefresh.setRefreshing(false);
         if (data == null) {
             showError();
-            if (!isRefresh){
+            if (!isRefresh) {
                 siftsAdapter.toggleStatus(MultiAdapter.STATUS_ERROR);
             }
             return;
         }
         Logger.d(data.getList().size());
         if (isRefresh) {
-            siftsAdapter.addDatas(data.getList(),true);
+            siftsAdapter.addDatas(data.getList(), true);
             isRefresh = false;
-        }
-        else siftsAdapter.addDatas(data.getList(),false);
+        } else siftsAdapter.addDatas(data.getList(), false);
         curFirstTime = data.getFirstTime();
         if (TextUtils.isEmpty(curFirstTime))
             siftsAdapter.toggleStatus(MultiAdapter.STATUS_END);
@@ -208,4 +212,9 @@ public class GrassFragment extends MVPBaseFragment<MainContract.GrassView, Grass
         if (!isRefresh) mPresenter.getSifts(curFirstTime);
     }
 
+
+    @OnClick(R.id.tv_getMore)
+    public void onClick() {
+        ActivityUtils.startActivity(getActivity(), MasterHotActivity.class);
+    }
 }

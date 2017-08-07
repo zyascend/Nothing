@@ -64,7 +64,7 @@ public class GrassProdAdapter extends AmazingAdapter<GrassProduct> {
             }
             GlideUtils.loadNormalPic(mContext,ivPic,data.getPicture().getUrl());
             tvName.setText(data.getName());
-            tvPrice.setText(data.getPrice());
+            tvPrice.setText(String.valueOf(data.getPrice()));
         }
     }
 }

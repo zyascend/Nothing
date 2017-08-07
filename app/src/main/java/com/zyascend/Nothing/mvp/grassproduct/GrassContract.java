@@ -22,7 +22,7 @@ public interface GrassContract {
         void onGetProdBox(List<ProdBox> boxes);
     }
     interface Presenter{
-        void getProdMenu();
+        void getProdMenu(int type);
         void getHotProd();
         void getGrassProd();
         void getProdBox();

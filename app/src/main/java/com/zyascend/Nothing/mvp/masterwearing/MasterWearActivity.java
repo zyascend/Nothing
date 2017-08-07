@@ -7,4 +7,5 @@ package com.zyascend.Nothing.mvp.masterwearing;
  */
 
 public class MasterWearActivity {
+
 }

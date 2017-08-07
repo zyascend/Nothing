@@ -10,6 +10,7 @@ import com.zyascend.Nothing.bean.ChildTag;
 import com.zyascend.Nothing.bean.ChildTagMatch;
 import com.zyascend.Nothing.bean.GrassProduct;
 import com.zyascend.Nothing.bean.HomeTag;
+import com.zyascend.Nothing.bean.HotKeyWordsResponse;
 import com.zyascend.Nothing.bean.HotMatch;
 import com.zyascend.Nothing.bean.HotTag;
 import com.zyascend.Nothing.bean.ListData;
@@ -37,6 +38,7 @@ import com.zyascend.Nothing.bean.WearingMatch;
 import com.zyascend.Nothing.common.BaseDataCallback;
 import com.zyascend.Nothing.common.rx.LifeCycleEvent;
 import com.zyascend.Nothing.common.rx.RxTransformer;
+import com.zyascend.Nothing.common.utils.ActivityUtils;
 import com.zyascend.Nothing.common.utils.SharedPreUtils;
 import com.zyascend.Nothing.mvp.data.CacheManager;
 import com.zyascend.Nothing.mvp.data.DataConstantValue;
@@ -658,7 +660,7 @@ public class HttpService implements DataConstantValue{
                 .map(new Func1<SimpleListResponse<HotMatch>, List<HotMatch>>() {
                     @Override
                     public List<HotMatch> call(SimpleListResponse<HotMatch> data) {
-                        return data.getDATA().getList();
+                        return data.getDATA().getList().subList(0,3);
                     }
                 })
                 .subscribe(new Subscriber<List<HotMatch>>() {
@@ -687,7 +689,7 @@ public class HttpService implements DataConstantValue{
                 .map(new Func1<SimpleListResponse<RankMaster>, List<RankMaster>>() {
                     @Override
                     public List<RankMaster> call(SimpleListResponse<RankMaster> data) {
-                        return data.getDATA().getList();
+                        return data.getDATA().getList().subList(0,15);
                     }
                 })
                 .subscribe(new Subscriber<List<RankMaster>>() {
@@ -1167,11 +1169,16 @@ public class HttpService implements DataConstantValue{
             , final BaseDataCallback<List<String>> callback){
         RetrofitService.getDefault()
                 .getHotKeyWords(RequestHelper.getAccessToken(),RequestHelper.getSimpleBody())
-                .compose(RxTransformer.INSTANCE.<SimpleListResponse<String>>transform(subject,null))
-                .map(new Func1<SimpleListResponse<String>, List<String>>() {
+                .compose(RxTransformer.INSTANCE.<SimpleListResponse<HotKeyWordsResponse>>transform(subject,null))
+                .map(new Func1<SimpleListResponse<HotKeyWordsResponse>, List<String>>() {
                     @Override
-                    public List<String> call(SimpleListResponse<String> data) {
-                        return data.getDATA().getList();
+                    public List<String> call(SimpleListResponse<HotKeyWordsResponse> data) {
+                        if (!ActivityUtils.notNullOrEmpty(data.getDATA().getList()))return null;
+                        List<String> res = new ArrayList<String>();
+                        for (HotKeyWordsResponse word : data.getDATA().getList()){
+                            res.add(word.getKey_word());
+                        }
+                        return res;
                     }
                 })
                 .subscribe(new Subscriber<List<String>>() {
@@ -1197,11 +1204,16 @@ public class HttpService implements DataConstantValue{
             , final BaseDataCallback<List<String>> callback){
         RetrofitService.getDefault()
                 .getSearchProductSuggestList(RequestHelper.getAccessToken(),RequestHelper.getContentBody(input))
-                .compose(RxTransformer.INSTANCE.<SimpleListResponse<String>>transform(subject,null))
-                .map(new Func1<SimpleListResponse<String>, List<String>>() {
+                .compose(RxTransformer.INSTANCE.<SimpleListResponse<HotKeyWordsResponse>>transform(subject,null))
+                .map(new Func1<SimpleListResponse<HotKeyWordsResponse>, List<String>>() {
                     @Override
-                    public List<String> call(SimpleListResponse<String> data) {
-                        return data.getDATA().getList();
+                    public List<String> call(SimpleListResponse<HotKeyWordsResponse> data) {
+                        if (!ActivityUtils.notNullOrEmpty(data.getDATA().getList()))return null;
+                        List<String> res = new ArrayList<String>();
+                        for (HotKeyWordsResponse word : data.getDATA().getList()){
+                            res.add(word.getKey_word());
+                        }
+                        return res;
                     }
                 })
                 .subscribe(new Subscriber<List<String>>() {

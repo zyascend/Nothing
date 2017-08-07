@@ -15,6 +15,7 @@ import com.zyascend.Nothing.bean.ProdBox;
 import com.zyascend.Nothing.bean.ProductMenu;
 import com.zyascend.Nothing.common.utils.ActivityUtils;
 import com.zyascend.Nothing.common.view.BottomDialog;
+import com.zyascend.Nothing.common.view.ScrollRecyclerView;
 import com.zyascend.Nothing.mvp.search.SearchActivity;
 
 import java.util.ArrayList;
@@ -46,15 +47,15 @@ public class GrassActivity extends MVPBaseActivity<GrassContract.View, GrassPres
     @Bind(R.id.tv_more_box)
     TextView tvMoreBox;
     @Bind(R.id.re_hot_box)
-    RecyclerView reHotBox;
+    ScrollRecyclerView reHotBox;
     @Bind(R.id.re_grass_product)
-    RecyclerView reGrassProduct;
+    ScrollRecyclerView reGrassProduct;
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.re_menu)
-    RecyclerView reMenu;
+    ScrollRecyclerView reMenu;
     @Bind(R.id.re_hotProduct)
-    RecyclerView reHotProduct;
+    ScrollRecyclerView reHotProduct;
 
     private GrassMenuAdapter menuAdapter;
     private GrassProdAdapter grassProdAdapter;
@@ -127,8 +128,9 @@ public class GrassActivity extends MVPBaseActivity<GrassContract.View, GrassPres
 
     @Override
     public void onGetGrassProd(List<GrassProduct> products) {
-        if (products == null) return;
         swipeRefreshLayout.setRefreshing(false);
+        if (products == null) return;
+        grassProdAdapter.addDatas(products,true);
     }
 
     @Override
@@ -140,7 +142,7 @@ public class GrassActivity extends MVPBaseActivity<GrassContract.View, GrassPres
 
     @Override
     public void onRefresh() {
-        mPresenter.getProdMenu();
+        mPresenter.getProdMenu(2);
     }
 
     private void showFilterDialog() {
@@ -184,6 +186,7 @@ public class GrassActivity extends MVPBaseActivity<GrassContract.View, GrassPres
                 break;
             case R.id.tv_all:
                 mDialog.dismiss();
+
                 break;
             case R.id.tv_haitao:
 

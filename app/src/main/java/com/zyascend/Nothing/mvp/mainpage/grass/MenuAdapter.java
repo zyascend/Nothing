@@ -57,7 +57,7 @@ public class MenuAdapter extends AmazingAdapter<MenuBean> {
                         ActivityUtils.startActivity(mContext,GrassActivity.class);
                         break;
                     case 1:
-                        ActivityUtils.startActivity(mContext, MasterWearActivity.class);
+                        //ActivityUtils.startActivity(mContext, MasterWearActivity.class);
                         break;
                     case 2:
                         //功能布局一致的界面，忽略
@@ -92,7 +92,6 @@ public class MenuAdapter extends AmazingAdapter<MenuBean> {
             ButterKnife.bind(this, itemView);
 
         }
-
         public void bind(MenuBean data){
             if (data == null)return;
             tvName.setText(data.getName());

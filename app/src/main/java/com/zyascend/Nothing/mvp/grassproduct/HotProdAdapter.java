@@ -105,7 +105,7 @@ public class HotProdAdapter extends AmazingAdapter<List<GrassProduct>> {
                 if (data == null) return;
                 GlideUtils.loadRoundPic(mContext,ivPic,data.getPicture().getUrl());
                 tvName.setText(data.getName());
-                tvPrice.setText(data.getPrice());
+                tvPrice.setText(String.valueOf(data.getPrice()));
             }
         }
     }

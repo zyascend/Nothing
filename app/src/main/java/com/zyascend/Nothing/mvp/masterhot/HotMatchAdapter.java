@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
 import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.bean.HotMatch;
 import com.zyascend.Nothing.common.utils.GlideUtils;
@@ -23,8 +24,6 @@ import butterknife.ButterKnife;
  */
 public class HotMatchAdapter extends AmazingAdapter<HotMatch> {
 
-
-
     public HotMatchAdapter(Context context) {
         super(context);
     }
@@ -32,7 +31,7 @@ public class HotMatchAdapter extends AmazingAdapter<HotMatch> {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_hot_match, parent, false);
-        view.getLayoutParams().width = mRecyclerWidth/3;
+        //view.getLayoutParams().width = mRecyclerWidth/3;
         return new HotMatchHolder(view);
     }
 
@@ -58,9 +57,16 @@ public class HotMatchAdapter extends AmazingAdapter<HotMatch> {
         }
 
         public void bindData(HotMatch data) {
-            if (data == null) return;
+
+            if (data == null){
+                Logger.d("DATA NULL");
+                return;
+            }
             HotMatch.MatchBean match = data.getMatch();
-            if (match == null)return;
+            if (match == null){
+                Logger.d("MATCH NULL");
+                return;
+            }
             GlideUtils.loadRoundPic(mContext,ivPic,match.getPicture().getUrl());
             tvName.setText(match.getUser().getName());
             tvFans.setText(match.getUser().getFansNum()+" 粉丝 "+match.getUser().getFansNum()+" 赞");

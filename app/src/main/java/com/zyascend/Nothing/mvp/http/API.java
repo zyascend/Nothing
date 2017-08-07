@@ -6,6 +6,7 @@ import com.zyascend.Nothing.bean.ChildTag;
 import com.zyascend.Nothing.bean.ChildTagMatch;
 import com.zyascend.Nothing.bean.GrassProduct;
 import com.zyascend.Nothing.bean.HomeTag;
+import com.zyascend.Nothing.bean.HotKeyWordsResponse;
 import com.zyascend.Nothing.bean.HotMatch;
 import com.zyascend.Nothing.bean.HotTag;
 import com.zyascend.Nothing.bean.ListData;
@@ -181,7 +182,7 @@ public interface API {
      * https://api.nothing.la/nothing/v1_9_2/menu/common/findList.do?accessToken=18a480ba87d04e1daac69cc540922703
      * {"appVersion":"1.9.9.2","deviceType":"android","isPage":false,"limit":0,"menuType":2,"sourceType":0,"startRow":0,"sysVersion":"23"}
      */
-    @POST("v1_9_2/menu/common/findList")
+    @POST("v1_9_2/menu/common/findList.do")
     Observable<SimpleListResponse<ProductMenu>> getCommonMenu(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
 
     /**
@@ -374,14 +375,17 @@ public interface API {
      * https://api.nothing.la/nothing/v2_0/search/common/searchProductSuggestList.do?accessToken=802fceba0eca44fdb2b654e1ce0efcad
      *{"appVersion":"2.0.6.3","content":"裤","deviceType":"android","sysVersion":"23"}
      */
-     Observable<SimpleListResponse<String>> getSearchProductSuggestList(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+    @POST("v2_0/search/common/searchProductSuggestList.do")
+     Observable<SimpleListResponse<HotKeyWordsResponse>> getSearchProductSuggestList(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
 
 
     /**
      * https://api.nothing.la/nothing/v2_0/search/common/hotKeyWords.do?accessToken=802fceba0eca44fdb2b654e1ce0efcad
      * {"appVersion":"2.0.6.3","deviceType":"android","sysVersion":"23"}
      */
-    Observable<SimpleListResponse<String>> getHotKeyWords(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+    @POST("v2_0/search/common/hotKeyWords.do")
+    Observable<SimpleListResponse<HotKeyWordsResponse>> getHotKeyWords(@Query(ACCESS_TOKEN)String accessToken, @Body RequestBody body);
+
 
 
 

@@ -2,6 +2,7 @@ package com.zyascend.Nothing.mvp.masterhot;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.base.MVPBaseActivity;
 import com.zyascend.Nothing.bean.HotMatch;
 import com.zyascend.Nothing.bean.RankMaster;
+import com.zyascend.Nothing.common.view.ScrollRecyclerView;
 
 import java.util.List;
 
@@ -35,17 +37,17 @@ public class MasterHotActivity extends MVPBaseActivity<MasterContract.View, Mast
     @Bind(R.id.tv_more_new)
     TextView tvMoreNew;
     @Bind(R.id.re_new)
-    RecyclerView reNew;
+    ScrollRecyclerView reNew;
     @Bind(R.id.tv_more_week)
     TextView tvMoreWeek;
     @Bind(R.id.re_week)
-    RecyclerView reWeek;
+    ScrollRecyclerView reWeek;
     @Bind(R.id.tv_more_month)
     TextView tvMoreMonth;
     @Bind(R.id.re_month)
-    RecyclerView reMonth;
+    ScrollRecyclerView reMonth;
     @Bind(R.id.re_total)
-    RecyclerView reTotal;
+    ScrollRecyclerView reTotal;
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -70,15 +72,15 @@ public class MasterHotActivity extends MVPBaseActivity<MasterContract.View, Mast
         tvTitle.setText("博主人气榜");
 
         newAdapter = new HotMatchAdapter(this);
-        reNew.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        reNew.setLayoutManager(new GridLayoutManager(this,3));
         reNew.setAdapter(newAdapter);
 
         weekAdapter = new HotMatchAdapter(this);
-        reWeek.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        reWeek.setLayoutManager(new GridLayoutManager(this,3));
         reWeek.setAdapter(weekAdapter);
 
         monthAdapter = new HotMatchAdapter(this);
-        reMonth.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        reMonth.setLayoutManager(new GridLayoutManager(this,3));
         reMonth.setAdapter(monthAdapter);
 
         allRankAdapter = new AllRankAdapter(this);
@@ -103,12 +105,16 @@ public class MasterHotActivity extends MVPBaseActivity<MasterContract.View, Mast
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
+
                 break;
             case R.id.tv_more_new:
+
                 break;
             case R.id.tv_more_week:
+
                 break;
             case R.id.tv_more_month:
+
                 break;
         }
     }

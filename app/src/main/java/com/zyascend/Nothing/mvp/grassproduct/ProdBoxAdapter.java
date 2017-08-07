@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.orhanobut.logger.Logger;
 import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.bean.ProdBox;
 import com.zyascend.Nothing.common.utils.GlideUtils;
@@ -55,6 +56,7 @@ public class ProdBoxAdapter extends AmazingAdapter<ProdBox> {
         public ProdBoxHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            Logger.d("HOLDER CREATED");
             adapter = new BoxProdAdapter(mContext);
             reBoxProd.setAdapter(adapter);
             reBoxProd.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
@@ -62,7 +64,12 @@ public class ProdBoxAdapter extends AmazingAdapter<ProdBox> {
         }
 
         public void bindData(ProdBox data) {
-            if (data == null) return;
+            Logger.d("BOX BIND");
+            if (data == null){
+                Logger.d("ProdBox NULL");
+                return;
+            }
+            Logger.d("URL = "+data.getPicture().getUrl());
             GlideUtils.loadNormalPic(mContext, ivPic, data.getPicture().getUrl());
             adapter.addDatas(data.getProducts(), true);
         }
@@ -100,7 +107,10 @@ public class ProdBoxAdapter extends AmazingAdapter<ProdBox> {
             }
 
             public void bindData(ProdBox.ProductsBean data) {
-                if (data == null) return;
+                if (data == null){
+                    Logger.d("ProdBox.ProductsBean NULL");
+                    return;
+                }
                 GlideUtils.loadNormalPic(mContext,ivPic,data.getPicture().getUrl());
                 tvName.setText(data.getName());
                 tvPrice.setText("￥"+data.getPrice());
