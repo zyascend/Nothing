@@ -1047,9 +1047,19 @@ public class HttpService implements DataConstantValue{
                         return baseResponse.getMESSAGE();
                     }
                 })
-                .subscribe(new Action1<String>() {
+                .subscribe(new Subscriber<String>() {
                     @Override
-                    public void call(String s) {
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(String s) {
                         callback.onSuccess(s);
                     }
                 });
@@ -1070,9 +1080,19 @@ public class HttpService implements DataConstantValue{
                         return data.getMESSAGE();
                     }
                 })
-                .subscribe(new Action1<String>() {
+                .subscribe(new Subscriber<String>() {
                     @Override
-                    public void call(String s) {
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(String s) {
                         callback.onSuccess(s);
                     }
                 });

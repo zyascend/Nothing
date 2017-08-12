@@ -47,7 +47,8 @@ public class LoginPresenter extends BasePresenter<LoginContract.View>
 
             @Override
             public void onFail(String errorMsg) {
-
+                if (isViewAttached())
+                    mViewRef.get().onLogined(errorMsg);
             }
         });
     }
@@ -63,7 +64,8 @@ public class LoginPresenter extends BasePresenter<LoginContract.View>
 
             @Override
             public void onFail(String errorMsg) {
-
+                if (isViewAttached())
+                    mViewRef.get().onRegistered(errorMsg);
             }
         });
 

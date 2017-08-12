@@ -9,12 +9,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.ImageView;
 
 import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.base.BaseActivity;
+import com.zyascend.Nothing.common.utils.ActivityUtils;
+import com.zyascend.Nothing.common.utils.SharedPreUtils;
+import com.zyascend.Nothing.mvp.login.LoginActivity;
 import com.zyascend.Nothing.mvp.rank.RankBaseFragment;
 import com.zyascend.Nothing.mvp.rank.RankFragment;
 import com.zyascend.Nothing.mvp.search.SearchFragment;
@@ -61,6 +65,7 @@ public class MainActivity extends BaseActivity {
     private Handler mHandler;
     private SearchFragment searchFragment;
     private RankBaseFragment rankFragment;
+    private boolean logined;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,6 +75,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+
         viewStub = (ViewStub) findViewById(R.id.content_viewstub);
         mHandler = new Handler();
         //首先加载并显示SplashFragment
@@ -81,13 +87,16 @@ public class MainActivity extends BaseActivity {
 
         //当窗体加载完成，加载主布局
         //getWindow().getDecorView().post(new LoadMainTask());
-        loadMainPageFragment();
+        logined = !TextUtils.isEmpty(SharedPreUtils.getString(SharedPreUtils.KEY_ACCESS_TOKEN,null));
+        if (logined){
+            loadMainPageFragment();
+        }
 
         //开启延时显示SplashFragment的内容，同时ManiPage加载数据
         getWindow().getDecorView().post(new Runnable() {
             @Override
             public void run() {
-                mHandler.postDelayed(new DelayRunnable(MainActivity.this,splashFragment),2000);
+                mHandler.postDelayed(new DelayRunnable(MainActivity.this,splashFragment,logined),2000);
             }
         });
 
@@ -95,12 +104,14 @@ public class MainActivity extends BaseActivity {
 
     private static class DelayRunnable implements Runnable{
 
+        private final boolean logined;
         private WeakReference<Context> contextRef;
         private WeakReference<SplashFragment> fragmentRef;
 
-        DelayRunnable(Context context, SplashFragment f) {
+        DelayRunnable(Context context, SplashFragment f, boolean logined) {
             contextRef = new WeakReference<Context>(context);
             fragmentRef = new WeakReference<SplashFragment>(f);
+            this.logined = logined;
         }
 
         @Override
@@ -115,6 +126,9 @@ public class MainActivity extends BaseActivity {
                 FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
                 transaction.remove(splashFragment);
                 transaction.commit();
+                if (!logined){
+                    ActivityUtils.startActivity(activity, LoginActivity.class);
+                }
             }
         }
     }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:layout_marginTop="@dimen/dp_120"
+<RelativeLayout android:layout_marginTop="@dimen/dp_120"
     android:clipChildren="false"
     android:id="@+id/view_login"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:showDividers="middle"
@@ -23,6 +23,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
         <Button
+            android:textColor="@color/orange_dark"
             android:background="@android:color/transparent"
             android:textSize="@dimen/sp_18"
             android:text="@string/register"
@@ -40,6 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
+            android:layout_marginTop="@dimen/dp_10"
             android:layout_marginStart="@dimen/dp_20"
             android:layout_marginEnd="@dimen/dp_20"
             android:id="@+id/view_input_login"
@@ -48,6 +50,7 @@
             android:layout_height="wrap_content">
 
             <EditText
+                tools:text="15754302311"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/ed_phoneNum"

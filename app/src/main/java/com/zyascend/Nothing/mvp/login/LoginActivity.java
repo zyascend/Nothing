@@ -1,6 +1,7 @@
 package com.zyascend.Nothing.mvp.login;
 
 import android.animation.ObjectAnimator;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
@@ -19,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.orhanobut.logger.Logger;
 import com.zyascend.Nothing.R;
 import com.zyascend.Nothing.base.MVPBaseActivity;
 import com.zyascend.Nothing.common.utils.ActivityUtils;
@@ -39,6 +41,7 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
         implements LoginContract.View {
 
 
+    private static final int COLOR_ORANGE = Color.parseColor("#fe644a");
     @Bind(R.id.vp_welcomeViewPager)
     ViewPager vpWelcomeViewPager;
     @Bind(R.id.btn_jumpLogin_down)
@@ -93,6 +96,7 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
     private Runnable timeRunnable = new Runnable() {
         @Override
         public void run() {
+
             sendTime--;
             tvGetIdentifyCode.setText(sendTime+getString(R.string.resend));
             if (sendTime>0){
@@ -103,9 +107,13 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
         }
     };
     private boolean isLoginMode;
+    private int transY;
+    private ObjectAnimator down;
 
     @Override
     protected void initView() {
+
+
         //配置ViewPager
         backImageRes = new int[]{R.drawable.welcome1,R.drawable.welcome2,R.drawable.welcome3};
         pagerAdapter = new ImagePagerAdapter();
@@ -121,6 +129,7 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
                         mCurPosY = event.getY();
                         break;
                     case MotionEvent.ACTION_UP:
+                        Logger.d("ACTION UP");
                         if (mCurPosY - mPosY > 0
                                 && (Math.abs(mCurPosY - mPosY) > 25)) {
                             //向下滑动
@@ -128,7 +137,7 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
                         }
                         break;
                 }
-                return true;
+                return false;
             }
         });
 
@@ -138,12 +147,19 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
      * 登录框下滑动画
      */
     private void startScrollDown() {
+        Logger.d("Login_down");
         if (isBeingDown){return;}//当前就在下面，不滑动
-        loginBtnHeight = btnLogin.getLayoutParams().height;
-        totalHeight = viewLogin.getLayoutParams().height;
-        int transY = totalHeight-loginBtnHeight;
+        Logger.d("Login_down_start");
 
-        ObjectAnimator down = ObjectAnimator.ofFloat(viewLogin,"translationY",transY);
+        totalHeight = viewLogin.getHeight();
+        loginBtnHeight = btnLogin.getHeight();
+
+        transY = totalHeight-loginBtnHeight;
+
+        Logger.d("bh = "+ loginBtnHeight +"th = "+totalHeight);
+
+        down = ObjectAnimator.ofFloat(viewLogin,"translationY",transY);
+
         down.setDuration(800);
         down.start();
 
@@ -156,10 +172,7 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
     private void startScrollUp(){
         if (!isBeingDown){return;}//当前在上面，不滑动
 
-        int transY = loginBtnHeight - totalHeight;
-        ObjectAnimator down = ObjectAnimator.ofFloat(viewLogin,"translationY",transY);
-        down.setDuration(800);
-        down.start();
+        down.reverse();
 
         isBeingDown = false;
     }
@@ -187,11 +200,17 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
                 ActivityUtils.startActivity(this, MainActivity.class);
                 break;
             case R.id.btn_login:
+                btnLoginRegister.setText(getString(R.string.login));
+                btnLogin.setTextColor(COLOR_ORANGE);
+                btnRegister.setTextColor(Color.WHITE);
                 isLoginMode = true;
                 startScrollUp();
                 showLoginView();
                 break;
             case R.id.btn_register:
+                btnLoginRegister.setText(getString(R.string.register));
+                btnLogin.setTextColor(Color.WHITE);
+                btnRegister.setTextColor(COLOR_ORANGE);
                 isLoginMode = false;
                 startScrollUp();
                 showRegisterView();
@@ -240,6 +259,7 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
 
     private void forgetPassWord() {
         // TODO: 2017/7/16  待完善
+
     }
 
     private void startLogin() {
@@ -266,7 +286,6 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
         identifyCodeView.setVisibility(View.GONE);
         tvForgetPassWord.setVisibility(View.VISIBLE);
         btnJumpLoginDown.setText(R.string.login);
-
     }
 
     @Override
@@ -311,11 +330,19 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             ImageView ig = new ImageView(LoginActivity.this);
-            ig.getLayoutParams().width = container.getWidth();
-            ig.getLayoutParams().height = container.getHeight();
+            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
+                    , ViewGroup.LayoutParams.MATCH_PARENT);
+            ig.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            ig.setLayoutParams(lp);
             ig.setImageResource(backImageRes[position]);
             container.addView(ig);
             return ig;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            //super.destroyItem(container, position, object);
+            container.removeView((View) object);
         }
     }
 }

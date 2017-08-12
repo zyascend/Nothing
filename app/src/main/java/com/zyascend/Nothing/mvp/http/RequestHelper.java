@@ -75,6 +75,15 @@ public class RequestHelper {
                 buf.append(Integer.toHexString(a));
             }
             res = buf.toString();
+            StringBuilder sb = new StringBuilder();
+            for (char c : res.toCharArray()){
+                if (Character.isLetter(c)){
+                    sb.append(Character.toUpperCase(c));
+                }else {
+                    sb.append(c);
+                }
+            }
+            res = sb.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }

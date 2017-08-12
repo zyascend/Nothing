@@ -125,7 +125,7 @@ public class GrassFragment extends MVPBaseFragment<MainContract.GrassView, Grass
         siftsAdapter.setLoadMoreListener(this);
         reSifts.setLayoutManager(new LinearLayoutManager(mActivity));
         reSifts.setAdapter(siftsAdapter);
-        reSifts.addItemDecoration(new RecyclerDivider(getActivity(), RecyclerDivider.BOTH_SET, ActivityUtils.dpToPixel(1), Color.parseColor("#939393")));
+        reSifts.addItemDecoration(new RecyclerDivider(getActivity(), RecyclerDivider.BOTH_SET, ActivityUtils.dpToPixel(10), Color.parseColor("#939393")));
     }
 
     @Override
